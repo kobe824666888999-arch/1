@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORIGIN SOURCE | High-Fidelity Infrastructure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root { --accent: #818cf8; }
+        html { scroll-behavior: smooth; }
+        body { margin: 0; background: #000; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        
+        #canvas-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(circle at center, #0a0a2e 0%, #000 100%); }
+        
+        .hero-title {
+            font-size: clamp(4rem, 12vw, 10rem); font-weight: 900; line-height: 0.85;
+            letter-spacing: -0.05em; text-transform: uppercase; font-style: italic;
+            background: linear-gradient(135deg, #fff 30%, #4f46e5 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* 案例展示逻辑 */
+        .case-showcase-section { position: relative; width: 100%; z-index: 10; }
+        .case-item { height: 100vh; width: 100%; display: flex; align-items: center; justify-content: center; position: sticky; top: 0; padding: 20px; }
+        .browser-container { width: 95%; max-width: 1400px; height: 80vh; background: rgba(10, 10, 10, 0.7); border: 1px solid rgba(255,255,255,0.15); border-radius: 24px; backdrop-filter: blur(15px); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 50px 100px rgba(0,0,0,0.9); }
+        .browser-bar { height: 45px; background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; padding: 0 20px; gap: 8px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .browser-inner { flex: 1; position: relative; background: #000; }
+        iframe { width: 100%; height: 100%; border: none; opacity: 0.8; transition: 0.5s; }
+        .interaction-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5; transition: 0.5s; cursor: pointer; }
+        .case-active .interaction-overlay { opacity: 0; pointer-events: none; }
+        .case-active iframe { opacity: 1; }
+        .enter-btn { padding: 15px 40px; border: 1px solid #fff; border-radius: 50px; font-family: 'JetBrains Mono'; font-size: 12px; text-transform: uppercase; letter-spacing: 0.2em; transition: 0.3s; }
+        .enter-btn:hover { background: #fff; color: #000; }
+        .case-info-tag { position: absolute; bottom: 30px; left: 30px; z-index: 10; pointer-events: none; transition: 0.5s; }
+        .case-active .case-info-tag { opacity: 0; transform: translateY(20px); }
+
+        .phase-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(15px); border-radius: 2rem; padding: 3rem; }
+
+        /* 🚀 评论滚动逻辑增强 */
+        .marquee-container { overflow: hidden; white-space: nowrap; padding:  100px 0; position: relative; }
+        .marquee-content { display: inline-flex; animation: scroll-reviews 40s linear infinite; gap: 40px; }
+        /* 鼠标悬停停止动画并突出 */
+        .marquee-container:hover .marquee-content { animation-play-state: paused; }
+        
+        @keyframes scroll-reviews { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        
+        .review-card { 
+            width: 400px; padding: 2rem; background: rgba(255,255,255,0.03); 
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 1.5rem; 
+            white-space: normal; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .review-card:hover { 
+            transform: scale(1.05); background: rgba(255,255,255,0.08); 
+            border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .avatar-circle { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; }
+        
+        .form-input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 1.25rem; border-radius: 1rem; width: 100%; color: white; outline: none; }
+        .nav-inquiry { position: fixed; top: 40px; right: 40px; z-index: 100; background: #fff; color: #000; padding: 12px 28px; border-radius: 50px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.2em; }
+    </style>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+    <a href=" " class="nav-inquiry">Inquiry</a >
+
+    <section class="h-screen flex flex-col justify-center items-center text-center px-10 relative">
+        <div class="z-10" data-aos="fade-down">
+            <p class="font-mono text-indigo-400 mb-8 uppercase tracking-[0.4em] opacity-80">// Sovereign Infrastructure</p >
+            <h1 class="hero-title mb-10">CODE THE<br><span class="text-white">FUTURE.</span></h1>
+            <p class="text-zinc-400 max-w-xl mx-auto text-lg italic font-light">Industrial-grade deployment of sovereign digital structures.</p >
+        </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-10 py-24 grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+        <div class="phase-card" data-aos="fade-right">
+            <span class="text-indigo-500 font-mono font-bold">// Phase_A</span>
+            <h3 class="text-2xl font-black italic my-4 uppercase text-white">Analyze</h3>
+            <p class="text-zinc-400 font-light italic text-sm">Extracting visual anchors to build a sovereign digital blueprint.</p >
+        </div>
+        <div class="phase-card bg-indigo-500/5 border-indigo-500/30" data-aos="fade-up">
+            <span class="text-indigo-500 font-mono font-bold">// Phase_B</span>
+            <h3 class="text-2xl font-black italic my-4 uppercase text-white">Architect</h3>
+            <p class="text-zinc-400 font-light italic text-sm">Implementing Three.js kinetics. High-fidelity rendering.</p >
+        </div>
+        <div class="phase-card" data-aos="fade-left">
+            <span class="text-indigo-500 font-mono font-bold">// Phase_C</span>
+            <h3 class="text-2xl font-black italic my-4 uppercase text-white">Deploy</h3>
+            <p class="text-zinc-400 font-light italic text-sm">72H industrial deployment. Full asset ownership.</p >
+        </div>
+    </section>
+
+    <section class="case-showcase-section">
+        <div class="text-center py-24">
+            <h2 class="text-5xl font-black italic uppercase tracking-tighter text-white">Digital Benchmarks</h2>
+            <p class="text-zinc-600 font-mono text-[9px] mt-4 uppercase tracking-[0.2em] opacity-60">
+                All showcased frameworks are source-controlled and deployable by ORIGIN SOURCE systems.
+            </p >
+        </div>
+        <div id="case-stack"></div>
+    </section>
+
+    <section class="py-40 relative z-10">
+        <div class="text-center mb-10">
+            <h2 class="text-3xl font-black italic uppercase text-white">Consensus Protocol</h2>
+        </div>
+        <div class="marquee-container">
+            <div class="marquee-content" id="review-track"></div>
+        </div>
+    </section>
+
+    <section id="contact-section" class="max-w-5xl mx-auto px-10 py-40 relative z-10">
+        <div class="phase-card" data-aos="fade-up">
+            <h2 class="text-4xl font-black italic mb-12 uppercase tracking-tighter text-center">Initiate Protocol</h2>
+            <form action="https://formspree.io/f/xeevzknb" method="POST" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <input type="text" name="name" placeholder="Full Name" required class="form-input">
+                    <input type="email" name="email" placeholder="Email Address" required class="form-input">
+                </div>
+                <textarea name="message" placeholder="Project requirements..." required class="form-input" style="min-height: 150px;"></textarea>
+                <button type="submit" class="w-full bg-white text-black py-6 rounded-2xl font-black text-xl uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all duration-700">Acquire Access ↗</button>
+            </form>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1200 });
+
+        const caseUrls = [
+            { name: "HUGER TIRE", url: "https://demo.golivestores.com/huger-tire/", tag: "COMMERCE / 3D" },
+            { name: "TERMINAL", url: "https://terminal-industries.com/", tag: "INDUSTRIAL / SAAS" },
+            { name: "JOSEPH SAN", url: "https://joseph-san.com", tag: "INTERACTIVE / DESIGN" },
+            { name: "ALCHE STUDIO", url: "https://www.alche.studio/", tag: "CINEMATIC / BRAND" },
+            { name: "BYCHUDY", url: "https://bychudy.com/", tag: "MINIMALIST / DESIGN" },
+            { name: "STIFF STUDIO", url: "https://stiff.studio/", tag: "CREATIVE / MOTION" },
+            { name: "ADRIEN LAMY", url: "https://adrienlamy.fr/", tag: "INTERACTIVE / ART" },
+            { name: "LA CRAPULE", url: "https://lacrapule.studio/", tag: "CULTURAL / STUDIO" }
+        ];
+
+        const caseStack = document.getElementById('case-stack');
+        caseUrls.forEach((c, index) => {
+            const item = document.createElement('div');
+            item.className = 'case-item';
+            item.innerHTML = `
+                <div class="browser-container" id="case-${index}">
+                    <div class="browser-bar">
+                        <div class="dot bg-red-500/50"></div><div class="dot bg-yellow-500/50"></div><div class="dot bg-green-500/50"></div>
+                        <div class="ml-4 font-mono text-[9px] opacity-30 uppercase tracking-widest">${c.url}</div>
+                    </div>
+                    <div class="browser-inner">
+                        <div class="interaction-overlay" onclick="activateCase(${index})">
+                            <button class="enter-btn">Enter Project</button>
+                        </div>
+                        <iframe id="iframe-${index}" data-src="${c.url}" src="about:blank"></iframe>
+                        <div class="case-info-tag">
+                            <span class="text-indigo-400 font-mono text-[10px] font-bold">${c.tag}</span>
+                            <h3 class="text-4xl font-black italic uppercase text-white">${c.name}</h3>
+                        </div>
+                    </div>
+                </div>
+            `;
+            caseStack.appendChild(item);
+        });
+
+        function activateCase(index) {
+            const container = document.getElementById(`case-${index}`);
+            const frame = document.getElementById(`iframe-${index}`);
+            if (frame.src === "about:blank") { frame.src = frame.getAttribute('data-src'); }
+            container.classList.add('case-active');
+        }
+
+        // --- 三维背景 ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        const globeGeo = new THREE.SphereGeometry(3, 50, 50);
+        const globeMat = new THREE.MeshPhongMaterial({ color: 0x4f46e5, wireframe: true, transparent: true, opacity: 0.1 });
+        const globe = new THREE.Mesh(globeGeo, globeMat);
+        scene.add(globe);
+
+        const pointsGeo = new THREE.SphereGeometry(3.05, 70, 70);
+        const pointsMat = new THREE.PointsMaterial({ size: 0.04, color: 0x818cf8, transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending });
+        const globePoints = new THREE.Points(pointsGeo, pointsMat);
+        scene.add(globePoints);
+
+        const pLight = new THREE.PointLight(0xffffff, 2); pLight.position.set(10, 10, 10);
+        scene.add(pLight, new THREE.AmbientLight(0x404040, 2));
+
+        camera.position.z = 7;
+        let mX = 0, mY = 0;
+        document.addEventListener('mousemove', (e) => { mX = (e.clientX - window.innerWidth / 2) / 600; mY = (e.clientY - window.innerHeight / 2) / 600; });
+        function animate() { requestAnimationFrame(animate); globe.rotation.y += 0.001; globePoints.rotation.y += 0.0015; globe.rotation.x += (mY*0.5 - globe.rotation.x)*0.05; globe.rotation.z += (mX*0.5 - globe.rotation.z)*0.05; renderer.render(scene, camera); }
+        animate();
+
+        // --- 🚀 13条深度定制评论逻辑 ---
+        const reviews = [
+            {n:"Marcus T.", j:"TikTok Creator", c:"🇺🇸", t:"Unmatched visual dominance.", g:"linear-gradient(135deg, #6366f1, #a855f7)"},
+            {n:"Elena R.", j:"Affiliate Manager", c:"🇪🇸", t:"Direct source ownership is a game changer.", g:"linear-gradient(135deg, #f43f5e, #fb923c)"},
+            {n:"Tim S.", j:"Entrepreneur", c:"🇦🇺", t:"Zero transaction fees. Absolute freedom.", g:"linear-gradient(135deg, #10b981, #3b82f6)"},
+            {n:"Akihiro I.", j:"Digital Architect", c:"🇯🇵", t:"The Three.js integration is seamless.", g:"linear-gradient(135deg, #f59e0b, #ef4444)"},
+            {n:"Sarah W.", j:"Brand Strategist", c:"🇬🇧", t:"Industrial-grade quality for personal brand.", g:"linear-gradient(135deg, #ec4899, #8b5cf6)"},
+            {n:"Luca M.", j:"Web3 Developer", c:"🇮🇹", t:"Sovereign deployment is the future.", g:"linear-gradient(135deg, #06b6d4, #3b82f6)"},
+            {n:"Chloe L.", j:"E-com Expert", c:"🇫🇷", t:"Fast, fluid, and conversion-focused.", g:"linear-gradient(135deg, #84cc16, #10b981)"},
+            {n:"David K.", j:"SaaS Founder", c:"🇩🇪", t:"No subscriptions. This is true ownership.", g:"linear-gradient(135deg, #6366f1, #d946ef)"},
+            {n:"Maria G.", j:"Creative Director", c:"🇧🇷", t:"The interactive sandbox is mind-blowing.", g:"linear-gradient(135deg, #f97316, #eab308)"},
+            {n:"Liam P.", j:"Growth Hacker", c:"🇨🇦", t:"Clean code, high performance.", g:"linear-gradient(135deg, #14b8a6, #06b6d4)"},
+            {n:"Sofie V.", j:"UX Designer", c:"🇳🇱", t:"Pixel perfect industrial design.", g:"linear-gradient(135deg, #8b5cf6, #ec4899)"},
+            {n:"Raj H.", j:"Tech Lead", c:"🇮🇳", t:"A masterpiece of digital infrastructure.", g:"linear-gradient(135deg, #3b82f6, #2dd4bf)"},
+            {n:"Ivan Z.", j:"Marketing Head", c:"🇷🇺", t:"72H deployment saved our launch.", g:"linear-gradient(135deg, #ef4444, #f97316)"}
+        ];
+
+        const rTrack = document.getElementById('review-track');
+        // 双倍列表以实现无缝滚动
+        [...reviews, ...reviews].forEach(rev => {
+            const card = document.createElement('div');
+            card.className = 'review-card';
+            card.innerHTML = `
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="avatar-circle" style="background:${rev.g}; color:#fff;">${rev.n.charAt(0)}</div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-black text-white text-sm uppercase">${rev.n}</span>
+                            <span class="text-[10px]">${rev.c}</span>
+                        </div>
+                        <p class="text-indigo-400 font-mono text-[9px] uppercase tracking-tighter">${rev.j}</p >
+                    </div>
+                </div>
+                <p class="text-zinc-400 italic">"${rev.t}"</p >
+            `;
+            rTrack.appendChild(card);
+        });
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
