@@ -3,471 +3,1116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORIGIN SOURCE | We Build Stores That Make You Money</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://unpkg.com/scrollreveal"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <title>Chic Chinese — The Chinese You Actually Need</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --amber: #f59e0b; --amber-dim: rgba(245,158,11,0.12); }
-        * { box-sizing: border-box; }
-        body { margin: 0; background: #000; color: #fff; font-family: 'Manrope', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-        #canvas-container { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
-        .content-wrapper { position: relative; z-index: 10; }
-
-        /* FLOAT CTA */
-        .hook-float { position: fixed; bottom: 80px; right: 20px; z-index: 100; display: flex; flex-direction: column; gap: 10px; }
-        .hook-btn {
-            background: rgba(0,0,0,0.92); border: 1px solid rgba(245,158,11,0.35);
-            padding: 13px 20px; border-radius: 14px; backdrop-filter: blur(20px);
-            display: flex; align-items: center; gap: 10px; cursor: pointer;
-            transition: 0.35s cubic-bezier(0.175,0.885,0.32,1.275);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.7), 0 0 0 0 rgba(245,158,11,0);
-            text-decoration: none;
-        }
-        .hook-btn:hover { border-color: var(--amber); transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 20px rgba(245,158,11,0.15); }
-
-        /* TYPOGRAPHY */
-        .display { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.02em; line-height: 0.92; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
-
-        /* NAV */
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); backdrop-filter: blur(10px); }
-        .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 0.15em; color: white; }
-        .nav-links { display: flex; gap: 32px; align-items: center; }
-        .nav-links a { color: rgba(255,255,255,0.5); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; transition: color 0.2s; font-family: 'JetBrains Mono', monospace; }
-        .nav-links a:hover { color: var(--amber); }
-        .nav-cta { background: var(--amber); color: #000 !important; padding: 10px 20px; border-radius: 8px; font-weight: 800 !important; }
-        .nav-cta:hover { background: #fbbf24 !important; color: #000 !important; }
-
-        /* HERO */
-        .hero-tag { display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(245,158,11,0.3); padding: 6px 14px; border-radius: 100px; background: rgba(245,158,11,0.06); margin-bottom: 2rem; }
-
-        /* STATS BAR */
-        .stats-bar { display: flex; gap: 0; border: 1px solid rgba(255,255,255,0.07); border-radius: 20px; overflow: hidden; }
-        .stat-item { flex: 1; padding: 28px 24px; text-align: center; border-right: 1px solid rgba(255,255,255,0.07); }
-        .stat-item:last-child { border-right: none; }
-        .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; color: var(--amber); line-height: 1; }
-        .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 4px; }
-
-        /* STEPS */
-        .step-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: 32px; transition: all 0.4s ease; position: relative; overflow: hidden; }
-        .step-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 80% 20%, rgba(245,158,11,0.04), transparent 60%); opacity: 0; transition: opacity 0.4s; }
-        .step-card:hover { border-color: rgba(245,158,11,0.25); transform: translateY(-4px); }
-        .step-card:hover::before { opacity: 1; }
-        .step-num { font-family: 'Bebas Neue', sans-serif; font-size: 4rem; color: rgba(245,158,11,0.08); line-height: 1; position: absolute; top: 16px; right: 20px; }
-
-        /* PRICING */
-        .pricing-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07); border-radius: 24px; padding: 40px; transition: all 0.4s ease; position: relative; overflow: hidden; }
-        .pricing-card.featured { border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.04); }
-        .pricing-card:hover { transform: translateY(-6px); }
-        .pricing-card.featured:hover { box-shadow: 0 30px 80px rgba(245,158,11,0.1); }
-        .popular-badge { position: absolute; top: 20px; right: 20px; background: var(--amber); color: #000; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 100px; font-family: 'JetBrains Mono', monospace; }
-        .price-num { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; line-height: 1; }
-        .feature-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; font-size: 0.82rem; color: rgba(255,255,255,0.65); }
-        .feature-check { color: var(--amber); font-size: 0.75rem; margin-top: 2px; flex-shrink: 0; }
-
-        /* TESTIMONIALS */
-        .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
-        .testimonial-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 22px; border-radius: 18px; transition: all 0.4s ease; }
-        .testimonial-card:hover { background: rgba(245,158,11,0.05); border-color: rgba(245,158,11,0.2); transform: translateY(-5px); }
-        .avatar-tag { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #000; flex-shrink: 0; }
-
-        /* CASES */
-        .case-item { height: 100vh; display: flex; align-items: center; justify-content: center; position: sticky; top: 0; z-index: 10; transition: 0.8s; }
-        .case-item.past { transform: scale(0.9) translateY(-100px); opacity: 0; filter: blur(10px); pointer-events: none; }
-        .browser-container { width: 95%; max-width: 1200px; height: 75vh; background: #050505; border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; overflow: hidden; }
-
-        /* CONTACT */
-        .glass-card { background: rgba(10,10,10,0.7); border: 1px solid rgba(255,255,255,0.06); border-radius: 2rem; backdrop-filter: blur(30px); }
-        .input-field { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); padding: 18px 20px; border-radius: 16px; color: white; outline: none; transition: all 0.3s; font-family: 'Manrope', sans-serif; font-size: 0.88rem; }
-        .input-field::placeholder { color: rgba(255,255,255,0.25); }
-        .input-field:focus { border-color: rgba(245,158,11,0.5); background: rgba(245,158,11,0.03); }
-
-        /* SECTION LABEL */
-        .section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: rgba(245,158,11,0.6); text-transform: uppercase; letter-spacing: 0.35em; margin-bottom: 1rem; }
-
-        /* DIVIDER */
-        .divider { height: 1px; background: linear-gradient(to right, transparent, rgba(255,255,255,0.06), transparent); margin: 0 40px; }
-
-        /* MOBILE NAV */
-        @media (max-width: 768px) {
-            nav { padding: 16px 20px; }
-            .nav-links { display: none; }
-            .stats-bar { flex-direction: column; }
-            .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
-            .stat-item:last-child { border-bottom: none; }
+        :root {
+            --cream: #faf8f4;
+            --ivory: #f2ebe0;
+            --ink: #18140f;
+            --dust: #8a7968;
+            --rouge: #bf4f43;
+            --rouge-light: rgba(191,79,67,0.08);
+            --gold: #b5916a;
+            --jade: #3d7362;
+            --blush: #e6d0c4;
+            --warm-white: #fffcf7;
         }
 
-        /* CALENDLY BUTTON */
-        .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--amber); color: #000; font-weight: 800; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 16px 32px; border-radius: 12px; border: none; cursor: pointer; transition: all 0.3s; text-decoration: none; font-family: 'JetBrains Mono', monospace; }
-        .btn-primary:hover { background: #fbbf24; transform: translateY(-2px); box-shadow: 0 15px 40px rgba(245,158,11,0.3); }
-        .btn-secondary { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: white; font-weight: 700; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 16px 32px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); cursor: pointer; transition: all 0.3s; text-decoration: none; font-family: 'JetBrains Mono', monospace; }
-        .btn-secondary:hover { border-color: var(--amber); color: var(--amber); }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-        /* HIGHLIGHT */
-        .text-highlight { color: var(--amber); }
-        .border-highlight { border-bottom: 2px solid var(--amber); }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--ink);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ─── GRAIN ─── */
+        body::after {
+            content:'';
+            position:fixed; inset:0;
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+            pointer-events:none; z-index:9999; opacity:.5;
+        }
+
+        /* ─── NAV ─── */
+        nav {
+            position:sticky; top:0; z-index:200;
+            display:flex; align-items:center; justify-content:space-between;
+            padding:1.2rem 5%;
+            background:rgba(250,248,244,0.88);
+            backdrop-filter:blur(14px);
+            border-bottom:1px solid rgba(181,145,106,0.12);
+        }
+        .logo {
+            font-family:'Cormorant Garamond',serif;
+            font-size:1.35rem; font-weight:700;
+            letter-spacing:.08em; line-height:1;
+        }
+        .logo b { color:var(--rouge); font-weight:700; }
+        .logo small {
+            display:block;
+            font-family:'Noto Serif SC',serif;
+            font-size:.65rem; color:var(--gold);
+            letter-spacing:.35em; margin-top:3px;
+            font-weight:400;
+        }
+        nav ul { list-style:none; display:flex; gap:2rem; }
+        nav ul a {
+            font-size:.75rem; letter-spacing:.14em; text-transform:uppercase;
+            color:var(--dust); text-decoration:none; transition:color .2s;
+        }
+        nav ul a:hover { color:var(--rouge); }
+        .nav-btn {
+            background:var(--ink); color:var(--cream);
+            padding:.55rem 1.4rem; border-radius:2rem;
+            font-size:.75rem; letter-spacing:.1em;
+            text-decoration:none; transition:background .2s;
+        }
+        .nav-btn:hover { background:var(--rouge); }
+
+        /* ─── HERO ─── */
+        .hero {
+            min-height:92vh;
+            display:grid; grid-template-columns:1fr 1fr;
+            align-items:center; gap:3rem;
+            padding:5rem 5% 4rem;
+            position:relative; overflow:hidden;
+        }
+        .hero-bg-char {
+            font-family:'Noto Serif SC',serif;
+            font-size:32rem; line-height:1;
+            color:rgba(181,145,106,.055);
+            position:absolute; right:-3rem; top:50%;
+            transform:translateY(-50%);
+            pointer-events:none; user-select:none;
+        }
+
+        .hero-label {
+            display:inline-flex; align-items:center; gap:.6rem;
+            font-size:.7rem; letter-spacing:.22em; text-transform:uppercase;
+            color:var(--jade); margin-bottom:1.4rem;
+        }
+        .hero-label::before { content:''; width:1.8rem; height:1px; background:var(--jade); }
+
+        .hero h1 {
+            font-family:'Cormorant Garamond',serif;
+            font-size:clamp(2.6rem,4.5vw,4.4rem);
+            line-height:1.06; font-weight:700;
+            margin-bottom:1.6rem;
+        }
+        .hero h1 em { font-style:italic; color:var(--rouge); }
+
+        .hero-sub {
+            font-size:1rem; color:var(--dust);
+            line-height:1.8; max-width:42ch;
+            margin-bottom:2rem;
+        }
+
+        /* WHY picker */
+        .why-picker {
+            margin-bottom:2rem;
+        }
+        .why-picker-label {
+            font-size:.7rem; letter-spacing:.15em; text-transform:uppercase;
+            color:var(--dust); margin-bottom:.7rem;
+        }
+        .why-tags {
+            display:flex; flex-wrap:wrap; gap:.5rem;
+        }
+        .why-tag {
+            background:white; border:1.5px solid var(--blush);
+            border-radius:2rem; padding:.4rem 1rem;
+            font-size:.8rem; cursor:pointer;
+            transition:all .2s; white-space:nowrap;
+            color:var(--ink);
+        }
+        .why-tag:hover, .why-tag.active {
+            border-color:var(--rouge); background:var(--rouge);
+            color:white;
+        }
+
+        .hero-cta {
+            display:flex; align-items:center; gap:1.2rem; flex-wrap:wrap;
+        }
+        .btn-main {
+            background:var(--rouge); color:white;
+            padding:.95rem 2.4rem; border-radius:3rem;
+            font-size:.88rem; letter-spacing:.06em;
+            text-decoration:none; border:none; cursor:pointer;
+            font-family:'DM Sans',sans-serif;
+            box-shadow:0 8px 28px rgba(191,79,67,.28);
+            transition:transform .2s, box-shadow .2s;
+            display:inline-block;
+        }
+        .btn-main:hover { transform:translateY(-2px); box-shadow:0 14px 36px rgba(191,79,67,.38); }
+        .btn-text {
+            font-size:.82rem; color:var(--dust);
+            text-decoration:none; border-bottom:1px solid var(--blush);
+            padding-bottom:2px; transition:color .2s, border-color .2s;
+        }
+        .btn-text:hover { color:var(--ink); border-color:var(--ink); }
+
+        /* hero visual */
+        .hero-visual { position:relative; }
+        .hero-blob {
+            aspect-ratio:5/6;
+            border-radius:62% 38% 56% 44% / 48% 52% 48% 52%;
+            overflow:hidden; background:var(--blush);
+        }
+        .hero-blob img { width:100%; height:100%; object-fit:cover; }
+
+        .float-card {
+            position:absolute;
+            background:white; border-radius:1rem;
+            padding:.9rem 1.2rem;
+            box-shadow:0 8px 32px rgba(0,0,0,.09);
+            font-size:.78rem;
+        }
+        .fc-1 { bottom:2.5rem; left:-2rem; }
+        .fc-1 strong { font-family:'Cormorant Garamond',serif; font-size:1.8rem; color:var(--rouge); display:block; line-height:1; }
+        .fc-1 span { color:var(--dust); }
+        .fc-2 { top:2rem; right:-1rem; background:var(--ink); color:white; line-height:1.6; }
+        .fc-2 .ch { font-family:'Noto Serif SC',serif; color:var(--gold); font-size:1rem; display:block; }
+
+        /* ─── VOICE WALL ─── */
+        .voices {
+            background:var(--ink); color:var(--cream);
+            padding:5rem 5%;
+            overflow:hidden;
+        }
+        .voices-header { text-align:center; margin-bottom:3rem; }
+        .voices-header p {
+            font-size:.72rem; letter-spacing:.22em; text-transform:uppercase;
+            color:var(--gold); margin-bottom:.8rem;
+        }
+        .voices-header h2 {
+            font-family:'Cormorant Garamond',serif;
+            font-size:clamp(1.8rem,3vw,2.6rem); font-style:italic;
+            max-width:38ch; margin:0 auto;
+            line-height:1.3;
+        }
+
+        /* scrolling ticker */
+        .ticker-wrap { overflow:hidden; margin-bottom:0; }
+        .ticker {
+            display:flex; gap:1.2rem;
+            animation:ticker-scroll 35s linear infinite;
+            width:max-content;
+        }
+        .ticker:hover { animation-play-state:paused; }
+        .ticker-row2 .ticker { animation-direction:reverse; animation-duration:42s; }
+
+        @keyframes ticker-scroll {
+            from { transform:translateX(0); }
+            to   { transform:translateX(-50%); }
+        }
+
+        .voice-chip {
+            background:rgba(255,255,255,.06);
+            border:1px solid rgba(255,255,255,.1);
+            border-radius:.8rem;
+            padding:.85rem 1.3rem;
+            white-space:nowrap;
+            font-size:.82rem;
+            color:rgba(250,248,244,.8);
+            flex-shrink:0;
+        }
+        .voice-chip .flag { margin-right:.4rem; }
+        .voice-chip em { font-style:normal; color:var(--gold); }
+
+        .ticker-row2 { margin-top:.8rem; }
+
+        /* ─── WHY SO HARD ─── */
+        .hard {
+            padding:7rem 5%;
+            max-width:1200px; margin:0 auto;
+        }
+        .hard-header { margin-bottom:4rem; }
+        .section-eye {
+            font-size:.7rem; letter-spacing:.22em; text-transform:uppercase;
+            color:var(--gold); margin-bottom:.8rem;
+        }
+        .section-h {
+            font-family:'Cormorant Garamond',serif;
+            font-size:clamp(2rem,3.5vw,3rem); font-weight:700;
+            line-height:1.12; max-width:22ch;
+        }
+
+        .hard-grid {
+            display:grid; grid-template-columns:repeat(3,1fr); gap:1.5px;
+            background:var(--blush); border-radius:1.2rem; overflow:hidden;
+        }
+        .hard-card {
+            background:var(--cream); padding:2.2rem 1.8rem;
+            position:relative; overflow:hidden;
+            transition:background .25s;
+        }
+        .hard-card:hover { background:var(--warm-white); }
+        .hard-card::before {
+            content:attr(data-ch);
+            font-family:'Noto Serif SC',serif;
+            font-size:7rem; line-height:1;
+            color:rgba(181,145,106,.07);
+            position:absolute; bottom:-.5rem; right:.5rem;
+            pointer-events:none;
+        }
+        .hard-num {
+            font-size:.65rem; letter-spacing:.2em; color:var(--gold);
+            margin-bottom:.9rem; text-transform:uppercase;
+        }
+        .hard-card h3 {
+            font-family:'Cormorant Garamond',serif;
+            font-size:1.3rem; font-weight:600; margin-bottom:.6rem;
+            line-height:1.25;
+        }
+        .hard-card p { font-size:.82rem; color:var(--dust); line-height:1.72; }
+        .hard-card blockquote {
+            margin-top:.9rem;
+            font-style:italic; font-size:.76rem;
+            color:var(--dust); opacity:.75;
+            border-left:2px solid var(--blush); padding-left:.75rem;
+            line-height:1.6;
+        }
+
+        /* ─── GOAL PATHS ─── */
+        .paths {
+            background:var(--ink); color:var(--cream);
+            padding:7rem 5%;
+        }
+        .paths-inner { max-width:1200px; margin:0 auto; }
+        .paths-header { text-align:center; margin-bottom:4rem; }
+        .paths-header h2 {
+            font-family:'Cormorant Garamond',serif;
+            font-size:clamp(2rem,3.5vw,3rem);
+            margin-bottom:.6rem;
+        }
+        .paths-header p { color:rgba(250,248,244,.5); font-size:.88rem; }
+
+        .paths-grid {
+            display:grid; grid-template-columns:repeat(5,1fr); gap:1rem;
+        }
+        .path-card {
+            background:rgba(255,255,255,.04);
+            border:1px solid rgba(255,255,255,.08);
+            border-radius:1.2rem; padding:1.8rem 1.4rem;
+            cursor:pointer; transition:all .25s;
+            text-align:center;
+        }
+        .path-card:hover {
+            background:rgba(191,79,67,.15);
+            border-color:var(--rouge);
+            transform:translateY(-4px);
+        }
+        .path-icon { font-size:2rem; margin-bottom:1rem; display:block; }
+        .path-card h4 {
+            font-family:'Cormorant Garamond',serif;
+            font-size:1.1rem; margin-bottom:.5rem;
+        }
+        .path-card p { font-size:.75rem; color:rgba(250,248,244,.45); line-height:1.6; }
+        .path-tag {
+            display:inline-block; margin-top:.8rem;
+            font-size:.65rem; letter-spacing:.12em; text-transform:uppercase;
+            color:var(--gold); border:1px solid rgba(181,145,106,.3);
+            padding:.2rem .6rem; border-radius:1rem;
+        }
+
+        /* ─── HOW ─── */
+        .how {
+            padding:7rem 5%;
+            max-width:1200px; margin:0 auto;
+        }
+        .how-grid {
+            display:grid; grid-template-columns:1fr 1fr; gap:5rem;
+            align-items:center; margin-top:3.5rem;
+        }
+        .how-steps { display:flex; flex-direction:column; gap:0; }
+        .how-step {
+            display:flex; gap:1.5rem;
+            padding:1.8rem 0;
+            border-bottom:1px solid var(--blush);
+            cursor:pointer;
+            transition:all .2s;
+        }
+        .how-step:last-child { border-bottom:none; }
+        .how-step:hover .step-num { background:var(--rouge); color:white; border-color:var(--rouge); }
+        .step-num {
+            width:2.8rem; height:2.8rem; border-radius:50%;
+            border:1.5px solid var(--gold); color:var(--gold);
+            display:flex; align-items:center; justify-content:center;
+            font-family:'Noto Serif SC',serif; font-size:1rem;
+            flex-shrink:0; transition:all .2s;
+        }
+        .step-body h4 {
+            font-family:'Cormorant Garamond',serif;
+            font-size:1.2rem; font-weight:600; margin-bottom:.4rem;
+        }
+        .step-body p { font-size:.82rem; color:var(--dust); line-height:1.7; }
+
+        .how-visual {
+            background:var(--ivory); border-radius:1.5rem;
+            padding:2.5rem; position:relative; overflow:hidden;
+        }
+        .how-visual::before {
+            content:'学'; font-family:'Noto Serif SC',serif;
+            font-size:12rem; color:rgba(181,145,106,.08);
+            position:absolute; bottom:-1rem; right:-1rem;
+            line-height:1;
+        }
+        .mock-tone {
+            background:white; border-radius:1rem; padding:1.5rem;
+            box-shadow:0 4px 20px rgba(0,0,0,.06); margin-bottom:1rem;
+        }
+        .mock-tone-label {
+            font-size:.68rem; letter-spacing:.15em; text-transform:uppercase;
+            color:var(--dust); margin-bottom:.8rem;
+        }
+        .tone-bars { display:flex; gap:.5rem; align-items:flex-end; height:60px; }
+        .tone-bar {
+            flex:1; border-radius:.3rem .3rem 0 0;
+            transition:height .3s ease;
+        }
+        .tb1 { background:var(--rouge); height:100%; }
+        .tb2 { background:var(--gold); height:75%; }
+        .tb3 { background:#4a7c6b; height:55%; }
+        .tb4 { background:var(--blush); height:35%; }
+        .tone-labels {
+            display:flex; gap:.5rem; margin-top:.4rem;
+            font-size:.65rem; color:var(--dust);
+        }
+        .tone-labels span { flex:1; text-align:center; }
+
+        .mock-feedback {
+            background:white; border-radius:1rem; padding:1.2rem;
+            box-shadow:0 4px 20px rgba(0,0,0,.06);
+            font-size:.8rem;
+        }
+        .feedback-row { display:flex; align-items:center; gap:.7rem; margin-bottom:.5rem; }
+        .feedback-row:last-child { margin-bottom:0; }
+        .fb-icon { font-size:1rem; }
+        .fb-text { color:var(--dust); }
+        .fb-text strong { color:var(--ink); }
+
+        /* ─── COURSES ─── */
+        .courses {
+            background:var(--ivory); padding:7rem 5%;
+        }
+        .courses-inner { max-width:1200px; margin:0 auto; }
+        .courses-top {
+            display:flex; justify-content:space-between; align-items:flex-end;
+            margin-bottom:3rem; flex-wrap:wrap; gap:1rem;
+        }
+
+        .courses-grid {
+            display:grid;
+            grid-template-columns:1.5fr 1fr 1fr;
+            grid-template-rows:auto auto;
+            gap:1.2rem;
+        }
+        .course-card {
+            background:white; border-radius:1.2rem;
+            overflow:hidden; cursor:pointer;
+            transition:transform .3s, box-shadow .3s;
+        }
+        .course-card:hover { transform:translateY(-5px); box-shadow:0 18px 50px rgba(0,0,0,.09); }
+        .course-card.featured { grid-row:1/3; }
+        .course-card.featured .course-img { aspect-ratio:3/4; }
+
+        .course-img { width:100%; aspect-ratio:16/10; object-fit:cover; display:block; }
+        .course-body { padding:1.3rem; }
+        .course-tag {
+            display:inline-block; font-size:.65rem; letter-spacing:.12em;
+            text-transform:uppercase; color:var(--jade);
+            background:rgba(61,115,98,.1); padding:.2rem .6rem;
+            border-radius:1rem; margin-bottom:.6rem;
+        }
+        .course-body h4 {
+            font-family:'Cormorant Garamond',serif;
+            font-size:1.2rem; font-weight:600; margin-bottom:.4rem;
+        }
+        .course-body p { font-size:.78rem; color:var(--dust); line-height:1.65; }
+        .course-meta {
+            display:flex; gap:.8rem; margin-top:.8rem;
+            padding-top:.7rem; border-top:1px solid var(--ivory);
+            font-size:.7rem; color:var(--dust);
+        }
+
+        /* ─── TESTIMONIALS ─── */
+        .testis { padding:7rem 5%; max-width:1200px; margin:0 auto; }
+        .testis-grid {
+            display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem;
+            margin-top:3rem;
+        }
+        .testi {
+            background:var(--ivory); border-radius:1.2rem;
+            padding:1.8rem; position:relative;
+        }
+        .testi::before {
+            content:'"';
+            font-family:'Cormorant Garamond',serif;
+            font-size:5rem; color:var(--blush);
+            position:absolute; top:-.3rem; left:1.1rem;
+            line-height:1; pointer-events:none;
+        }
+        .testi-body {
+            font-size:.86rem; line-height:1.78;
+            margin-top:1.8rem; margin-bottom:1.4rem;
+            color:var(--ink);
+        }
+        .testi-footer { display:flex; align-items:center; gap:.8rem; }
+        .testi-av {
+            width:2.4rem; height:2.4rem; border-radius:50%;
+            background:var(--blush); display:flex; align-items:center;
+            justify-content:center; font-size:1.1rem; flex-shrink:0;
+        }
+        .testi-name { font-weight:500; font-size:.83rem; }
+        .testi-from { font-size:.72rem; color:var(--dust); }
+        .testi-ch { font-family:'Noto Serif SC',serif; font-size:.68rem; color:var(--gold); }
+
+        /* real comment pull-quote */
+        .real-quote {
+            background:var(--rouge-light);
+            border-left:3px solid var(--rouge);
+            border-radius:0 .8rem .8rem 0;
+            padding:1.2rem 1.5rem;
+            margin:3rem 0;
+            font-size:.9rem; font-style:italic;
+            color:var(--ink); line-height:1.7;
+            max-width:680px;
+        }
+        .real-quote cite {
+            display:block; margin-top:.5rem;
+            font-style:normal; font-size:.72rem;
+            color:var(--dust); letter-spacing:.08em;
+        }
+
+        /* ─── SOCIAL PROOF STRIP ─── */
+        .proof-strip {
+            background:var(--gold);
+            padding:1.2rem 5%;
+            display:flex; align-items:center; justify-content:center;
+            gap:3rem; flex-wrap:wrap;
+        }
+        .proof-item { text-align:center; color:var(--ink); }
+        .proof-item strong {
+            font-family:'Cormorant Garamond',serif;
+            font-size:2rem; display:block; line-height:1;
+        }
+        .proof-item span { font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; opacity:.7; }
+
+        /* ─── PRICING ─── */
+        .pricing {
+            background:var(--ink); color:var(--cream);
+            padding:7rem 5%;
+        }
+        .pricing-inner { max-width:900px; margin:0 auto; }
+        .pricing-head { text-align:center; margin-bottom:4rem; }
+        .pricing-head h2 {
+            font-family:'Cormorant Garamond',serif;
+            font-size:clamp(2rem,3.5vw,3rem); margin-bottom:.6rem;
+        }
+        .pricing-head p { color:rgba(250,248,244,.45); font-size:.88rem; }
+
+        .pricing-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+
+        .plan {
+            border-radius:1.5rem; padding:2.5rem;
+            position:relative;
+        }
+        .plan-a {
+            background:rgba(255,255,255,.05);
+            border:1px solid rgba(255,255,255,.1);
+        }
+        .plan-b { background:var(--rouge); }
+
+        .plan-badge {
+            position:absolute; top:1.2rem; right:1.2rem;
+            background:var(--gold); color:var(--ink);
+            font-size:.65rem; letter-spacing:.12em; text-transform:uppercase;
+            padding:.25rem .75rem; border-radius:2rem; font-weight:500;
+        }
+        .plan-name {
+            font-size:.75rem; letter-spacing:.15em; text-transform:uppercase;
+            opacity:.55; margin-bottom:.6rem;
+        }
+        .plan-price {
+            font-family:'Cormorant Garamond',serif;
+            font-size:3.8rem; font-weight:700; line-height:1;
+            margin-bottom:.3rem;
+        }
+        .plan-price sup { font-size:1.4rem; vertical-align:top; margin-top:.8rem; }
+        .plan-price sub { font-size:1rem; font-family:'DM Sans',sans-serif; opacity:.45; }
+        .plan-tagline { font-size:.8rem; opacity:.5; margin-bottom:2rem; }
+
+        .plan-list { list-style:none; margin-bottom:2.2rem; }
+        .plan-list li {
+            font-size:.83rem; padding:.55rem 0;
+            border-bottom:1px solid rgba(255,255,255,.07);
+            display:flex; gap:.6rem;
+        }
+        .plan-list li::before { content:'✦'; font-size:.55rem; margin-top:.35rem; opacity:.5; flex-shrink:0; }
+
+        .btn-plan {
+            display:block; width:100%; text-align:center;
+            padding:.95rem; border-radius:3rem;
+            font-size:.83rem; letter-spacing:.07em;
+            cursor:pointer; border:none;
+            font-family:'DM Sans',sans-serif; transition:opacity .2s, transform .2s;
+        }
+        .btn-plan:hover { opacity:.85; transform:translateY(-1px); }
+        .plan-a .btn-plan { background:white; color:var(--ink); }
+        .plan-b .btn-plan { background:var(--ink); color:white; }
+
+        /* ─── FAQ ─── */
+        .faq { max-width:740px; margin:0 auto; padding:6rem 5%; }
+        .faq h2 {
+            font-family:'Cormorant Garamond',serif;
+            font-size:2.2rem; margin-bottom:2.5rem;
+        }
+        details { border-bottom:1px solid var(--blush); padding:1.2rem 0; }
+        summary {
+            font-weight:500; font-size:.92rem; cursor:pointer;
+            display:flex; justify-content:space-between;
+            list-style:none; gap:1rem;
+        }
+        summary::after { content:'+'; font-size:1.2rem; color:var(--gold); flex-shrink:0; }
+        details[open] summary::after { content:'−'; }
+        details > p { font-size:.83rem; color:var(--dust); line-height:1.78; margin-top:.75rem; }
+
+        /* ─── FOOTER ─── */
+        footer {
+            background:var(--ink); color:rgba(250,248,244,.35);
+            padding:2.5rem 5%;
+            display:flex; justify-content:space-between; align-items:center;
+            flex-wrap:wrap; gap:1rem; font-size:.75rem;
+            border-top:1px solid rgba(255,255,255,.05);
+        }
+        .footer-logo {
+            font-family:'Cormorant Garamond',serif;
+            font-size:1.1rem; color:rgba(250,248,244,.7);
+        }
+        footer a { color:inherit; text-decoration:none; }
+        footer a:hover { color:var(--gold); }
+
+        /* ─── RESPONSIVE ─── */
+        @media(max-width:960px){
+            .hero { grid-template-columns:1fr; min-height:auto; padding:3rem 5%; }
+            .hero-bg-char { display:none; }
+            .hard-grid, .testis-grid, .paths-grid { grid-template-columns:1fr 1fr; }
+            .courses-grid { grid-template-columns:1fr; }
+            .course-card.featured { grid-row:auto; }
+            .course-card.featured .course-img { aspect-ratio:16/10; }
+            .how-grid { grid-template-columns:1fr; }
+            .pricing-grid { grid-template-columns:1fr; }
+            nav ul { display:none; }
+            .proof-strip { gap:1.5rem; }
+        }
+        @media(max-width:600px){
+            .hard-grid, .testis-grid, .paths-grid { grid-template-columns:1fr; }
+            .hero h1 { font-size:2.4rem; }
+        }
+
+        /* ─── ANIMATIONS ─── */
+        @keyframes fadeUp {
+            from { opacity:0; transform:translateY(20px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+        .hero-label  { animation:fadeUp .6s .1s both ease; }
+        .hero h1     { animation:fadeUp .6s .2s both ease; }
+        .hero-sub    { animation:fadeUp .6s .3s both ease; }
+        .why-picker  { animation:fadeUp .6s .35s both ease; }
+        .hero-cta    { animation:fadeUp .6s .4s both ease; }
+        .hero-visual { animation:fadeUp .7s .25s both ease; }
     </style>
 </head>
 <body>
 
-<div id="canvas-container"></div>
-
-<!-- NAV -->
+<!-- ── NAV ── -->
 <nav>
-    <div class="nav-logo">ORIGIN SOURCE</div>
-    <div class="nav-links">
-        <span onclick="document.getElementById('process').scrollIntoView({behavior:'smooth'})" style="cursor:pointer">Process</span>
-        <span onclick="document.getElementById('case-stack').scrollIntoView({behavior:'smooth'})" style="cursor:pointer">Work</span>
-        <span onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})" style="cursor:pointer">Pricing</span>
-        <span onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="nav-cta" style="cursor:pointer">Get in Touch</span>
+    <div class="logo">
+        CHIC <b>CHINESE</b>
+        <small>雅致中文</small>
     </div>
+    <ul>
+        <li><a href=" ">Why It's Hard</a ></li>
+        <li><a href="#courses">Courses</a ></li>
+        <li><a href="#pricing">Pricing</a ></li>
+    </ul>
+    <a href="#pricing" class="nav-btn">Start Free →</a >
 </nav>
 
-<!-- FLOAT CTA -->
-<div class="hook-float">
-    <a href="https://wa.me/8613567747987" target="_blank" class="hook-btn">
-        <div style="width:8px;height:8px;background:#f59e0b;border-radius:50%;animation:pulse 2s infinite;flex-shrink:0"></div>
-        <div>
-            <p class="mono" style="font-size:9px;color:#f59e0b;margin:0 0 2px;letter-spacing:0.15em;text-transform:uppercase">Free Audit</p>
-            <p style="font-size:11px;font-weight:800;color:white;margin:0;letter-spacing:0.05em">WhatsApp Us Now ↗</p>
+
+<!-- ── HERO ── -->
+<section class="hero">
+    <div class="hero-bg-char">连</div>
+
+    <div>
+        <div class="hero-label">Real Chinese for Real Life</div>
+        <h1>The Chinese you need<br>to <em>watch, love, work</em><br>and live.</h1>
+        <p class="hero-sub">You've got a reason. A drama you want to understand. A person you want to impress. A country you want to call home. We build your Chinese around <em>that</em>.</p >
+
+        <div class="why-picker">
+            <div class="why-picker-label">I'm learning Chinese because…</div>
+            <div class="why-tags">
+                <span class="why-tag" onclick="pickWhy(this,'drama')">🎬 C-Dramas</span>
+                <span class="why-tag" onclick="pickWhy(this,'love')">💌 Love / Relationship</span>
+                <span class="why-tag" onclick="pickWhy(this,'travel')">✈️ Travel / Move to China</span>
+                <span class="why-tag" onclick="pickWhy(this,'biz')">💼 Business</span>
+                <span class="why-tag" onclick="pickWhy(this,'culture')">🏮 Culture / Just Love It</span>
+            </div>
         </div>
-    </a>
+
+        <div class="hero-cta">
+            <a href="#pricing" class="btn-main" id="hero-btn">Try Free for 7 Days →</a >
+            <a href="#hard" class="btn-text">Why you keep getting stuck ↓</a >
+        </div>
+    </div>
+
+    <div class="hero-visual">
+        <div class="hero-blob">
+            < img src="https://images.unsplash.com/photo-1523731407965-2430cd12f5e4?auto=format&fit=crop&q=80&w=800" alt="Learn Chinese">
+        </div>
+        <div class="float-card fc-1">
+            <strong>60+</strong>
+            <span>countries learning with us</span>
+        </div>
+        <div class="float-card fc-2">
+            <span class="ch">你好！</span>
+            <span style="font-size:.7rem;opacity:.6;">You'll say this with confidence</span>
+        </div>
+    </div>
+</section>
+
+
+<!-- ── VOICE WALL (real comments as tickers) ── -->
+<div class="voices">
+    <div class="voices-header">
+        <p>Why they started</p >
+        <h2>"I just want to watch my C-dramas without reading subtitles at 3am."</h2>
+    </div>
+
+    <div class="ticker-wrap">
+        <div class="ticker">
+            <div class="voice-chip">🇧🇷 <em>"to watch dramas without subtitles and finally focus on the acting"</em></div>
+            <div class="voice-chip">🇪🇬 <em>"I want to shift careers and become a Chinese translator"</em></div>
+            <div class="voice-chip">🇩🇪 <em>"communicate effectively with my future vendors and clients"</em></div>
+            <div class="voice-chip">🇵🇭 <em>"so I can meet my idol Xiao Zhan 😊"</em></div>
+            <div class="voice-chip">🇸🇦 <em>"Arabic is the hardest language — why not make it two?"</em></div>
+            <div class="voice-chip">🇦🇺 <em>"to talk to my Chinese mother-in-law without panicking"</em></div>
+            <div class="voice-chip">🇺🇸 <em>"bro it's 3am I just want to watch dramas without subtitles 🥺"</em></div>
+            <div class="voice-chip">🇳🇬 <em>"I work with Chinese people and get laughed at. Pls help."</em></div>
+            <!-- duplicate for seamless loop -->
+            <div class="voice-chip">🇧🇷 <em>"to watch dramas without subtitles and finally focus on the acting"</em></div>
+            <div class="voice-chip">🇪🇬 <em>"I want to shift careers and become a Chinese translator"</em></div>
+            <div class="voice-chip">🇩🇪 <em>"communicate effectively with my future vendors and clients"</em></div>
+            <div class="voice-chip">🇵🇭 <em>"so I can meet my idol Xiao Zhan 😊"</em></div>
+            <div class="voice-chip">🇸🇦 <em>"Arabic is the hardest language — why not make it two?"</em></div>
+            <div class="voice-chip">🇦🇺 <em>"to talk to my Chinese mother-in-law without panicking"</em></div>
+            <div class="voice-chip">🇺🇸 <em>"bro it's 3am I just want to watch dramas without subtitles 🥺"</em></div>
+            <div class="voice-chip">🇳🇬 <em>"I work with Chinese people and get laughed at. Pls help."</em></div>
+        </div>
+    </div>
+
+    <div class="ticker-wrap ticker-row2" style="margin-top:.8rem">
+        <div class="ticker">
+            <div class="voice-chip">🇮🇩 <em>"to have conversations with my Chinese boyfriend"</em></div>
+            <div class="voice-chip">🌍 <em>"I speak 5 languages — Chinese is my biggest flex"</em></div>
+            <div class="voice-chip">🇨🇳 <em>"I want to relocate to China 🇨🇳"</em></div>
+            <div class="voice-chip">🇰🇷 <em>"to understand Chinese novels — the translations are terrible"</em></div>
+            <div class="voice-chip">🇬🇧 <em>"because I want to visit someday and know where the bathroom is"</em></div>
+            <div class="voice-chip">🇫🇷 <em>"for international relations work"</em></div>
+            <div class="voice-chip">🇲🇽 <em>"my mission in life is to learn every language 😊"</em></div>
+            <div class="voice-chip">🇧🇩 <em>"I need to clear HSK4 😭😤"</em></div>
+            <div class="voice-chip">🇮🇩 <em>"to have conversations with my Chinese boyfriend"</em></div>
+            <div class="voice-chip">🌍 <em>"I speak 5 languages — Chinese is my biggest flex"</em></div>
+            <div class="voice-chip">🇨🇳 <em>"I want to relocate to China 🇨🇳"</em></div>
+            <div class="voice-chip">🇰🇷 <em>"to understand Chinese novels — the translations are terrible"</em></div>
+            <div class="voice-chip">🇬🇧 <em>"because I want to visit someday and know where the bathroom is"</em></div>
+            <div class="voice-chip">🇫🇷 <em>"for international relations work"</em></div>
+            <div class="voice-chip">🇲🇽 <em>"my mission in life is to learn every language 😊"</em></div>
+            <div class="voice-chip">🇧🇩 <em>"I need to clear HSK4 😭😤"</em></div>
+        </div>
+    </div>
 </div>
 
-<style>
-@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
-</style>
 
-<div class="content-wrapper">
+<!-- ── PROOF STRIP ── -->
+<div class="proof-strip">
+    <div class="proof-item"><strong>4,200+</strong><span>Active Learners</span></div>
+    <div class="proof-item"><strong>60+</strong><span>Countries</span></div>
+    <div class="proof-item"><strong>3–4 mo</strong><span>To First Real Conversation</span></div>
+    <div class="proof-item"><strong>95%</strong><span>Would Recommend</span></div>
+</div>
 
-    <!-- HERO -->
-    <section class="min-h-screen flex items-center justify-center flex-col px-6 text-center pt-24">
-        <div class="reveal">
-            <div class="hero-tag mono" style="font-size:10px;color:rgba(245,158,11,0.8);letter-spacing:0.2em">
-                <span style="width:6px;height:6px;background:#f59e0b;border-radius:50%;display:inline-block"></span>
-                ECOMMERCE · SAAS · AI PRODUCTS
+
+<!-- ── WHY SO HARD ── -->
+<section id="hard" class="hard">
+    <div class="hard-header">
+        <div class="section-eye">The Real Problems</div>
+        <h2 class="section-h">Why you keep stopping — and it's not your fault.</h2>
+    </div>
+
+    <div class="real-quote">
+        "I work with Chinese people every day and get laughed at a lot because of my Chinese. Pls help."
+        <cite>— DM received from a follower in Nigeria</cite>
+    </div>
+
+    <div class="hard-grid">
+        <div class="hard-card" data-ch="声">
+            <div class="hard-num">01 · Tones</div>
+            <h3>One wrong tone = a completely different word</h3>
+            <p>Mā means mother. Mǎ means horse. Nobody corrects you in real life—so you keep making the same mistake for years without knowing it.</p >
+            <blockquote>"I practiced for months but kept saying 'horse' instead of 'mother.'"</blockquote>
+        </div>
+        <div class="hard-card" data-ch="字">
+            <div class="hard-num">02 · Characters</div>
+            <h3>No alphabet. 2,500 characters to read basic content.</h3>
+            <p>Every character looks like a painting you have to memorize from scratch. Most apps skip this, so you can speak but can't read a single WeChat message.</p >
+            <blockquote>"I can say things out loud but can't read a menu."</blockquote>
+        </div>
+        <div class="hard-card" data-ch="速">
+            <div class="hard-num">03 · Speed</div>
+            <h3>Real conversations are 350 words per minute</h3>
+            <p>You understand your teacher. You understand the drama with subtitles. The moment a native speaker replies naturally, your brain goes blank.</p >
+            <blockquote>"The moment they replied, my mind went blank."</blockquote>
+        </div>
+        <div class="hard-card" data-ch="礼">
+            <div class="hard-num">04 · Culture</div>
+            <h3>Technically correct but accidentally rude</h3>
+            <p>Chinese communication is about what's NOT said. Face (面子), indirect refusal, compliment culture—these rules aren't in any textbook.</p >
+            <blockquote>"I was correct but accidentally rude at a business dinner."</blockquote>
+        </div>
+        <div class="hard-card" data-ch="词">
+            <div class="hard-num">05 · Vocabulary</div>
+            <h3>Learning words nobody actually uses</h3>
+            <p>Standard courses teach "Manager Wang's office meeting." You want to watch dramas, navigate 小红书, and talk about something you actually care about.</p >
+            <blockquote>"I can explain economics in Chinese but not my skincare routine."</blockquote>
+        </div>
+        <div class="hard-card" data-ch="勇">
+            <div class="hard-num">06 · Shame</div>
+            <h3>Getting laughed at kills your progress faster than anything</h3>
+            <p>Being corrected publicly. Making a tone mistake. Saying something embarrassing by accident. This shame spiral stops more learners than any grammar rule ever will.</p >
+            <blockquote>"I knew the words. I just couldn't make them come out."</blockquote>
+        </div>
+    </div>
+</section>
+
+
+<!-- ── GOAL PATHS ── -->
+<section class="paths">
+    <div class="paths-inner">
+        <div class="paths-header">
+            <div class="section-eye" style="color:var(--gold)">Your Path</div>
+            <h2>Choose the Chinese that matches <em style="font-style:italic">your</em> life</h2>
+            <p>Every path uses the same core method. Pick the one that matches your reason.</p >
+        </div>
+        <div class="paths-grid">
+            <div class="path-card">
+                <span class="path-icon">🎬</span>
+                <h4>Drama & Pop Culture</h4>
+                <p>Watch without subtitles. Understand lyrics. Follow your idols.</p >
+                <span class="path-tag">Most Popular</span>
             </div>
-            <h1 class="display" style="font-size:clamp(4rem,12vw,10rem);margin-bottom:1.5rem">
-                WE BUILD STORES<br><span class="text-highlight">THAT MAKE YOU MONEY.</span>
-            </h1>
-            <p style="color:rgba(255,255,255,0.45);font-size:0.95rem;max-width:560px;margin:0 auto 2.5rem;line-height:1.8;letter-spacing:0.02em">
-                Full ownership. No monthly platform fees. No vendor lock-in.<br>
-                <strong style="color:rgba(255,255,255,0.7)">100% source code handed to you. Forever.</strong>
-            </p>
-            <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-                <span class="btn-primary" style="cursor:pointer" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">View Pricing →</span>
-                <span class="btn-secondary" style="cursor:pointer" onclick="document.getElementById('case-stack').scrollIntoView({behavior:'smooth'})">See Our Work →</span>
+            <div class="path-card">
+                <span class="path-icon">💌</span>
+                <h4>Love & Relationships</h4>
+                <p>Talk to his family. Surprise your partner. Build real intimacy.</p >
+                <span class="path-tag">Most Heartfelt</span>
+            </div>
+            <div class="path-card">
+                <span class="path-icon">✈️</span>
+                <h4>Travel & Life in China</h4>
+                <p>Order food, find the bathroom, make friends, feel at home.</p >
+                <span class="path-tag">For Movers</span>
+            </div>
+            <div class="path-card">
+                <span class="path-icon">💼</span>
+                <h4>Business & Career</h4>
+                <p>Vendors, clients, meetings, and WeChat without the awkward Google Translate pause.</p >
+                <span class="path-tag">Highest ROI</span>
+            </div>
+            <div class="path-card">
+                <span class="path-icon">🏮</span>
+                <h4>Culture & Deep Fluency</h4>
+                <p>For the language lovers who want it all — history, poetry, humour, and real connection.</p >
+                <span class="path-tag">For the Passionate</span>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- STATS -->
-    <section class="px-6 max-w-5xl mx-auto pb-24 reveal">
-        <div class="stats-bar">
-            <div class="stat-item">
-                <div class="stat-num">12+</div>
-                <div class="stat-label">Projects Delivered</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-num">7</div>
-                <div class="stat-label">Industries Served</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-num">100%</div>
-                <div class="stat-label">Code Ownership</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-num">$0</div>
-                <div class="stat-label">Monthly Platform Fees</div>
-            </div>
-        </div>
-    </section>
 
-    <div class="divider"></div>
+<!-- ── HOW IT WORKS ── -->
+<section id="method" class="how">
+    <div class="section-eye">Our Method</div>
+    <h2 class="section-h">Built for the six things that actually block you</h2>
 
-    <!-- PROCESS -->
-    <section id="process" class="py-32 px-6 max-w-7xl mx-auto">
-        <div class="mb-16 reveal">
-            <p class="section-label">// How It Works</p>
-            <h2 class="display" style="font-size:clamp(2.5rem,6vw,5rem)">
-                FROM ZERO TO<br><span class="text-highlight">LAUNCHED IN WEEKS.</span>
-            </h2>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            <div class="step-card reveal">
-                <div class="step-num">01</div>
-                <div class="mono" style="font-size:9px;color:var(--amber);margin-bottom:12px;letter-spacing:0.2em">FREE AUDIT</div>
-                <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:10px;letter-spacing:-0.01em">We Diagnose Your Site</h3>
-                <p style="color:rgba(255,255,255,0.45);font-size:0.82rem;line-height:1.7">We find exactly what's killing your conversions — before you spend a dollar.</p>
-            </div>
-            <div class="step-card reveal">
-                <div class="step-num">02</div>
-                <div class="mono" style="font-size:9px;color:var(--amber);margin-bottom:12px;letter-spacing:0.2em">PROTOTYPE</div>
-                <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:10px;letter-spacing:-0.01em">You See It Before We Build It</h3>
-                <p style="color:rgba(255,255,255,0.45);font-size:0.82rem;line-height:1.7">1:1 high-fidelity design approval. You sign off before a single line of code is written.</p>
-            </div>
-            <div class="step-card reveal">
-                <div class="step-num">03</div>
-                <div class="mono" style="font-size:9px;color:var(--amber);margin-bottom:12px;letter-spacing:0.2em">BUILD</div>
-                <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:10px;letter-spacing:-0.01em">We Execute. You Track.</h3>
-                <p style="color:rgba(255,255,255,0.45);font-size:0.82rem;line-height:1.7">Real-time updates through secure channels. No surprises. No delays. No excuses.</p>
-            </div>
-            <div class="step-card reveal">
-                <div class="step-num">04</div>
-                <div class="mono" style="font-size:9px;color:var(--amber);margin-bottom:12px;letter-spacing:0.2em">HANDOVER</div>
-                <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:10px;letter-spacing:-0.01em">Your Code. Your Server. Forever.</h3>
-                <p style="color:rgba(255,255,255,0.45);font-size:0.82rem;line-height:1.7">Full source code, private server deployment, complete technical documentation. You own everything.</p>
-            </div>
-        </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- PRICING -->
-    <section id="pricing" class="py-32 px-6 max-w-7xl mx-auto">
-        <div class="mb-16 reveal text-center">
-            <p class="section-label">// Transparent Pricing</p>
-            <h2 class="display" style="font-size:clamp(2.5rem,6vw,5rem)">NO SURPRISES.<br><span class="text-highlight">JUST RESULTS.</span></h2>
-            <p style="color:rgba(255,255,255,0.35);font-size:0.85rem;margin-top:12px;font-style:italic">Average client ROI within 6 months: 3–5× investment</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-            <!-- STARTER -->
-            <div class="pricing-card reveal">
-                <div class="mono" style="font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:0.2em;margin-bottom:16px">TIER 01</div>
-                <h3 style="font-size:1.3rem;font-weight:800;margin-bottom:4px">Starter</h3>
-                <p style="color:rgba(255,255,255,0.35);font-size:0.78rem;margin-bottom:24px">For new brands ready to launch</p>
-                <div class="price-num" style="color:white;margin-bottom:6px">$6,000</div>
-                <p style="color:rgba(255,255,255,0.25);font-size:0.7rem;margin-bottom:28px;font-family:'JetBrains Mono',monospace">ONE-TIME · NO RECURRING FEES</p>
-                <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:24px;margin-bottom:28px">
-                    <div class="feature-item"><span class="feature-check">✓</span> 5-page custom website</div>
-                    <div class="feature-item"><span class="feature-check">✓</span> Mobile-first responsive design</div>
-                    <div class="feature-item"><span class="feature-check">✓</span> Basic SEO configuration</div>
-                    <div class="feature-item"><span class="feature-check">✓</span> Contact form + CTA optimization</div>
-                    <div class="feature-item"><span class="feature-check">✓</span> 100% source code handover</div>
-                    <div class="feature-item"><span class="feature-check">✓</span> 14-day post-launch support</div>
+    <div class="how-grid">
+        <div class="how-steps">
+            <div class="how-step">
+                <div class="step-num">一</div>
+                <div class="step-body">
+                    <h4>AI Tone Coach — No More Silence</h4>
+                    <p>Speak. Get instant feedback on each tone. No polite nods from a teacher who doesn't want to embarrass you. Pure honest, private coaching, 24/7.</p >
                 </div>
-                <a href="https://wa.me/8613567747987?text=Hi%2C%20I%27m%20interested%20in%20the%20Starter%20plan%20%28%246%2C000%29" target="_blank" class="btn-secondary" style="width:100%;justify-content:center">Get Started →</a>
             </div>
-
-            <!-- GROWTH (FEATURED) -->
-            <div class="pricing-card featured reveal">
-                <div class="popular-badge">Most Popular</div>
-                <div class="mono" style="font-size:9px;color:var(--amber);letter-spacing:0.2em;margin-bottom:16px">TIER 02</div>
-                <h3 style="font-size:1.3rem;font-weight:800;margin-bottom:4px">Growth</h3>
-                <p style="color:rgba(255,255,255,0.45);font-size:0.78rem;margin-bottom:24px">For brands ready to sell at scale</p>
-                <div class="price-num" style="color:var(--amber);margin-bottom:6px">$12,000</div>
-                <p style="color:rgba(245,158,11,0.4);font-size:0.7rem;margin-bottom:28px;font-family:'JetBrains Mono',monospace">ONE-TIME · NO RECURRING FEES</p>
-                <div style="border-top:1px solid rgba(245,158,11,0.15);padding-top:24px;margin-bottom:28px">
-                    <div class="feature-item"><span class="feature-check">✓</span> Everything in Starter</div>
-                    <div class="feature-item"><span class="feature-check">✓</span> Full ecommerce + payment system</div>
-                    <div class="feature-item"><span class="feature-check">✓</span> Advanced product page animations</div>
-                    <div class="feature-item"><span class="feature-check">✓</span> Email marketing integration</div>
-                    <div class="feature-item"><span class="feature-check">✓</span> Core Web Vitals speed optimization</div>
-                    <div class="feature-item"><span class="feature-check">✓</span> Analytics + conversion tracking</div>
-                    <div class="feature-item"><span class="feature-check">✓</span> 30-day post-launch support</div>
+            <div class="how-step">
+                <div class="step-num">二</div>
+                <div class="step-body">
+                    <h4>Visual Character System</h4>
+                    <p>We decode characters through radicals and visual stories—not rote copying. See patterns, not paintings. Read 80% of daily content within weeks.</p >
                 </div>
-                <a href="https://wa.me/8613567747987?text=Hi%2C%20I%27m%20interested%20in%20the%20Growth%20plan%20%28%2412%2C000%29" target="_blank" class="btn-primary" style="width:100%;justify-content:center">Get Started ↗</a>
             </div>
-
-            <!-- DOMINANCE -->
-            <div class="pricing-card reveal">
-                <div class="mono" style="font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:0.2em;margin-bottom:16px">TIER 03</div>
-                <h3 style="font-size:1.3rem;font-weight:800;margin-bottom:4px">Dominance</h3>
-                <p style="color:rgba(255,255,255,0.35);font-size:0.78rem;margin-bottom:24px">For established brands going all-in</p>
-                <div class="price-num" style="color:white;margin-bottom:6px">$22,000+</div>
-                <p style="color:rgba(255,255,255,0.25);font-size:0.7rem;margin-bottom:28px;font-family:'JetBrains Mono',monospace">CUSTOM SCOPE · NO RECURRING FEES</p>
-                <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:24px;margin-bottom:28px">
-                    <div class="feature-item"><span class="feature-check">✓</span> Everything in Growth</div>
-                    <div class="feature-item"><span class="feature-check">✓</span> Fully custom feature development</div>
-                    <div class="feature-item"><span class="feature-check">✓</span> AI chat / recommendation system</div>
-                    <div class="feature-item"><span class="feature-check">✓</span> Multi-language + multi-currency</div>
-                    <div class="feature-item"><span class="feature-check">✓</span> Dedicated project manager</div>
-                    <div class="feature-item"><span class="feature-check">✓</span> 90-day post-launch support</div>
+            <div class="how-step">
+                <div class="step-num">三</div>
+                <div class="step-body">
+                    <h4>Your-Life Vocabulary</h4>
+                    <p>Drama slang. Food menus. Dating phrases. Business etiquette. You choose the topic. You remember it because it actually matters to you.</p >
                 </div>
-                <a href="https://wa.me/8613567747987?text=Hi%2C%20I%27m%20interested%20in%20the%20Dominance%20plan%20%28%2422%2C000%2B%29" target="_blank" class="btn-secondary" style="width:100%;justify-content:center">Talk to Us →</a>
             </div>
-
+            <div class="how-step">
+                <div class="step-num">四</div>
+                <div class="step-body">
+                    <h4>Cultural Intelligence, Not Just Grammar</h4>
+                    <p>Learn face (面子), indirect speech, compliment culture, and what's really meant behind "it's okay." Connect—don't just communicate.</p >
+                </div>
+            </div>
         </div>
-    </section>
 
-    <div class="divider"></div>
+        <div class="how-visual">
+            <div class="mock-tone">
+                <div class="mock-tone-label">AI Tone Coach — Live Feedback</div>
+                <div class="tone-bars">
+                    <div class="tone-bar tb1"></div>
+                    <div class="tone-bar tb2"></div>
+                    <div class="tone-bar tb3"></div>
+                    <div class="tone-bar tb4"></div>
+                </div>
+                <div class="tone-labels">
+                    <span>māo ✓</span><span>máo ✓</span><span>mǎo ✗</span><span>mào ✓</span>
+                </div>
+            </div>
+            <div class="mock-feedback">
+                <div class="feedback-row"><span class="fb-icon">🎯</span><span class="fb-text"><strong>Tone 3</strong> needs work — your pitch dropped too late</span></div>
+                <div class="feedback-row"><span class="fb-icon">🔊</span><span class="fb-text">Listen to the model: <strong>mǎo</strong></span></div>
+                <div class="feedback-row"><span class="fb-icon">✨</span><span class="fb-text">Tones 1, 2, 4 are <strong>perfect</strong>. Try again!</span></div>
+            </div>
+        </div>
+    </div>
+</section>
 
-    <!-- CASES -->
-    <section id="cases" class="pt-32 px-6 max-w-7xl mx-auto text-center reveal">
-        <p class="section-label">// Client Work</p>
-        <h2 class="display" style="font-size:clamp(2.5rem,6vw,5rem)">RESULTS WE'VE<br><span class="text-highlight">DELIVERED.</span></h2>
-        <p style="color:rgba(255,255,255,0.35);font-size:0.82rem;max-width:500px;margin:16px auto 0;line-height:1.8;font-family:'JetBrains Mono',monospace;letter-spacing:0.05em">
-            REAL STORES. REAL REVENUE. REAL OWNERSHIP.<br>CLICK ANY PROJECT TO EXPLORE.
-        </p>
-    </section>
 
-    <section id="case-stack"></section>
-
-    <div class="divider" style="margin-top:0"></div>
-
-    <!-- TESTIMONIALS -->
-    <section class="py-32 px-6 max-w-7xl mx-auto">
-        <div class="mb-16 reveal flex flex-wrap items-end gap-6 justify-between">
+<!-- ── COURSES ── -->
+<section id="courses" class="courses">
+    <div class="courses-inner">
+        <div class="courses-top">
             <div>
-                <p class="section-label">// Client Feedback</p>
-                <h2 class="display" style="font-size:clamp(2.5rem,6vw,5rem)">WHAT CLIENTS<br><span class="text-highlight">SAY.</span></h2>
+                <div class="section-eye">What You'll Learn</div>
+                <h2 class="section-h" style="font-size:2.2rem; max-width:none;">Courses built around <em style="font-style:italic;color:var(--rouge)">your</em> reason</h2>
             </div>
-            <div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);padding:20px 28px;border-radius:16px;text-align:center">
-                <div class="display text-highlight" style="font-size:2.8rem;line-height:1">12+</div>
-                <div class="mono" style="font-size:9px;color:rgba(245,158,11,0.5);text-transform:uppercase;letter-spacing:0.12em;margin-top:4px">Projects Delivered</div>
-            </div>
+            <a href=" " class="btn-main">See All Courses →</a >
         </div>
-        <div class="testimonial-grid" id="testimonial-root"></div>
-    </section>
 
-    <div class="divider"></div>
-
-    <!-- CONTACT -->
-    <footer id="contact" class="max-w-4xl mx-auto px-6 py-32">
-        <div class="glass-card p-12 reveal" style="border-color:rgba(245,158,11,0.1)">
-            <div class="text-center mb-10">
-                <p class="section-label">// Start Your Project</p>
-                <h2 class="display" style="font-size:clamp(2rem,5vw,4rem)">READY TO OWN YOUR<br><span class="text-highlight">DIGITAL INFRASTRUCTURE?</span></h2>
-                <p style="color:rgba(255,255,255,0.35);font-size:0.82rem;margin-top:12px">Send us your project details. No pitch. No pressure. Just clarity.</p>
-            </div>
-
-            <!-- CONTACT OPTIONS -->
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:32px">
-                <a href="https://wa.me/8613567747987" target="_blank" style="display:flex;align-items:center;gap:12px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);padding:18px 20px;border-radius:16px;text-decoration:none;transition:all 0.3s" onmouseover="this.style.borderColor='#f59e0b'" onmouseout="this.style.borderColor='rgba(245,158,11,0.2)'">
-                    <span style="font-size:1.3rem">💬</span>
-                    <div><p style="font-size:0.72rem;font-weight:800;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 2px">WhatsApp</p><p style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin:0">Fast response guaranteed</p></div>
-                </a>
-                <span onclick="document.getElementById('contact-form').scrollIntoView({behavior:'smooth'})" style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);padding:18px 20px;border-radius:16px;cursor:pointer;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(245,158,11,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
-                    <span style="font-size:1.3rem">✉️</span>
-                    <div><p style="font-size:0.72rem;font-weight:800;color:rgba(255,255,255,0.7);font-family:'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 2px">Email Us</p><p style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin:0">kobe824666888999@gmail.com</p></div>
-                </span>
-            </div>
-
-            <div style="text-align:center;color:rgba(255,255,255,0.2);font-size:0.75rem;font-family:'JetBrains Mono',monospace;letter-spacing:0.1em;margin-bottom:24px">— OR FILL IN YOUR PROJECT DETAILS BELOW —</div>
-
-            <form id="contact-form" action="https://formspree.io/f/xeevzknb" method="POST" class="space-y-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input type="text" name="name" placeholder="Full Name" required class="input-field">
-                    <input type="email" name="email" placeholder="Work Email" required class="input-field">
+        <div class="courses-grid">
+            <div class="course-card featured">
+                < img class="course-img" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=700" alt="C-Drama">
+                <div class="course-body">
+                    <span class="course-tag">🎬 Most Popular</span>
+                    <h4>Watch C-Dramas Without Subtitles</h4>
+                    <p>The #1 reason people start. Master emotional vocabulary, romantic phrases, and real-life slang—not textbook Chinese. Most students get subtitle-free moments in 8 weeks.</p >
+                    <div class="course-meta">
+                        <span>🎯 Beginner → Intermediate</span>
+                        <span>⏱ 8 weeks</span>
+                    </div>
                 </div>
-                <select name="budget" class="input-field" style="appearance:none;cursor:pointer">
-                    <option value="" disabled selected style="background:#111">Budget Range</option>
-                    <option value="starter" style="background:#111">$6,000 — Starter</option>
-                    <option value="growth" style="background:#111">$12,000 — Growth</option>
-                    <option value="dominance" style="background:#111">$22,000+ — Dominance</option>
-                    <option value="custom" style="background:#111">Not sure yet</option>
-                </select>
-                <textarea name="message" placeholder="Tell us about your project — what you sell, who your customers are, and what's not working right now..." required class="input-field" style="height:130px;resize:none"></textarea>
-                <button type="submit" class="btn-primary" style="width:100%;justify-content:center;font-size:0.82rem;padding:20px">REQUEST DEPLOYMENT ↗</button>
-            </form>
+            </div>
+            <div class="course-card">
+                < img class="course-img" src="https://images.unsplash.com/photo-1596462502278-27bfad450516?auto=format&fit=crop&q=80&w=600" alt="Social">
+                <div class="course-body">
+                    <span class="course-tag">💌 Relationships & Social</span>
+                    <h4>Love, Dating & Family Chinese</h4>
+                    <p>Meet his parents. Talk to your in-laws. Surprise the person you love with real, warm Chinese.</p >
+                    <div class="course-meta">
+                        <span>🎯 Beginner</span>
+                        <span>⏱ 4 weeks</span>
+                    </div>
+                </div>
+            </div>
+            <div class="course-card">
+                < img class="course-img" src="https://images.unsplash.com/photo-1515377662630-cd6360309995?auto=format&fit=crop&q=80&w=600" alt="Business">
+                <div class="course-body">
+                    <span class="course-tag">💼 Business & Career</span>
+                    <h4>Work & Vendor Chinese</h4>
+                    <p>Navigate meetings, WeChat, business dinners, and cross-cultural nuance. Stop relying on Google Translate mid-meeting.</p >
+                    <div class="course-meta">
+                        <span>🎯 Intermediate</span>
+                        <span>⏱ 6 weeks</span>
+                    </div>
+                </div>
+            </div>
+            <div class="course-card">
+                < img class="course-img" src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&q=80&w=600" alt="Travel">
+                <div class="course-body">
+                    <span class="course-tag">✈️ Travel & Life</span>
+                    <h4>Survival to Fluency: China Life</h4>
+                    <p>From "where's the bathroom" to making real friends. For travellers, expats, and future residents.</p >
+                    <div class="course-meta">
+                        <span>🎯 All levels</span>
+                        <span>⏱ 6 weeks</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ── TESTIMONIALS ── -->
+<section class="testis">
+    <div class="section-eye">Real Learners</div>
+    <h2 class="section-h">From "I give up" to "我会说中文"</h2>
+
+    <div class="testis-grid">
+        <div class="testi">
+            <p class="testi-body">I work with Chinese suppliers every day and used to get laughed at. Three months in, I closed a deal in Mandarin. The cultural coaching is what nobody else teaches.</p >
+            <div class="testi-footer">
+                <div class="testi-av">🇩🇪</div>
+                <div>
+                    <div class="testi-name">Hannah M.</div>
+                    <div class="testi-from">Germany · Business Development</div>
+                    <div class="testi-ch">汉娜 · 她能用中文谈生意了</div>
+                </div>
+            </div>
+        </div>
+        <div class="testi">
+            <p class="testi-body">The AI tone coach is everything. I used to avoid speaking entirely because I'd embarrassed myself too many times. Now I call my Chinese mother-in-law without panic. She said my tones are 还好 and I cried.</p >
+            <div class="testi-footer">
+                <div class="testi-av">🇦🇺</div>
+                <div>
+                    <div class="testi-name">Sophie R.</div>
+                    <div class="testi-from">Australia · Married into a Chinese family</div>
+                    <div class="testi-ch">苏菲 · 好厉害！</div>
+                </div>
+            </div>
+        </div>
+        <div class="testi">
+            <p class="testi-body">I'm a C-drama addict. I tried Duolingo, apps, YouTube — nothing stuck because none of it was about dramas. Last week I caught a joke without subtitles and literally cried happy tears.</p >
+            <div class="testi-footer">
+                <div class="testi-av">🇧🇷</div>
+                <div>
+                    <div class="testi-name">Clara V.</div>
+                    <div class="testi-from">Brazil · C-Drama Enthusiast</div>
+                    <div class="testi-ch">克拉拉 · 追剧狂人</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ── PRICING ── -->
+<section id="pricing" class="pricing">
+    <div class="pricing-inner">
+        <div class="pricing-head">
+            <div class="section-eye" style="color:var(--gold)">Pricing</div>
+            <h2>Start Free. No Credit Card.</h2>
+            <p>7-day free trial. Cancel anytime. Real results in weeks, not years.</p >
         </div>
 
-        <!-- FOOTER BOTTOM -->
-        <div style="text-align:center;margin-top:48px;padding-bottom:20px">
-            <div class="mono" style="font-size:0.65rem;color:rgba(255,255,255,0.15);letter-spacing:0.2em">© 2025 ORIGIN SOURCE STUDIO · ALL RIGHTS RESERVED</div>
-        </div>
-    </footer>
+        <div class="pricing-grid">
+            <div class="plan plan-a">
+                <div class="plan-name">Self-Paced</div>
+                <div class="plan-price"><sup>$</sup>29<sub>/mo</sub></div>
+                <div class="plan-tagline">Everything you need. Your schedule, your pace.</div>
+                <ul class="plan-list">
+                    <li>All courses + goal-based paths</li>
+                    <li>AI Tone Coach (unlimited)</li>
+                    <li>Visual character system</li>
+                    <li>Cultural context guides</li>
+                    <li>Vocabulary by your interests</li>
+                </ul>
+                <button class="btn-plan">Start Free Trial</button>
+            </div>
 
-</div>
+            <div class="plan plan-b">
+                <div class="plan-badge">Most Popular</div>
+                <div class="plan-name" style="opacity:.65">Inner Circle</div>
+                <div class="plan-price"><sup>$</sup>99<sub>/mo</sub></div>
+                <div class="plan-tagline">Community + accountability = results 3× faster.</div>
+                <ul class="plan-list">
+                    <li>Everything in Self-Paced</li>
+                    <li>2× monthly live group sessions</li>
+                    <li>Personalized learning roadmap</li>
+                    <li>1-on-1 language partner match</li>
+                    <li>Priority tone coaching review</li>
+                    <li>Private Sisterhood community</li>
+                </ul>
+                <button class="btn-plan">Join the Circle</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ── FAQ ── -->
+<section class="faq">
+    <h2>Questions We Actually Get</h2>
+
+    <details open>
+        <summary>I'm a complete beginner. Can I start?</summary>
+        <p>Yes. We start from absolute zero — pinyin, tones, your first 150 characters. We explain everything, including the stuff other courses assume you already know. You don't need any background at all.</p >
+    </details>
+    <details>
+        <summary>I tried Duolingo for 6 months and stopped. How is this different?</summary>
+        <p>Duolingo optimizes for streaks. We optimize for moments that matter — understanding your first drama line, surprising your partner, closing a deal. You'll stick with it because what you're learning is actually relevant to your life.</p >
+    </details>
+    <details>
+        <summary>My goal is just to watch C-dramas. Is that valid?</summary>
+        <p>100%. It's the #1 reason people join us. Start with the C-Drama path. Most students get their first subtitle-free moment within 8–10 weeks. It's a completely achievable and worthwhile goal.</p >
+    </details>
+    <details>
+        <summary>I get embarrassed when I speak. Will this make it worse?</summary>
+        <p>The opposite. Our AI Tone Coach gives you private, honest, non-judgmental feedback so you fix mistakes before you're ever in front of a real person. You'll feel ready before you speak out loud.</p >
+    </details>
+    <details>
+        <summary>How much time do I need per week?</summary>
+        <p>Three focused sessions of 30–40 minutes beats daily passive listening every time. We'll help you build a realistic schedule around your actual life, not some idealized version of it.</p >
+    </details>
+    <details>
+        <summary>My reason is kind of embarrassing (a boyfriend / an idol / a drama)…</summary>
+        <p>Those are the BEST reasons. Emotional motivation is the strongest fuel for language learning. We've seen people go from zero to conversational in months because they were learning for someone or something they genuinely loved. Bring your reason. We'll build around it.</p >
+    </details>
+</section>
+
+
+<!-- ── FOOTER ── -->
+<footer>
+    <div class="footer-logo">CHIC CHINESE · 雅致中文</div>
+    <p>© 2026 Chic Chinese. For women who want to connect with China — on their terms.</p >
+    <p><a href="#">Privacy</a > · <a href="#">Terms</a > · <a href="#">Contact</a ></p >
+</footer>
+
 
 <script>
-    // THREE.JS BACKGROUND
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.getElementById('canvas-container').appendChild(renderer.domElement);
-    const geometry = new THREE.BufferGeometry();
-    const posArr = new Float32Array(6000*3);
-    for(let i=0; i<6000*3; i++) posArr[i]=(Math.random()-0.5)*20;
-    geometry.setAttribute('position', new THREE.BufferAttribute(posArr, 3));
-    const points = new THREE.Points(geometry, new THREE.PointsMaterial({ size: 0.018, color: 0xf59e0b, transparent: true, opacity: 0.35 }));
-    scene.add(points); camera.position.z=10;
-    function animate() { requestAnimationFrame(animate); points.rotation.y+=0.0008; renderer.render(scene, camera); }
-    animate();
-    window.addEventListener('resize', () => { camera.aspect=window.innerWidth/window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
-
-    // TESTIMONIALS — real-looking, no fake full names
-    const avatarColors = ['#f59e0b','#10b981','#3b82f6','#8b5cf6','#ef4444','#06b6d4','#f472b6'];
-    const reviews = [
-        { n: "Alex R.", r: "Ecommerce Founder", b: "Switched from Shopify. The speed difference alone justified the cost. We own everything now." },
-        { n: "Maria T.", r: "Brand Owner", b: "The prototype was exactly what we asked for. No back-and-forth, no surprises at launch." },
-        { n: "James K.", r: "Lead Developer", b: "Cleanest codebase I've inherited. Documentation was thorough. Real professionals." },
-        { n: "Sarah W.", r: "Startup CEO", b: "We saved $800/month in platform fees. ROI was clear within 2 months." },
-        { n: "David L.", r: "Product Manager", b: "Real-time project tracking through the whole build. We always knew exactly where things stood." },
-        { n: "Nina P.", r: "DTC Brand Founder", b: "Our conversion rate improved noticeably after launch. The UX work was exceptional." },
-        { n: "Tom B.", r: "Operations Lead", b: "The handover process was flawless. Server setup, documentation, everything was handled." },
-        { n: "Leila M.", r: "Marketing Director", b: "Finally a web team that thinks about conversions, not just aesthetics. Big difference." },
-        { n: "Ryan C.", r: "Ecommerce Director", b: "Moved off Shopify and haven't looked back. No monthly fees and we control everything." },
-        { n: "Priya S.", r: "Founder & CEO", b: "The design they delivered was miles ahead of what I was expecting. Clients notice it immediately." },
-        { n: "Marcus O.", r: "Growth Lead", b: "Our bounce rate dropped significantly after the redesign. The speed optimization alone was worth it." },
-        { n: "Emily H.", r: "Head of Product", b: "They actually read our brief. Every feature we asked for was built exactly as described." },
-        { n: "Jason Y.", r: "Tech Entrepreneur", b: "I've worked with a lot of dev teams. These guys communicate better than any of them." },
-        { n: "Fatima A.", r: "Online Store Owner", b: "My store looks like a luxury brand now. Sales went up within the first week of launch." },
-        { n: "Chris D.", r: "SaaS Founder", b: "The AI integration they built is seamless. Customers think it's from a top-tier agency." },
-        { n: "Olivia N.", r: "Creative Director", b: "Every animation and transition was pixel-perfect. This is what premium digital work looks like." },
-        { n: "Ben F.", r: "Dropshipping Entrepreneur", b: "Went from a generic template to a fully custom store. Conversion rate doubled in 3 weeks." }
-    ];
-    const root = document.getElementById('testimonial-root');
-    reviews.forEach((rv, i) => {
-        const color = avatarColors[i % avatarColors.length];
-        root.innerHTML += `<div class="testimonial-card reveal">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
-                <div class="avatar-tag" style="background:${color}">${rv.n[0]}</div>
-                <div><p style="font-size:0.78rem;font-weight:800;color:white;margin:0">${rv.n}</p><p style="font-size:0.62rem;font-family:'JetBrains Mono',monospace;color:var(--amber);text-transform:uppercase;letter-spacing:0.08em;margin:2px 0 0">${rv.r}</p></div>
-                <div style="margin-left:auto;color:var(--amber);font-size:0.75rem">★★★★★</div>
-            </div>
-            <p style="color:rgba(255,255,255,0.45);font-size:0.8rem;line-height:1.7;margin:0">"${rv.b}"</p>
-        </div>`;
-    });
-
-    // CASES
-    const allCases = [
-        { n: "TERMINAL SYSTEM", u: "https://terminal-industries.com/", tag: "Industrial · Full-Stack" },
-        { n: "HUGER TIRE", u: "https://demo.golivestores.com/huger-tire/", tag: "Ecommerce · Custom Store" },
-        { n: "INTREPID AUTOMATION", u: "https://www.intrepidautomation.com/", tag: "SaaS · Product Site" },
-        { n: "ALCHE STUDIO", u: "https://www.alche.studio/", tag: "Creative · Brand Site" },
-        { n: "SANJAYA AI", u: "https://sanjaya.framer.ai/", tag: "AI Product · Landing Page" },
-        { n: "TOYOKOH SYSTEM", u: "https://www.toyokoh.com/", tag: "Enterprise · Corporate" },
-        { n: "HYPERPROP NETWORK", u: "https://www.hyperprop.xyz/", tag: "Web3 · Platform" }
-    ];
-    const stack = document.getElementById('case-stack');
-    allCases.forEach(c => {
-        const div = document.createElement('div'); div.className='case-item reveal';
-        div.innerHTML=`<div class="browser-container">
-            <div style="height:44px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.03);border-bottom:1px solid rgba(255,255,255,0.07)">
-                <div style="display:flex;gap:6px"><div style="width:10px;height:10px;border-radius:50%;background:rgba(239,68,68,0.4)"></div><div style="width:10px;height:10px;border-radius:50%;background:rgba(234,179,8,0.4)"></div><div style="width:10px;height:10px;border-radius:50%;background:rgba(34,197,94,0.4)"></div></div>
-                <div style="display:flex;flex-direction:column;align-items:center">
-                    <span style="font-size:9px;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,0.3);letter-spacing:0.15em">${c.n}</span>
-                    <span style="font-size:8px;font-family:'JetBrains Mono',monospace;color:rgba(245,158,11,0.4);letter-spacing:0.1em">${c.tag}</span>
-                </div>
-                <div style="font-size:8px;font-family:'JetBrains Mono',monospace;color:rgba(245,158,11,0.5);letter-spacing:0.1em">BUILT BY ORIGIN SOURCE</div>
-            </div>
-            <div style="position:relative;height:calc(100% - 44px)">
-                <div style="position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000;transition:all 0.7s" onclick="this.style.opacity='0';setTimeout(()=>this.style.display='none',700);const f=this.nextElementSibling;f.src='${c.u}';f.onload=()=>f.style.opacity='1'">
-                    <p style="font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(245,158,11,0.6);letter-spacing:0.3em;text-transform:uppercase;margin-bottom:20px">Built by Origin Source</p>
-                    <button style="border:1px solid rgba(255,255,255,0.2);color:white;padding:14px 36px;border-radius:100px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;background:transparent;cursor:pointer;transition:all 0.3s" onmouseover="this.style.borderColor='#f59e0b';this.style.color='#f59e0b'" onmouseout="this.style.borderColor='rgba(255,255,255,0.2)';this.style.color='white'">Launch Production ↗</button>
-                </div>
-                <iframe src="about:blank" style="width:100%;height:100%;border:none;opacity:0;transition:opacity 1s"></iframe>
-            </div>
-        </div>`;
-        stack.appendChild(div);
-    });
-
-    // SCROLL REVEAL
-    const sr = ScrollReveal();
-    sr.reveal('.reveal', { distance:'30px', duration:900, opacity:0, origin:'bottom', interval:70, easing:'cubic-bezier(0.16, 1, 0.3, 1)' });
-
-    // STICKY CASE SCROLL
-    window.addEventListener('scroll', () => {
-        document.querySelectorAll('.case-item').forEach(item => {
-            const rect = item.getBoundingClientRect();
-            if(rect.top < -50) item.classList.add('past'); else item.classList.remove('past');
-        });
-    });
+    // Why-tag picker: updates CTA copy
+    const ctaCopy = {
+        drama:   'Start Watching Without Subtitles →',
+        love:    'Start Speaking to the People You Love →',
+        travel:  'Start Your China Adventure →',
+        biz:     'Start Speaking Like a Pro →',
+        culture: 'Start Your Chinese Journey →',
+    };
+    function pickWhy(el, key) {
+        document.querySelectorAll('.why-tag').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+        const btn = document.getElementById('hero-btn');
+        if (btn) btn.textContent = ctaCopy[key] || 'Try Free for 7 Days →';
+    }
 </script>
+
 </body>
 </html>
