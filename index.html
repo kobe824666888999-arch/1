@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chic Chinese — Workplace Chinese for Southeast Asia</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+:root {
+--ink:    #0f0c09;
+--paper:  #faf7f2;
+--ivory:  #f3ede1;
+--rouge:  #b84040;
+--rouge2: #8c2e2e;
+--gold:   #b5916a;
+--jade:   #3a6e5a;
+--dust:   #7a6e5e;
+--blush:  #e6d0c4;
+--dark:   #141008;
+--dark2:  #1c1710;
+--line:   rgba(181,145,106,.18);
+}
+
+body {
+font-family:'Outfit',sans-serif;
+font-weight:300;
+background:var(--paper);
+color:var(--ink);
+overflow-x:hidden;
+-webkit-font-smoothing:antialiased;
+}
+
+/* grain */
+body::after {
+content:'';
+position:fixed; inset:0;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+pointer-events:none; z-index:9999; opacity:.45;
+}
+
+/* ── NAV ── */
+nav {
+position:sticky; top:0; z-index:200;
+display:flex; align-items:center; justify-content:space-between;
+padding:1.1rem 5%;
+background:rgba(250,247,242,.9);
+backdrop-filter:blur(16px);
+border-bottom:1px solid var(--line);
+}
+.logo {
+font-family:'Cormorant Garamond',serif;
+font-size:1.3rem; font-weight:700; letter-spacing:.08em;
+}
+.logo b { color:var(--rouge); }
+.logo small {
+display:block;
+font-family:'Noto Serif SC',serif;
+font-size:.6rem; color:var(--gold);
+letter-spacing:.35em; margin-top:2px;
+}
+nav ul { list-style:none; display:flex; gap:2rem; }
+nav ul a {
+font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
+color:var(--dust); text-decoration:none; transition:color .2s;
+}
+nav ul a:hover { color:var(--rouge); }
+.nav-wa {
+display:inline-flex; align-items:center; gap:.5rem;
+background:#25D366; color:white;
+padding:.5rem 1.2rem; border-radius:2rem;
+font-size:.72rem; font-weight:500; letter-spacing:.06em;
+text-decoration:none; transition:background .2s, transform .15s;
+}
+.nav-wa:hover { background:#1db954; transform:translateY(-1px); }
+
+/* ── HERO ── */
+.hero {
+min-height:96vh;
+display:grid; grid-template-columns:1fr 1fr;
+align-items:center; gap:4rem;
+padding:6rem 5% 5rem;
+position:relative; overflow:hidden;
+}
+
+.hero::before {
+content:'';
+position:absolute; inset:0;
+background:
+radial-gradient(ellipse 70% 70% at 80% 40%, rgba(184,64,64,.06) 0%, transparent 65%),
+radial-gradient(ellipse 50% 60% at 15% 70%, rgba(181,145,106,.05) 0%, transparent 60%);
+pointer-events:none;
+animation:bg-pulse 10s ease-in-out infinite alternate;
+}
+@keyframes bg-pulse { from{opacity:.6} to{opacity:1} }
+
+.hero-bg-char {
+font-family:'Noto Serif SC',serif;
+font-size:30rem; line-height:1;
+color:rgba(181,145,106,.04);
+position:absolute; right:-2rem; top:50%;
+transform:translateY(-50%);
+pointer-events:none; user-select:none;
+animation:float 8s ease-in-out infinite;
+}
+@keyframes float { 0%,100%{transform:translateY(-50%) rotate(-2deg)} 50%{transform:translateY(-52%) rotate(2deg)} }
+
+/* hero left */
+.hero-eyebrow {
+display:inline-flex; align-items:center; gap:.6rem;
+font-size:.68rem; letter-spacing:.22em; text-transform:uppercase;
+color:var(--jade); margin-bottom:1.2rem;
+opacity:0; animation:fade-up .7s .1s forwards;
+}
+.hero-eyebrow::before { content:''; width:1.8rem; height:1px; background:var(--jade); }
+
+.hero h1 {
+font-family:'Cormorant Garamond',serif;
+font-size:clamp(2.8rem,4.8vw,5rem);
+line-height:1.04; font-weight:700;
+margin-bottom:1.4rem;
+opacity:0; animation:fade-up .7s .2s forwards;
+}
+.hero h1 em { font-style:italic; color:var(--rouge); }
+
+.hero-sub {
+font-size:1rem; color:var(--dust); line-height:1.82;
+max-width:44ch; margin-bottom:2rem;
+opacity:0; animation:fade-up .7s .32s forwards;
+}
+
+/* path switcher */
+.path-switch {
+display:flex; gap:.5rem; margin-bottom:2rem;
+opacity:0; animation:fade-up .7s .42s forwards;
+}
+.ps-btn {
+display:flex; align-items:center; gap:.5rem;
+padding:.65rem 1.3rem; border-radius:2rem;
+border:1.5px solid var(--blush);
+font-size:.82rem; font-weight:400;
+cursor:pointer; transition:all .2s;
+background:white; color:var(--ink);
+font-family:'Outfit',sans-serif;
+}
+.ps-btn:hover, .ps-btn.active {
+background:var(--rouge); border-color:var(--rouge);
+color:white; box-shadow:0 6px 20px rgba(184,64,64,.25);
+}
+
+.hero-ctas {
+display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+opacity:0; animation:fade-up .7s .52s forwards;
+}
+.btn-main {
+background:var(--rouge); color:white;
+padding:.9rem 2.2rem; border-radius:3rem;
+font-size:.86rem; font-weight:500; letter-spacing:.05em;
+text-decoration:none; transition:transform .2s, box-shadow .2s, background .2s;
+box-shadow:0 8px 28px rgba(184,64,64,.28);
+display:inline-block;
+}
+.btn-main:hover { transform:translateY(-2px); box-shadow:0 14px 38px rgba(184,64,64,.38); }
+.btn-wa-hero {
+display:inline-flex; align-items:center; gap:.5rem;
+background:#25D366; color:white;
+padding:.9rem 1.8rem; border-radius:3rem;
+font-size:.86rem; font-weight:500;
+text-decoration:none; transition:transform .2s, box-shadow .2s;
+box-shadow:0 8px 24px rgba(37,211,102,.25);
+}
+.btn-wa-hero:hover { transform:translateY(-2px); box-shadow:0 14px 32px rgba(37,211,102,.35); }
+
+@keyframes fade-up {
+from { opacity:0; transform:translateY(18px); }
+to   { opacity:1; transform:translateY(0); }
+}
+
+/* hero right */
+.hero-visual {
+position:relative;
+opacity:0; animation:fade-up .8s .25s forwards;
+}
+.hero-blob {
+aspect-ratio:5/6;
+border-radius:62% 38% 56% 44% / 48% 52% 48% 52%;
+overflow:hidden; background:var(--blush);
+}
+.hero-blob img { width:100%; height:100%; object-fit:cover; display:block; }
+
+.float-card {
+position:absolute;
+background:white; border-radius:1rem;
+padding:.85rem 1.1rem;
+box-shadow:0 8px 32px rgba(0,0,0,.1);
+font-size:.75rem;
+}
+.fc-1 { bottom:2.5rem; left:-2.5rem; }
+.fc-1 strong { font-family:'Cormorant Garamond',serif; font-size:1.9rem; color:var(--rouge); display:block; line-height:1; }
+.fc-1 span { color:var(--dust); }
+.fc-2 { top:2rem; right:-1.5rem; background:var(--dark); color:white; line-height:1.65; max-width:160px; }
+.fc-2 .ch { font-family:'Noto Serif SC',serif; color:var(--gold); font-size:.95rem; display:block; margin-bottom:.2rem; }
+
+/* ── MARQUEE ── */
+.marquee-wrap {
+overflow:hidden;
+background:var(--rouge);
+padding:13px 0;
+border-top:1px solid rgba(0,0,0,.08);
+border-bottom:1px solid rgba(0,0,0,.08);
+}
+.marquee-track {
+display:flex; gap:48px;
+animation:marquee 24s linear infinite;
+width:max-content; white-space:nowrap;
+}
+.marquee-item {
+font-family:'Cormorant Garamond',serif;
+font-size:15px; font-style:italic;
+color:rgba(255,255,255,.85); letter-spacing:.04em;
+display:flex; align-items:center; gap:12px;
+}
+.marquee-item::after { content:'❧'; opacity:.5; }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ── STATS ── */
+.stat-row {
+display:grid; grid-template-columns:repeat(4,1fr);
+border-bottom:1px solid var(--line);
+}
+.stat {
+padding:44px 40px; border-right:1px solid var(--line);
+position:relative; overflow:hidden;
+transition:background .25s;
+}
+.stat:last-child { border-right:none; }
+.stat:hover { background:var(--ivory); }
+.stat::after {
+content:''; position:absolute; bottom:0; left:0; right:0;
+height:2px; background:linear-gradient(90deg,var(--rouge),transparent);
+transform:scaleX(0); transform-origin:left; transition:transform .4s;
+}
+.stat:hover::after { transform:scaleX(1); }
+.stat-num {
+font-family:'Cormorant Garamond',serif;
+font-size:52px; font-weight:700; line-height:1; margin-bottom:6px;
+}
+.stat-num span { color:var(--rouge); }
+.stat-label { font-size:13px; color:var(--dust); line-height:1.5; }
+
+/* ── SECTION BASE ── */
+.section {
+padding:96px 5%;
+border-bottom:1px solid var(--line);
+position:relative;
+}
+.section-inner { max-width:1200px; margin:0 auto; }
+.section-eye {
+font-size:.68rem; letter-spacing:.22em; text-transform:uppercase;
+color:var(--gold); margin-bottom:.75rem;
+}
+h2 {
+font-family:'Cormorant Garamond',serif;
+font-size:clamp(2rem,3.5vw,3.2rem); font-weight:700;
+line-height:1.08; margin-bottom:1rem;
+}
+h2 em { font-style:italic; color:var(--rouge); }
+.section-sub { font-size:.95rem; color:var(--dust); max-width:52ch; line-height:1.82; }
+
+/* ── TWO PATHS HERO SECTION ── */
+.two-paths {
+display:grid; grid-template-columns:1fr 1fr; gap:1.5px;
+margin-top:3.5rem; background:var(--line);
+}
+.path-panel {
+padding:3rem 2.5rem; background:var(--paper);
+position:relative; overflow:hidden;
+transition:background .25s;
+cursor:pointer;
+}
+.path-panel:hover { background:var(--ivory); }
+.path-panel::before {
+content:''; position:absolute; top:0; left:0;
+width:4px; height:100%;
+background:var(--rouge); transform:scaleY(0);
+transform-origin:top; transition:transform .3s;
+}
+.path-panel:hover::before { transform:scaleY(1); }
+.path-num {
+font-family:'Cormorant Garamond',serif;
+font-size:5rem; font-weight:700;
+color:var(--ink); opacity:.05; line-height:1;
+position:absolute; top:1rem; right:1.5rem;
+}
+.path-icon { font-size:2.2rem; margin-bottom:1rem; display:block; }
+.path-panel h3 {
+font-family:'Cormorant Garamond',serif;
+font-size:1.6rem; font-weight:700; margin-bottom:.7rem; line-height:1.2;
+}
+.path-panel p { font-size:.85rem; color:var(--dust); line-height:1.78; margin-bottom:1.2rem; }
+.path-pills { display:flex; flex-wrap:wrap; gap:.4rem; }
+.path-pill {
+font-size:.68rem; letter-spacing:.1em; text-transform:uppercase;
+background:var(--ivory); color:var(--dust);
+padding:.25rem .7rem; border-radius:2rem;
+border:1px solid var(--blush);
+}
+
+/* ── PAIN CARDS ── */
+.pain-grid {
+display:grid; grid-template-columns:repeat(3,1fr);
+gap:1.5px; margin-top:3.5rem; background:var(--line);
+}
+.pain-card {
+background:var(--paper); padding:2rem 1.8rem;
+position:relative; overflow:hidden;
+transition:background .25s;
+}
+.pain-card:hover { background:var(--ivory); }
+.pain-ch {
+font-family:'Noto Serif SC',serif;
+font-size:6rem; color:rgba(181,145,106,.07);
+position:absolute; bottom:-.5rem; right:.5rem; line-height:1;
+pointer-events:none;
+}
+.pain-num { font-size:.62rem; letter-spacing:.18em; color:var(--gold); margin-bottom:.7rem; text-transform:uppercase; }
+.pain-card h4 { font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:700; margin-bottom:.5rem; line-height:1.25; }
+.pain-card p { font-size:.8rem; color:var(--dust); line-height:1.75; }
+.pain-card blockquote {
+margin-top:.8rem; font-style:italic; font-size:.74rem;
+color:var(--dust); opacity:.7;
+border-left:2px solid var(--blush); padding-left:.7rem; line-height:1.6;
+}
+
+/* ── COURSES ── */
+.courses-grid {
+display:grid; grid-template-columns:1fr 1fr; gap:1.5px;
+margin-top:3.5rem; background:var(--line);
+}
+.course-card {
+background:var(--paper); padding:2.8rem 2.5rem;
+position:relative; overflow:hidden;
+transition:background .25s, transform .25s;
+display:flex; flex-direction:column;
+}
+.course-card:hover { background:var(--ivory); transform:translateY(-3px); }
+.course-card.featured { background:var(--dark); color:white; }
+.course-card.featured:hover { background:var(--dark2); }
+
+.course-tag-pill {
+display:inline-block; font-size:.62rem; letter-spacing:.12em; text-transform:uppercase;
+color:var(--jade); background:rgba(58,110,90,.1);
+padding:.2rem .65rem; border-radius:2rem; margin-bottom:.9rem;
+}
+.course-card.featured .course-tag-pill { color:var(--gold); background:rgba(181,145,106,.12); }
+
+.course-card h3 {
+font-family:'Cormorant Garamond',serif;
+font-size:1.7rem; font-weight:700; margin-bottom:.7rem; line-height:1.15;
+}
+.course-card.featured h3 { color:white; }
+
+.course-card p { font-size:.83rem; color:var(--dust); line-height:1.78; flex:1; margin-bottom:1.2rem; }
+.course-card.featured p { color:rgba(250,248,244,.55); }
+
+.course-features {
+display:grid; grid-template-columns:1fr 1fr; gap:.3rem .8rem;
+margin-bottom:1.5rem;
+}
+.course-features span { font-size:.74rem; color:var(--dust); }
+.course-card.featured .course-features span { color:rgba(250,248,244,.45); }
+.course-features span::before { content:'✦ '; color:var(--gold); font-size:.6rem; }
+
+.course-footer {
+display:flex; align-items:center; justify-content:space-between;
+padding-top:1.2rem; border-top:1px solid var(--line); margin-top:auto;
+}
+.course-card.featured .course-footer { border-top-color:rgba(255,255,255,.08); }
+
+.course-price {
+font-family:'Cormorant Garamond',serif;
+font-size:2rem; font-weight:700; color:var(--rouge);
+}
+.course-card.featured .course-price { color:var(--gold); }
+
+.btn-course {
+padding:.7rem 1.6rem; border-radius:3rem;
+font-size:.78rem; font-weight:500; letter-spacing:.04em;
+text-decoration:none; transition:transform .2s, box-shadow .2s;
+display:inline-block;
+}
+.btn-course-dark {
+background:var(--rouge); color:white;
+box-shadow:0 6px 20px rgba(184,64,64,.22);
+}
+.btn-course-dark:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(184,64,64,.32); }
+.btn-course-light { background:white; color:var(--ink); box-shadow:0 4px 14px rgba(0,0,0,.08); }
+.btn-course-light:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.12); }
+
+/* SCENARIO CARDS inside course */
+.scenario-list {
+display:flex; flex-direction:column; gap:.5rem; margin-bottom:1.4rem;
+}
+.scenario-item {
+display:flex; align-items:flex-start; gap:.7rem;
+background:rgba(255,255,255,.05); border-radius:.5rem;
+padding:.65rem .9rem; font-size:.78rem; line-height:1.55;
+color:rgba(250,248,244,.6);
+}
+.scenario-item .si-icon { font-size:1rem; flex-shrink:0; }
+
+/* ── VOICES TICKER ── */
+.voices-section {
+background:var(--dark); padding:5rem 5%;
+overflow:hidden;
+}
+.voices-header { text-align:center; margin-bottom:3rem; }
+.voices-header p { font-size:.68rem; letter-spacing:.22em; text-transform:uppercase; color:var(--gold); margin-bottom:.7rem; }
+.voices-header h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(1.7rem,2.8vw,2.4rem); font-style:italic; color:white; max-width:40ch; margin:0 auto; line-height:1.3; }
+
+.ticker-wrap { overflow:hidden; }
+.ticker-track {
+display:flex; gap:1rem; width:max-content;
+animation:ticker 35s linear infinite;
+}
+.ticker-track.reverse { animation-direction:reverse; animation-duration:42s; }
+@keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+.voice-chip {
+background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.09);
+border-radius:.7rem; padding:.8rem 1.2rem;
+white-space:nowrap; font-size:.8rem;
+color:rgba(250,248,244,.7); flex-shrink:0;
+}
+.voice-chip em { font-style:normal; color:var(--gold); }
+
+/* ── WHATSAPP CTA ── */
+.wa-section {
+background:var(--dark);
+padding:80px 5%;
+border-bottom:1px solid rgba(255,255,255,.05);
+position:relative; overflow:hidden;
+}
+.wa-section::before {
+content:'';
+position:absolute; inset:0;
+background:radial-gradient(ellipse 60% 100% at 80% 50%, rgba(37,211,102,.04) 0%, transparent 70%);
+pointer-events:none;
+}
+.wa-inner {
+max-width:900px; margin:0 auto;
+display:flex; align-items:center; justify-content:space-between;
+gap:48px; flex-wrap:wrap;
+position:relative; z-index:1;
+}
+.wa-text-label { font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:#25D366; margin-bottom:.7rem; }
+.wa-title {
+font-family:'Cormorant Garamond',serif;
+font-size:clamp(1.8rem,3vw,2.8rem); font-weight:700;
+color:white; line-height:1.1; margin-bottom:.7rem; max-width:440px;
+}
+.wa-title em { font-style:italic; color:#25D366; }
+.wa-sub { font-size:.85rem; color:rgba(255,255,255,.4); line-height:1.75; max-width:420px; }
+.btn-wa-big {
+display:inline-flex; align-items:center; gap:.9rem;
+padding:1.1rem 2.4rem; background:#25D366; color:white;
+font-family:'Outfit',sans-serif;
+font-size:.9rem; font-weight:600; letter-spacing:.02em;
+text-decoration:none; border-radius:3rem;
+box-shadow:0 6px 28px rgba(37,211,102,.28);
+flex-shrink:0;
+transition:background .2s, transform .15s, box-shadow .2s;
+}
+.btn-wa-big:hover { background:#1db954; transform:translateY(-2px); box-shadow:0 10px 40px rgba(37,211,102,.38); }
+.wa-note { font-size:.7rem; color:rgba(255,255,255,.25); margin-top:.6rem; text-align:center; }
+
+/* ── FREE PACK ── */
+.free-pack-section {
+background:var(--ivory); padding:88px 5%;
+border-bottom:1px solid var(--line);
+}
+.free-pack-inner {
+max-width:1000px; margin:0 auto;
+display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center;
+}
+.pack-left .section-eye { color:var(--jade); }
+.pack-left h2 { font-size:2.2rem; margin-bottom:1rem; }
+.pack-left p { font-size:.88rem; color:var(--dust); line-height:1.82; margin-bottom:1.6rem; }
+.pack-checks { display:flex; flex-direction:column; gap:.6rem; margin-bottom:1.8rem; }
+.pack-check { display:flex; align-items:flex-start; gap:.7rem; font-size:.84rem; }
+.pack-check::before { content:'✓'; color:var(--jade); margin-top:.1rem; flex-shrink:0; }
+
+.pack-right {
+background:var(--dark); border-radius:1.5rem;
+padding:2.2rem; position:relative; overflow:hidden;
+}
+.pack-right::before {
+content:'语'; font-family:'Noto Serif SC',serif;
+font-size:10rem; color:rgba(181,145,106,.06);
+position:absolute; bottom:-1rem; right:-1rem; line-height:1;
+pointer-events:none;
+}
+.pack-label { font-size:.62rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; }
+.pack-phrase {
+background:rgba(255,255,255,.06); border-radius:.7rem;
+padding:.85rem 1rem; margin-bottom:.6rem;
+}
+.pack-phrase:last-child { margin-bottom:0; }
+.pack-phrase .zh { font-family:'Noto Serif SC',serif; font-size:1.05rem; color:white; margin-bottom:.2rem; }
+.pack-phrase .literal { font-size:.68rem; color:rgba(255,255,255,.35); }
+.pack-phrase .real { font-size:.74rem; color:var(--gold); margin-top:.2rem; }
+
+/* ── PROOF PHONES ── */
+.proof-section {
+background:#f3ede1; padding:88px 5%;
+border-bottom:1px solid var(--line);
+}
+.proof-wall {
+display:grid; grid-template-columns:repeat(3,1fr);
+gap:28px; margin-top:3rem; align-items:start;
+}
+.phone {
+background:#1c1c1e; border-radius:46px; padding:12px;
+box-shadow:0 0 0 1px #2a2a2a, 0 0 0 3px #1c1c1e, 0 36px 80px rgba(0,0,0,.45);
+max-width:248px; margin:0 auto; position:relative;
+transition:transform .3s;
+}
+.phone:hover { transform:translateY(-8px); }
+.phone::before { content:''; position:absolute; left:-3px; top:88px; width:3px; height:26px; background:#2a2a2a; border-radius:2px 0 0 2px; box-shadow:0 36px 0 #2a2a2a, 0 66px 0 #2a2a2a; }
+.phone::after { content:''; position:absolute; right:-3px; top:118px; width:3px; height:50px; background:#2a2a2a; border-radius:0 2px 2px 0; }
+.pscreen { border-radius:34px; overflow:hidden; display:flex; flex-direction:column; font-family:-apple-system,'Helvetica Neue',sans-serif; background:#000; }
+.psb { background:#000; padding:13px 18px 4px; display:flex; justify-content:space-between; align-items:center; color:#fff; }
+.psb-t { font-size:14px; font-weight:700; letter-spacing:-.3px; }
+.psb-r { display:flex; align-items:center; gap:4px; font-size:10px; color:#ccc; }
+.ptop { background:#1f2c33; padding:6px 11px 9px; display:flex; align-items:center; gap:8px; }
+.ptb-back { color:#fff; font-size:22px; font-weight:200; opacity:.9; }
+.ptb-av { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; color:#fff; flex-shrink:0; }
+.ptb-info { flex:1; min-width:0; }
+.ptb-name { font-size:13.5px; font-weight:600; color:#e9edef; line-height:1.25; }
+.ptb-sub { font-size:10px; color:#8696a0; }
+.ptb-icons { display:flex; gap:16px; color:#aebac1; font-size:16px; }
+.pchat {
+flex:1; min-height:265px; padding:5px 7px 4px;
+display:flex; flex-direction:column; gap:2px;
+background-color:#0b141a;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cg fill='%23ffffff' fill-opacity='.024'%3E%3Ccircle cx='10' cy='10' r='2'/%3E%3Ccircle cx='40' cy='10' r='1.5'/%3E%3Ccircle cx='70' cy='10' r='2'/%3E%3Ccircle cx='25' cy='30' r='1.5'/%3E%3Ccircle cx='55' cy='30' r='2'/%3E%3Ccircle cx='10' cy='50' r='2'/%3E%3Ccircle cx='40' cy='50' r='1.5'/%3E%3Ccircle cx='70' cy='50' r='2'/%3E%3C/g%3E%3C/svg%3E");
+}
+.pdate { text-align:center; margin:6px 0 8px; }
+.pdate span { background:#182229; color:#8696a0; font-size:10.5px; padding:3px 10px; border-radius:6px; }
+.pb-row { display:flex; margin:1px 0; }
+.pb-row.r { justify-content:flex-end; padding-right:2px; }
+.pb-row.l { justify-content:flex-start; padding-left:2px; }
+.pb-s { background:#005c4b; color:#e9edef; border-radius:8px 0 8px 8px; padding:5px 9px 3px; max-width:82%; font-size:11.5px; line-height:1.45; position:relative; word-break:break-word; box-shadow:0 1px 2px rgba(0,0,0,.4); }
+.pb-s::after { content:''; position:absolute; top:0; right:-7px; border-top:8px solid #005c4b; border-right:7px solid transparent; }
+.pb-r { background:#202c33; color:#e9edef; border-radius:0 8px 8px 8px; padding:5px 9px 3px; max-width:82%; font-size:11.5px; line-height:1.45; position:relative; word-break:break-word; box-shadow:0 1px 2px rgba(0,0,0,.4); }
+.pb-r::after { content:''; position:absolute; top:0; left:-7px; border-top:8px solid #202c33; border-left:7px solid transparent; }
+.pm { display:flex; align-items:center; justify-content:flex-end; gap:3px; float:right; margin-left:8px; margin-bottom:-2px; margin-top:2px; }
+.pm-t { font-size:10px; color:#8696a0; white-space:nowrap; }
+.pm-tk { font-size:11px; color:#53bdeb; line-height:1; }
+.pinput { background:#1f2c33; padding:6px 8px; display:flex; align-items:center; gap:6px; }
+.pinput-emoji { font-size:18px; color:#8696a0; }
+.pinput-box { flex:1; background:#2a3942; border-radius:20px; padding:7px 13px; font-size:11.5px; color:#8696a0; font-family:inherit; }
+.pinput-mic { width:36px; height:36px; background:#00a884; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0; }
+.phome { background:#000; padding:7px 0 11px; display:flex; justify-content:center; }
+.phome-bar { width:100px; height:4px; background:#555; border-radius:4px; }
+
+/* ── FAQ ── */
+.faq-section { background:var(--paper); padding:80px 5%; border-bottom:1px solid var(--line); }
+.faq-inner { max-width:720px; margin:0 auto; }
+.faq-inner h2 { font-family:'Cormorant Garamond',serif; font-size:2.2rem; margin-bottom:2.5rem; }
+details { border-bottom:1px solid var(--blush); padding:1.1rem 0; }
+summary { font-weight:500; font-size:.9rem; cursor:pointer; display:flex; justify-content:space-between; list-style:none; gap:1rem; color:var(--ink); }
+summary::after { content:'+'; font-size:1.2rem; color:var(--gold); flex-shrink:0; }
+details[open] summary::after { content:'−'; }
+details > p { font-size:.82rem; color:var(--dust); line-height:1.8; margin-top:.7rem; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px) {
+.hero { grid-template-columns:1fr; min-height:auto; padding:4rem 5% 3rem; }
+.hero-bg-char { display:none; }
+.two-paths, .courses-grid, .pain-grid, .free-pack-inner { grid-template-columns:1fr; }
+.stat-row { grid-template-columns:repeat(2,1fr); }
+.proof-wall { grid-template-columns:1fr; }
+.wa-inner { flex-direction:column; text-align:center; }
+.wa-title, .wa-sub { max-width:100%; }
+nav ul { display:none; }
+}
+@media(max-width:600px) {
+.stat-row { grid-template-columns:1fr; }
+.hero-ctas { flex-direction:column; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">CHIC <b>CHINESE</b><small>雅致中文 · 东南亚职场专用</small></div>
+  <ul>
+    <li><a href="#paths">Your Goal</a></li>
+    <li><a href="#courses">Courses</a></li>
+    <li><a href="#free-pack">Free Pack</a></li>
+  </ul>
+  <a href="https://wa.me/8613567747987?text=Hi!%20I%20want%20to%20learn%20workplace%20Chinese%20for%20Southeast%20Asia." target="_blank" class="nav-wa">
+    💬 WhatsApp Me
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-char">职</div>
+
+  <div>
+    <div class="hero-eyebrow">Practical Workplace Chinese for Southeast Asia</div>
+    <h1>Work with Chinese teams.<br>Speak professional Chinese<br>and earn <em>higher salary.</em></h1>
+    <p class="hero-sub">Chinese is the most valuable skill for jobs across Vietnam, Thailand, Indonesia and Malaysia. Ditch outdated textbooks — learn real phrases used in factories, trading companies and cross-border e-commerce.</p>
+
+    <div class="path-switch" id="path-switch">
+      <button class="ps-btn active" onclick="switchPath('business',this)">💼 Business & Trading</button>
+      <button class="ps-btn" onclick="switchPath('factory',this)">🏭 Factory & E-Commerce</button>
+    </div>
+
+    <div class="hero-ctas">
+      <a href="#courses" class="btn-main" id="hero-cta">See Courses ↓</a>
+      <a href="https://wa.me/8613567747987?text=Hi!%20I%27m%20looking%20for%20workplace%20Chinese%20courses." target="_blank" class="btn-wa-hero">
+        💬 Ask Me Anything
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-blob">
+      <img src="https://raw.githubusercontent.com/kobe824666888999-arch/1/main/IMG_9835.jpeg" alt="Learn Workplace Chinese">
+    </div>
+    <div class="float-card fc-1">
+      <strong>3 mo</strong>
+      <span>Master daily workplace Chinese</span>
+    </div>
+    <div class="float-card fc-2">
+      <span class="ch">合作愉快</span>
+      <span style="font-size:.68rem;opacity:.55;">Essential for business cooperation</span>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">我们谈谈订单细节</span>
+    <span class="marquee-item">请问交货期是什么时候</span>
+    <span class="marquee-item">价格可以再优惠一些吗</span>
+    <span class="marquee-item">这批产品质量没问题</span>
+    <span class="marquee-item">我负责对接中国客户</span>
+    <span class="marquee-item">请提供合同文件</span>
+    <span class="marquee-item">我们长期合作</span>
+    <span class="marquee-item">我们谈谈订单细节</span>
+    <span class="marquee-item">请问交货期是什么时候</span>
+    <span class="marquee-item">价格可以再优惠一些吗</span>
+    <span class="marquee-item">这批产品质量没问题</span>
+    <span class="marquee-item">我负责对接中国客户</span>
+    <span class="marquee-item">请提供合同文件</span>
+    <span class="marquee-item">我们长期合作</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stat-row">
+  <div class="stat">
+    <div class="stat-num">3<span>mo</span></div>
+    <div class="stat-label">From beginner to<br>confident workplace communication</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">4<span>+</span></div>
+    <div class="stat-label">Core markets:<br>VN / TH / ID / MY</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">30<span>%+</span></div>
+    <div class="stat-label">Average salary raise<br>for Chinese speakers</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">1<span>:1</span></div>
+    <div class="stat-label">Native Chinese tutor<br>with real industry experience</div>
+  </div>
+</div>
+
+<!-- TWO PATHS -->
+<section class="section" id="paths">
+  <div class="section-inner">
+    <div class="section-eye">Choose Your Path</div>
+    <h2>Two core career directions.<br>Courses built for <em>Southeast Asian workplaces.</em></h2>
+    <p class="section-sub">Pick the track matching your job. All content is tailored for local enterprises, Chinese suppliers, cross-border teams and daily office scenarios.</p>
+
+    <div class="two-paths">
+      <div class="path-panel" onclick="document.getElementById('courses').scrollIntoView({behavior:'smooth'})">
+        <div class="path-num">1</div>
+        <span class="path-icon">💼</span>
+        <h3>Business & Trading Chinese</h3>
+        <p>For sales, purchasing, foreign trade and customer service roles. Master negotiation, email writing, meeting etiquette and contract basic reading to cooperate with Chinese partners smoothly.</p>
+        <div class="path-pills">
+          <span class="path-pill">Price negotiation</span>
+          <span class="path-pill">Business meeting</span>
+          <span class="path-pill">Email & document</span>
+          <span class="path-pill">Client reception</span>
+          <span class="path-pill">Order follow-up</span>
+        </div>
+      </div>
+      <div class="path-panel" onclick="document.getElementById('courses').scrollIntoView({behavior:'smooth'})">
+        <div class="path-num">2</div>
+        <span class="path-icon">🏭</span>
+        <h3>Factory & E-Commerce Chinese</h3>
+        <p>For factory supervisors, production staff, warehouse managers and cross-border e-commerce operators. Learn production terms, quality inspection, daily team communication and online customer service phrases.</p>
+        <div class="path-pills">
+          <span class="path-pill">Production terms</span>
+          <span class="path-pill">Quality inspection</span>
+          <span class="path-pill">Workshop communication</span>
+          <span class="path-pill">E-commerce service</span>
+          <span class="path-pill">Logistics & delivery</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY IT'S HARD -->
+<section class="section" style="background:var(--ivory);">
+  <div class="section-inner">
+    <div class="section-eye">Common Pain Points</div>
+    <h2>Why traditional courses fail —<br>and it's <em>not your fault.</em></h2>
+
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-ch">音</div>
+        <div class="pain-num">01 · Tones & Pronunciation</div>
+        <h4>Wrong tones lead to misunderstanding at work</h4>
+        <p>Similar pronunciations have totally different meanings. Colleagues will not correct you actively, so mistakes repeat and affect work efficiency.</p>
+        <blockquote>"I said the wrong word and delayed order communication."</blockquote>
+      </div>
+      <div class="pain-card">
+        <div class="pain-ch">速</div>
+        <div class="pain-num">02 · Speaking Speed</div>
+        <h4>Native speakers talk fast in real work</h4>
+        <p>You can understand slow classroom Chinese, but get confused immediately when talking with Chinese colleagues and suppliers in daily work.</p>
+        <blockquote>"I can't catch up with fast workplace conversations."</blockquote>
+      </div>
+      <div class="pain-card">
+        <div class="pain-ch">礼</div>
+        <div class="pain-num">03 · Business Culture</div>
+        <h4>Grammatically correct but impolite</h4>
+        <p>Chinese workplace has unique etiquette, hierarchy and implicit expression. Textbooks never teach these hidden rules.</p>
+        <blockquote>"My words sounded rude though I learned standard grammar."</blockquote>
+      </div>
+      <div class="pain-card">
+        <div class="pain-ch">词</div>
+        <div class="pain-num">04 · Useless Vocabulary</div>
+        <h4>General words do not fit your industry</h4>
+        <p>Most courses teach daily life words, not professional terms for factory, trading and e-commerce. You still cannot use Chinese at work.</p>
+        <blockquote>"I learned many words but none for my job."</blockquote>
+      </div>
+      <div class="pain-card">
+        <div class="pain-ch">字</div>
+        <div class="pain-num">05 · Chinese Characters</div>
+        <h4>Cannot read orders, labels and messages</h4>
+        <p>You can speak simple Chinese, but fail to read WeChat messages, product labels, order sheets and simple contracts.</p>
+        <blockquote>"I can speak but cannot read work documents."</blockquote>
+      </div>
+      <div class="pain-card">
+        <div class="pain-ch">时</div>
+        <div class="pain-num">06 · Limited Time</div>
+        <h4>Busy work, no time for long study</h4>
+        <p>You have full-time work. You need fragmented learning, focused on high-frequency sentences used 80% of the time at work.</p>
+        <blockquote>"I only have 30 minutes per day for study."</blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VOICES -->
+<div class="voices-section">
+  <div class="voices-header">
+    <p>Real demands from learners</p>
+    <h2>"I work with Chinese partners every day. I need practical Chinese to get a better position."</h2>
+  </div>
+  <div class="ticker-wrap">
+    <div class="ticker-track">
+      <div class="voice-chip">🇻🇳 <em>"Work in Chinese factory, need production and management Chinese"</em></div>
+      <div class="voice-chip">🇹🇭 <em>"Trading with China, want to negotiate price independently"</em></div>
+      <div class="voice-chip">🇮🇩 <em>"Cross-border e-commerce, need Chinese customer service phrases"</em></div>
+      <div class="voice-chip">🇲🇾 <em>"Promotion requirement: fluent workplace Chinese"</em></div>
+      <div class="voice-chip">🇵🇭 <em>"Looking for jobs in Chinese enterprises locally"</em></div>
+      <div class="voice-chip">🇰🇭 <em>"Daily communication with Chinese technical teams"</em></div>
+      <div class="voice-chip">🇱🇦 <em>"Logistics industry, need delivery and order words"</em></div>
+      <div class="voice-chip">🇻🇳 <em>"Work in Chinese factory, need production and management Chinese"</em></div>
+      <div class="voice-chip">🇹🇭 <em>"Trading with China, want to negotiate price independently"</em></div>
+      <div class="voice-chip">🇮🇩 <em>"Cross-border e-commerce, need Chinese customer service phrases"</em></div>
+      <div class="voice-chip">🇲🇾 <em>"Promotion requirement: fluent workplace Chinese"</em></div>
+      <div class="voice-chip">🇵🇭 <em>"Looking for jobs in Chinese enterprises locally"</em></div>
+      <div class="voice-chip">🇰🇭 <em>"Daily communication with Chinese technical teams"</em></div>
+      <div class="voice-chip">🇱🇦 <em>"Logistics industry, need
