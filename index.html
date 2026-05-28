@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chic Chinese — Natural Workplace Chinese for Southeast Asia</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+:root {
+--ink:    #0f0c09;
+--paper:  #faf7f2;
+--ivory:  #f3ede1;
+--rouge:  #b84040;
+--rouge2: #8c2e2e;
+--gold:   #b5916a;
+--jade:   #3a6e5a;
+--dust:   #7a6e5e;
+--blush:  #e6d0c4;
+--dark:   #141008;
+--dark2:  #1c1710;
+--line:   rgba(181,145,106,.18);
+}
+
+body {
+font-family:'Outfit', 'Noto Sans SC', sans-serif;
+font-weight:300;
+background:var(--paper);
+color:var(--ink);
+overflow-x:hidden;
+-webkit-font-smoothing:antialiased;
+line-height:1.5;
+}
+
+body::after {
+content:'';
+position:fixed; inset:0;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+pointer-events:none; z-index:9999; opacity:.45;
+}
+
+.lang-sub {
+font-size:0.7rem;
+color:var(--dust);
+margin-top:4px;
+display:block;
+line-height:1.4;
+}
+
+.tag-natural {
+display:inline-block;
+background:var(--jade);
+color:#fff;
+font-size:0.6rem;
+padding:2px 8px;
+border-radius:12px;
+margin-right:6px;
+text-transform:uppercase;
+letter-spacing:0.08em;
+}
+.tag-textbook {
+display:inline-block;
+background:var(--dust);
+color:#fff;
+font-size:0.6rem;
+padding:2px 8px;
+border-radius:12px;
+margin-right:6px;
+text-transform:uppercase;
+letter-spacing:0.08em;
+}
+
+nav {
+position:sticky; top:0; z-index:200;
+display:flex; align-items:center; justify-content:space-between;
+padding:1.1rem 5%;
+background:rgba(250,247,242,.9);
+backdrop-filter:blur(16px);
+border-bottom:1px solid var(--line);
+}
+.logo {
+font-family:'Cormorant Garamond',serif;
+font-size:1.3rem; font-weight:700; letter-spacing:.08em;
+}
+.logo b { color:var(--rouge); }
+.logo small {
+display:block;
+font-family:'Outfit',sans-serif;
+font-size:.6rem; color:var(--gold);
+letter-spacing:.35em; margin-top:2px;
+}
+nav ul { list-style:none; display:flex; gap:2rem; }
+nav ul a {
+font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
+color:var(--dust); text-decoration:none; transition:color .2s;
+}
+nav ul a:hover { color:var(--rouge); }
+.nav-wa {
+display:inline-flex; align-items:center; gap:.5rem;
+background:#25D366; color:white;
+padding:.5rem 1.2rem; border-radius:2rem;
+font-size:.72rem; font-weight:500; letter-spacing:.06em;
+text-decoration:none; transition:background .2s, transform .15s;
+}
+.nav-wa:hover { background:#1db954; transform:translateY(-1px); }
+
+.hero {
+min-height:96vh;
+display:grid; grid-template-columns:1fr 1fr;
+align-items:center; gap:4rem;
+padding:6rem 5% 5rem;
+position:relative; overflow:hidden;
+}
+.hero::before {
+content:'';
+position:absolute; inset:0;
+background:
+radial-gradient(ellipse 70% 70% at 80% 40%, rgba(184,64,64,.06) 0%, transparent 65%),
+radial-gradient(ellipse 50% 60% at 15% 70%, rgba(181,145,106,.05) 0%, transparent 60%);
+pointer-events:none;
+animation:bg-pulse 10s ease-in-out infinite alternate;
+}
+@keyframes bg-pulse { from{opacity:.6} to{opacity:1} }
+
+.hero-eyebrow {
+display:inline-flex; align-items:center; gap:.6rem;
+font-size:.68rem; letter-spacing:.22em; text-transform:uppercase;
+color:var(--jade); margin-bottom:1.2rem;
+opacity:0; animation:fade-up .7s .1s forwards;
+}
+.hero-eyebrow::before { content:''; width:1.8rem; height:1px; background:var(--jade); }
+
+.hero h1 {
+font-family:'Cormorant Garamond',serif;
+font-size:clamp(2.8rem,4.8vw,5rem);
+line-height:1.04; font-weight:700;
+margin-bottom:1.4rem;
+opacity:0; animation:fade-up .7s .2s forwards;
+}
+.hero h1 em { font-style:italic; color:var(--rouge); }
+
+.hero-sub {
+font-size:1rem; color:var(--dust); line-height:1.82;
+max-width:44ch; margin-bottom:2rem;
+opacity:0; animation:fade-up .7s .32s forwards;
+}
+
+.path-switch {
+display:flex; gap:.5rem; margin-bottom:2rem;
+opacity:0; animation:fade-up .7s .42s forwards;
+}
+.ps-btn {
+display:flex; align-items:center; gap:.5rem;
+padding:.65rem 1.3rem; border-radius:2rem;
+border:1.5px solid var(--blush);
+font-size:.82rem; font-weight:400;
+cursor:pointer; transition:all .2s;
+background:white; color:var(--ink);
+font-family:'Outfit',sans-serif;
+}
+.ps-btn:hover, .ps-btn.active {
+background:var(--rouge); border-color:var(--rouge);
+color:white; box-shadow:0 6px 20px rgba(184,64,64,.25);
+}
+
+.hero-ctas {
+display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+opacity:0; animation:fade-up .7s .52s forwards;
+}
+.btn-main {
+background:var(--rouge); color:white;
+padding:.9rem 2.2rem; border-radius:3rem;
+font-size:.86rem; font-weight:500; letter-spacing:.05em;
+text-decoration:none; transition:transform .2s, box-shadow .2s, background .2s;
+box-shadow:0 8px 28px rgba(184,64,64,.28);
+display:inline-block;
+}
+.btn-main:hover { transform:translateY(-2px); box-shadow:0 14px 38px rgba(184,64,64,.38); }
+.btn-wa-hero {
+display:inline-flex; align-items:center; gap:.5rem;
+background:#25D366; color:white;
+padding:.9rem 1.8rem; border-radius:3rem;
+font-size:.86rem; font-weight:500;
+text-decoration:none; transition:transform .2s, box-shadow .2s;
+box-shadow:0 8px 24px rgba(37,211,102,.25);
+}
+.btn-wa-hero:hover { transform:translateY(-2px); box-shadow:0 14px 32px rgba(37,211,102,.35); }
+
+@keyframes fade-up {
+from { opacity:0; transform:translateY(18px); }
+to   { opacity:1; transform:translateY(0); }
+}
+
+.hero-visual {
+position:relative;
+opacity:0; animation:fade-up .8s .25s forwards;
+}
+.hero-blob {
+aspect-ratio:5/6;
+border-radius:62% 38% 56% 44% / 48% 52% 48% 52%;
+overflow:hidden; background:var(--blush);
+}
+.hero-blob img { width:100%; height:100%; object-fit:cover; display:block; }
+
+.float-card {
+position:absolute;
+background:white; border-radius:1rem;
+padding:.85rem 1.1rem;
+box-shadow:0 8px 32px rgba(0,0,0,.1);
+font-size:.75rem;
+}
+.fc-1 { bottom:2.5rem; left:-2.5rem; }
+.fc-1 strong { font-family:'Cormorant Garamond',serif; font-size:1.9rem; color:var(--rouge); display:block; line-height:1; }
+.fc-1 span { color:var(--dust); }
+.fc-2 { top:2rem; right:-1.5rem; background:var(--dark); color:white; line-height:1.65; max-width:160px; }
+.fc-2 .ch { font-family:'Noto Sans SC',serif; color:var(--gold); font-size:.95rem; display:block; margin-bottom:.2rem; }
+
+.marquee-wrap {
+overflow:hidden;
+background:var(--rouge);
+padding:13px 0;
+border-top:1px solid rgba(0,0,0,.08);
+border-bottom:1px solid rgba(0,0,0,.08);
+}
+.marquee-track {
+display:flex; gap:48px;
+animation:marquee 30s linear infinite;
+width:max-content; white-space:nowrap;
+}
+.marquee-item {
+font-size:14px; color:rgba(255,255,255,.95);
+display:flex; align-items:center; gap:12px;
+}
+.marquee-item::after { content:'❧'; opacity:.5; }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+.stat-row {
+display:grid; grid-template-columns:repeat(4,1fr);
+border-bottom:1px solid var(--line);
+}
+.stat {
+padding:44px 40px; border-right:1px solid var(--line);
+position:relative; overflow:hidden;
+transition:background .25s;
+}
+.stat:last-child { border-right:none; }
+.stat:hover { background:var(--ivory); }
+.stat::after {
+content:''; position:absolute; bottom:0; left:0; right:0;
+height:2px; background:linear-gradient(90deg,var(--rouge),transparent);
+transform:scaleX(0); transform-origin:left; transition:transform .4s;
+}
+.stat:hover::after { transform:scaleX(1); }
+.stat-num {
+font-family:'Cormorant Garamond',serif;
+font-size:52px; font-weight:700; line-height:1; margin-bottom:6px;
+}
+.stat-num span { color:var(--rouge); }
+.stat-label { font-size:13px; color:var(--dust); line-height:1.5; }
+
+.section {
+padding:96px 5%;
+border-bottom:1px solid var(--line);
+position:relative;
+}
+.section-inner { max-width:1200px; margin:0 auto; }
+.section-eye {
+font-size:.68rem; letter-spacing:.22em; text-transform:uppercase;
+color:var(--gold); margin-bottom:.75rem;
+}
+h2 {
+font-family:'Cormorant Garamond',serif;
+font-size:clamp(2rem,3.5vw,3.2rem); font-weight:700;
+line-height:1.08; margin-bottom:1rem;
+}
+h2 em { font-style:italic; color:var(--rouge); }
+.section-sub { font-size:.95rem; color:var(--dust); max-width:52ch; line-height:1.82; }
+
+.quote-box {
+background:#fff;
+border-radius:8px;
+padding:16px 20px;
+margin-top:20px;
+box-shadow:0 2px 10px rgba(0,0,0,0.06);
+}
+.quote-text {
+font-size:0.85rem;
+color:var(--ink);
+line-height:1.7;
+font-style:italic;
+}
+.quote-author {
+font-size:0.7rem;
+color:var(--gold);
+margin-top:6px;
+text-align:right;
+}
+
+.compare-section {
+background:var(--ivory);
+padding:60px 5%;
+border-bottom:1px solid var(--line);
+}
+.compare-inner {
+max-width:1200px; margin:0 auto;
+}
+.compare-grid {
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:24px;
+margin-top:32px;
+}
+.compare-card {
+background:#fff;
+border-radius:12px;
+padding:28px;
+box-shadow:0 4px 16px rgba(0,0,0,0.05);
+}
+.compare-card.natural {
+border-top:4px solid var(--jade);
+}
+.compare-card.textbook {
+border-top:4px solid var(--dust);
+}
+.compare-card h3 {
+font-size:1.1rem;
+margin-bottom:16px;
+display:flex;
+align-items:center;
+}
+.compare-card p {
+font-size:0.85rem;
+color:var(--dust);
+line-height:1.7;
+margin-bottom:12px;
+}
+.example-box {
+background:var(--paper);
+padding:12px;
+border-radius:8px;
+margin-top:16px;
+}
+.example-title {
+font-size:0.7rem;
+color:var(--gold);
+margin-bottom:8px;
+text-transform:uppercase;
+}
+.example-text {
+font-size:0.8rem;
+line-height:1.6;
+}
+
+.two-paths {
+display:grid; grid-template-columns:1fr 1fr; gap:1.5px;
+margin-top:3.5rem; background:var(--line);
+}
+.path-panel {
+padding:3rem 2.5rem; background:var(--paper);
+position:relative; overflow:hidden;
+transition:background .25s;
+cursor:pointer;
+}
+.path-panel:hover { background:var(--ivory); }
+.path-panel::before {
+content:''; position:absolute; top:0; left:0;
+width:4px; height:100%;
+background:var(--rouge); transform:scaleY(0);
+transform-origin:top; transition:transform .3s;
+}
+.path-panel:hover::before { transform:scaleY(1); }
+.path-num {
+font-family:'Cormorant Garamond',serif;
+font-size:5rem; font-weight:700;
+color:var(--ink); opacity:.05; line-height:1;
+position:absolute; top:1rem; right:1.5rem;
+}
+.path-icon { font-size:2.2rem; margin-bottom:1rem; display:block; }
+.path-panel h3 {
+font-family:'Cormorant Garamond',serif;
+font-size:1.6rem; font-weight:700; margin-bottom:.7rem; line-height:1.2;
+}
+.path-panel p { font-size:.85rem; color:var(--dust); line-height:1.78; margin-bottom:1.2rem; }
+.path-pills { display:flex; flex-wrap:wrap; gap:.4rem; }
+.path-pill {
+font-size:.68rem; letter-spacing:.1em; text-transform:uppercase;
+background:var(--ivory); color:var(--dust);
+padding:.25rem .7rem; border-radius:2rem;
+border:1px solid var(--blush);
+}
+
+.pain-grid {
+display:grid; grid-template-columns:repeat(3,1fr);
+gap:1.5px; margin-top:3.5rem; background:var(--line);
+}
+.pain-card {
+background:var(--paper); padding:2rem 1.8rem;
+position:relative; overflow:hidden;
+transition:background .25s;
+}
+.pain-card:hover { background:var(--ivory); }
+.pain-ch {
+font-family:'Noto Sans SC',serif;
+font-size:6rem; color:rgba(181,145,106,.07);
+position:absolute; bottom:-.5rem; right:.5rem; line-height:1;
+pointer-events:none;
+}
+.pain-num { font-size:.62rem; letter-spacing:.18em; color:var(--gold); margin-bottom:.7rem; text-transform:uppercase; }
+.pain-card h4 { font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:700; margin-bottom:.5rem; line-height:1.25; }
+.pain-card p { font-size:.8rem; color:var(--dust); line-height:1.75; }
+
+.courses-grid {
+display:grid; grid-template-columns:1fr 1fr; gap:1.5px;
+margin-top:3.5rem; background:var(--line);
+}
+.course-card {
+background:var(--paper); padding:2.8rem 2.5rem;
+position:relative; overflow:hidden;
+transition:background .25s, transform .25s;
+display:flex; flex-direction:column;
+}
+.course-card:hover { background:var(--ivory); transform:translateY(-3px); }
+.course-card.featured { background:var(--dark); color:white; }
+.course-card.featured:hover { background:var(--dark2); }
+
+.course-tag-pill {
+display:inline-block; font-size:.62rem; letter-spacing:.12em; text-transform:uppercase;
+color:var(--jade); background:rgba(58,110,90,.1);
+padding:.2rem .65rem; border-radius:2rem; margin-bottom:.9rem;
+}
+.course-card.featured .course-tag-pill { color:var(--gold); background:rgba(181,145,106,.12); }
+
+.course-card h3 {
+font-family:'Cormorant Garamond',serif;
+font-size:1.7rem; font-weight:700; margin-bottom:.7rem; line-height:1.15;
+}
+.course-card.featured h3 { color:white; }
+
+.course-card p { font-size:.83rem; color:var(--dust); line-height:1.78; flex:1; margin-bottom:1.2rem; }
+.course-card.featured p { color:rgba(250,248,244,.55); }
+
+.course-features {
+display:grid; grid-template-columns:1fr 1fr; gap:.3rem .8rem;
+margin-bottom:1.5rem;
+}
+.course-features span { font-size:.74rem; color:var(--dust); }
+.course-card.featured .course-features span { color:rgba(250,248,244,.45); }
+.course-features span::before { content:'✦ '; color:var(--gold); font-size:.6rem; }
+
+.course-footer {
+display:flex; align-items:center; justify-content:space-between;
+padding-top:1.2rem; border-top:1px solid var(--line); margin-top:auto;
+}
+.course-card.featured .course-footer { border-top-color:rgba(255,255,255,.08); }
+
+.course-price {
+font-family:'Cormorant Garamond',serif;
+font-size:2rem; font-weight:700; color:var(--rouge);
+}
+.course-card.featured .course-price { color:var(--gold); }
+
+.btn-course {
+padding:.7rem 1.6rem; border-radius:3rem;
+font-size:.78rem; font-weight:500; letter-spacing:.04em;
+text-decoration:none; transition:transform .2s, box-shadow .2s;
+display:inline-block;
+}
+.btn-course-dark {
+background:var(--rouge); color:white;
+box-shadow:0 6px 20px rgba(184,64,64,.22);
+}
+.btn-course-dark:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(184,64,64,.32); }
+.btn-course-light { background:white; color:var(--ink); box-shadow:0 4px 14px rgba(0,0,0,.08); }
+.btn-course-light:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.15); }
+
+.free-pack-section {
+background:var(--ivory);
+}
+.free-pack-inner {
+max-width:1000px; margin:0 auto;
+display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center;
+}
+.pack-label { font-size:.62rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; }
+.pack-phrase {
+background:rgba(255,255,255,.06); border-radius:.7rem;
+padding:.85rem 1rem; margin-bottom:.6rem;
+}
+.pack-phrase .zh { font-size:1.05rem; color:white; display:block; margin-bottom:.2rem; }
+.pack-phrase .literal { font-size:.68rem; color:rgba(255,255,255,.55); }
+.pack-btn {
+margin-top:1.2rem;
+display:inline-block;
+padding:.7rem 1.4rem;
+background:#25D366;
+color:#fff;
+border-radius:2rem;
+text-decoration:none;
+font-size:.78rem;
+transition:transform .2s;
+}
+.pack-btn:hover { transform:translateY(-2px); }
+
+.proof-section {
+background:#f3ede1;
+}
+.proof-wall {
+display:grid; grid-template-columns:repeat(3,1fr);
+gap:28px; margin-top:3rem; align-items:start;
+}
+.phone {
+background:#1c1c1e; border-radius:46px; padding:12px;
+box-shadow:0 0 0 1px #2a2a2a, 0 0 0 3px #1c1c1e, 0 36px 80px rgba(0,0,0,.45);
+max-width:248px; margin:0 auto; position:relative;
+transition:transform .3s;
+}
+.phone:hover { transform:translateY(-8px); }
+.phone::before { content:''; position:absolute; left:-3px; top:88px; width:3px; height:26px; background:#2a2a2a; border-radius:2px 0 0 2px; box-shadow:0 36px 0 #2a2a2a, 0 66px 0 #2a2a2a; }
+.phone::after { content:''; position:absolute; right:-3px; top:118px; width:3px; height:50px; background:#2a2a2a; border-radius:0 2px 2px 0; }
+.pscreen { border-radius:34px; overflow:hidden; display:flex; flex-direction:column; background:#000; }
+.psb { background:#000; padding:13px 18px 4px; display:flex; justify-content:space-between; align-items:center; color:#fff; }
+.psb-t { font-size:14px; font-weight:700; }
+.psb-r { display:flex; gap:4px; font-size:10px; color:#ccc; }
+.ptop { background:#1f2c33; padding:6px 11px 9px; display:flex; gap:8px; }
+.ptb-back { color:#fff; font-size:22px; opacity:.9; }
+.ptb-av { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; color:#fff; background:#444; }
+.ptb-info { min-width:0; }
+.ptb-name { font-size:13.5px; font-weight:600; color:#e9e9ef; }
+.ptb-sub { font-size:10px; color:#8686a0; }
+.ptb-icons { display:flex; gap:16px; color:#aebac1; font-size:16px; }
+.pchat {
+flex:1; min-height:265px; padding:5px 7px 4px;
+display:flex; flex-direction:column; gap:2px;
+background-color:#0b0b14;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cg fill='%23ffffff' fill-opacity='0.024'%3E%3Ccircle cx='10' cy='10' r='2'/%3E%3Ccircle cx='40' cy='10' r='1.5'/%3E%3Ccircle cx='70' cy='10' r='2'/%3E%3Ccircle cx='25' cy='30' r='1.5'/%3E%3Ccircle cx='55' cy='30' r='2'/%3E%3Ccircle cx='10' cy='50' r='2'/%3E%3Ccircle cx='40' cy='50' r='1.5'/%3E%3Ccircle cx='70' cy='50' r='2'/%3E%3C/g%3E%3C/svg%3E");
+}
+.pdate { text-align:center; margin:6px 0 8px; }
+.pdate span { background:#181822; color:#8686a0; font-size:10.5px; padding:3px 10px; border-radius:10px; }
+.pb-row { display:flex; margin:1px 0; }
+.pb-row.r { justify-content:flex-end; padding-right:2px; }
+.pb-row.l { justify-content:flex-start; padding-left:2px; }
+.pb-s { background:#005c4b; color:#e9e9ef; border-radius:8px 0 8px 8px; padding:5px 9px 3px; max-width:82%; font-size:11.5px; line-height:1.45; word-break:break-word; box-shadow:0 1px 2px rgba(0,0,0,.3); }
+.pb-r { background:#202c2c; color:#e9e9ef; border-radius:0 8px 8px 8px; padding:5px 9px 3px; max-width:82%; font-size:11.5px; line-height:1.45; word-break:break-word; box-shadow:0 1px 2px rgba(0,0,0,.3); }
+.pm { display:flex; justify-content:flex-end; gap:3px; float:right; margin:0 8px -2px 8px; }
+.pm-t { font-size:10px; color:#8686a0; white-space:nowrap; }
+.pm-tk { font-size:11px; color:#53bdeb; line-height:1; }
+.pinput { background:#1f1f33; padding:6px 8px; display:flex; gap:6px; }
+.pinput-emoji { font-size:18px; color:#8686a0; }
+.pinput-box { flex:1; background:#2a2942; border-radius:20px; padding:7px 13px; font-size:11.5px; color:#e9e9ef; border:none; outline:none; }
+.pinput-mic { width:36px; height:36px; background:#00a884; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; color:#fff; }
+.phome { background:#000; padding:7px 0 11px; display:flex; justify-content:center; }
+.phome-bar { width:100px; height:4px; background:#555; border-radius:2px; }
+
+.faq-section{background:#f8f4ec;}
+details { 
+  border-bottom:1px solid var(--blush); 
+  padding:1.1rem 0;
+  transition:all 0.2s;
+}
+summary {
+font-weight:500; font-size:.9rem; cursor:pointer;
+display:flex; justify-content:space-between; list-style:none; gap:1rem;
+color:var(--ink);
+}
+summary::after { content:'+'; font-size:1.2rem; color:var(--gold); transition:transform 0.2s; }
+details[open] summary::after { content:'−'; }
+details > p { font-size:.82rem; color:var(--dust); line-height:1.8; margin-top:.7rem; }
+
+.content-business, .content-factory { display:block; }
+.content-factory { display:none; }
+
+@media(max-width:1024px) {
+.hero { grid-template-columns:1fr; min-height:auto; padding:4rem 5% 3rem; }
+.two-paths, .courses-grid, .free-pack-inner, .compare-grid { grid-template-columns:1fr; }
+.stat-row { grid-template-columns:repeat(2,1fr); }
+.proof-wall { grid-template-columns:1fr; }
+nav ul { display:none; }
+}
+@media(max-width:600px) {
+.stat-row { grid-template-columns:1fr; }
+.hero-ctas { flex-direction:column; width:100%; }
+.btn-main, .btn-wa-hero { width:100%; text-align:center; }
+.path-switch { flex-wrap:wrap; }
+}
+</style>
+</head>
+<body>
+
+<!-- 导航栏 -->
+<nav>
+  <div class="logo">
+    CHIC <b>CHINESE</b>
+    <small>Natural Workplace Chinese | Tiếng Hoa Công Việc Thực Tế | ภาษาจีนทำงานจริง | Bahasa Mandarin Kerja Nyata</small>
+  </div>
+  <ul>
+    <li><a href="#difference">Core Difference</a></li>
+    <li><a href="#paths">Learning Path</a></li>
+    <li><a href="#courses">Courses & Price</a></li>
+    <li><a href="#free-pack">Free Materials</a></li>
+  </ul>
+  <a href="https://wa.me/8613567747987?text=Hello!%20I%20want%20to%20learn%20Chinese" target="_blank" class="nav-wa">
+    💬 WhatsApp
+  </a>
+</nav>
+
+<!-- 首屏 Hero -->
+<section class="hero">
+  <div>
+    <div class="hero-eyebrow">
+      Natural Workplace Chinese — Learn Real Speech, Not Textbook Lines
+      <span class="lang-sub">Tiếng Hoa công việc tự nhiên – Học câu nói thực tế, không học sách giáo khoa</span>
+    </div>
+    <h1>
+      Master <em>Real Workplace Chinese</em><br>
+      Land Better Jobs &<br>
+      Earn <em>Higher Salaries</em>.
+    </h1>
+    <p class="hero-sub">
+      <strong>Stop learning stiff, useless textbook Chinese.</strong> We teach you the natural phrases Chinese colleagues, clients and factory staff actually use every day. Learn one sentence, use it right away — no complicated grammar, no wasted time.
+      <span class="lang-sub">
+        Đừng học tiếng Hoa cứng nhắc trong sách. Chúng tôi dạy câu nói tự nhiên người Trung Quốc dùng tại công ty, xưởng và giao thương. Học là dùng được ngay, không tốn thời gian ghi ngữ pháp phức tạp.
+      </span>
+    </p>
+
+    <div class="path-switch" id="path-switch">
+      <button class="ps-btn active" onclick="switchPath('business',this)">
+        💼 Business & Trading
+        <span class="lang-sub">Kinh doanh & Giao thương | ธุรกิจ & การค้า | Bisnis & Perdagangan</span>
+      </button>
+      <button class="ps-btn" onclick="switchPath('factory',this)">
+        🏭 Factory & E-Commerce
+        <span class="lang-sub">Xưởng & Thương mại điện tử | โรงงาน & อีคอมเมิร์ซ | Pabrik & E-Commerce</span>
+      </button>
+    </div>
+
+    <div class="hero-ctas">
+      <a href="#courses" class="btn-main">
+        View Exclusive Workplace Courses
+        <span class="lang-sub">Xem khóa học dành riêng cho người đi làm</span>
+      </a>
+      <a href="https://wa.me/8613567747987?text=I%20want%20free%20trial%20lesson" target="_blank" class="btn-wa-hero">
+        💬 Book Free Trial Class
+        <span class="lang-sub">Đăng ký buổi học thử miễn phí</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-blob">
+      <img src="https://raw.githubusercontent.com/kobe824666888999-arch/1/main/IMG_9835.jpeg" alt="Learn Workplace Chinese">
+    </div>
+    <div class="float-card fc-1">
+      <strong>3 mo</strong>
+      <span>Master work Chinese <br>Nắm vững tiếng Hoa công việc</span>
+    </div>
+    <div class="float-card fc-2">
+      <span class="ch">合作愉快</span>
+      <span>Happy cooperation <br>Hợp tác vui vẻ</span>
+    </div>
+  </div>
+</section>
+
+<!-- 滚动标语 -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">我们谈谈订单细节 → Discuss order details | Thảo luận chi tiết đơn hàng</span>
+    <span class="marquee-item">请问交货期是什么时候 → Delivery time? | Thời gian giao hàng?</span>
+    <span class="marquee-item">价格可以再优惠一些吗 → Better price? | Giá tốt hơn được không?</span>
+    <span class="marquee-item">这批产品质量没问题 → Good product quality | Chất lượng sản phẩm tốt</span>
+    <span class="marquee-item">我负责对接中国客户 → Work with Chinese clients | Làm việc với đối tác Trung Quốc</span>
+    <span class="marquee-item">请提供合同文件 → Send contract files | Gửi tài liệu hợp đồng</span>
+    <span class="marquee-item">长期合作 → Long term cooperation | Hợp tác dài hạn</span>
+    <span class="marquee-item">我们谈谈订单细节 → Discuss order details | Thảo luận chi tiết đơn hàng</span>
+    <span class="marquee-item">请问交货期是什么时候 → Delivery time? | Thời gian giao hàng?</span>
+    <span class="marquee-item">价格可以再优惠一些吗 → Better price? | Giá tốt hơn được không?</span>
+    <span class="marquee-item">这批产品质量没问题 → Good product quality | Chất lượng sản phẩm tốt</span>
+    <span class="marquee-item">我负责对接中国客户 → Work with Chinese clients | Làm việc với đối tác Trung Quốc</span>
+  </div>
+</div>
+
+<!-- 数据统计 -->
+<div class="stat-row">
+  <div class="stat">
+    <div class="stat-num">3<span>mo</span></div>
+    <div class="stat-label">
+      Beginner to fluent<br>
+      Từ mới bắt đầu đến thành thạo
+    </div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">4<span>+</span></div>
+    <div class="stat-label">
+      Main SEA Markets<br>
+      Thị trường chính Đông Nam Á
+    </div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">30<span>%+</span></div>
+    <div class="stat-label">
+      Average Salary Increase<br>
+      Tỷ lệ tăng lương trung bình
+    </div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">1<span>:1</span></div>
+    <div class="stat-label">
+      One-on-One Native Tutor<br>
+      Giáo viên bản ngữ 1 kèm 1
+    </div>
+  </div>
+</div>
+
+<!-- 核心差异区块 -->
+<section class="compare-section" id="difference">
+  <div class="compare-inner">
+    <div class="section-eye">Core Difference</div>
+    <h2>
+      <em>Natural Workplace Chinese</em> vs Traditional Textbook Chinese
+      <span class="lang-sub">Tiếng Hoa công việc tự nhiên vs Tiếng Hoa trong sách giáo khoa</span>
+    </h2>
+    <p class="section-sub">
+      Most learners waste months on textbook content that never works at work. We focus on real conversation — help you communicate smoothly, win trust from partners and seize more career chances.
+      <span class="lang-sub">Học viên thường lãng phí thời gian với sách giáo khoa không dùng được. Chúng tôi dạy giao tiếp thực tế, giúp bạn trao đổi suôn sẻ, lấy lòng đối tác và nắm bắt cơ hội thăng tiến.</span>
+    </p>
+
+    <div class="compare-grid">
+      <div class="compare-card natural">
+        <h3><span class="tag-natural">Natural Chinese</span> Real Workplace Speech</h3>
+        <p>✅ Short & concise phrases native speakers use daily</p>
+        <p>✅ Matches real talking speed in offices & factories</p>
+        <p>✅ Professional vocabulary + complete workplace etiquette</p>
+        <p>✅ High-frequency sentences, learn today & use today</p>
+        <p><strong>Result:</strong> Speak confidently, finish work efficiently, get more opportunities & higher pay.</p>
+        <div class="example-box">
+          <div class="example-title">Daily Work Example</div>
+          <div class="example-text">质量没问题，可以出货了。<br>Quality is ok, we can ship now.</div>
+        </div>
+      </div>
+
+      <div class="compare-card textbook">
+        <h3><span class="tag-textbook">Textbook Chinese</span> Outdated Classroom Language</h3>
+        <p>❌ Long, formal sentences no one uses at work</p>
+        <p>❌ Slow pronunciation, cannot keep up with real talks</p>
+        <p>❌ Full of daily life words, lack professional terms</p>
+        <p>❌ Learn a lot but still afraid to speak at work</p>
+        <p><strong>Result:</strong> Awkward communication, misunderstandings, miss orders and promotion chances.</p>
+        <div class="example-box">
+          <div class="example-title">Textbook Sentence (Rarely Used)</div>
+          <div class="example-text">今日本产品的质量经过检查，完全符合标准。<br>(Too formal & stiff for daily work)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote-box">
+      <p class="quote-text">"I studied textbooks for 1 year but dared not speak. After 2 months here, I can talk with Chinese clients independently without a translator."</p>
+      <p class="quote-author">— Student from Trading Company</p>
+    </div>
+  </div>
+</section>
+
+<!-- 学习路线 -->
+<section class="section" id="paths">
+  <div class="section-inner">
+    <div class="section-eye">
+      Choose Your Learning Path
+      <span class="lang-sub">Chọn lộ trình học | เลือกเส้นทางการเรียน | Pilih jalur belajar</span>
+    </div>
+    <h2>
+      Two career tracks.<br>
+      Courses built for <em>Southeast Asian workplaces.</em>
+    </h2>
+    <p class="section-sub">
+      Pick the track matching your job. All content is tailor-made for local teams and Chinese business partners.
+      <span class="lang-sub">Chọn khóa học phù hợp công việc. Nội dung được tùy chỉnh dành cho nhân viên địa phương và đối tác Trung Quốc.</span>
+    </p>
+
+    <div class="two-paths">
+      <div class="path-panel" onclick="switchPath('business',null);document.getElementById('courses').scrollIntoView({behavior:'smooth'})">
+        <div class="path-num">1</div>
+        <span class="path-icon">💼</span>
+        <h3>Business & Trading Chinese</h3>
+        <p>
+          For sales, purchasing & trading staff. Master negotiation, meetings and client communication to win more orders.
+          <span class="lang-sub">Dành cho nhân viên kinh doanh, mua hàng, giao thương. Học đàm phán, họp và giao tiếp để lấy nhiều đơn hàng hơn.</span>
+        </p>
+        <div class="path-pills">
+          <span class="path-pill">Negotiation | Đàm phán</span>
+          <span class="path-pill">Meeting | Họp công việc</span>
+          <span class="path-pill">Order | Đơn hàng</span>
+        </div>
+      </div>
+      <div class="path-panel" onclick="switchPath('factory',null);document.getElementById('courses').scrollIntoView({behavior:'smooth'})">
+        <div class="path-num">2</div>
+        <span class="path-icon">🏭</span>
+        <h3>Factory & E-Commerce Chinese</h3>
+        <p>
+          For supervisors, production teams & online sellers. Learn production, QC and after-sales service to run work smoothly.
+          <span class="lang-sub">Dành cho quản lý xưởng, công nhân & người bán online. Học giao tiếp sản xuất, kiểm tra chất lượng và chăm sóc khách hàng.</span>
+        </p>
+        <div class="path-pills">
+          <span class="path-pill">Production | Sản xuất</span>
+          <span class="path-pill">QC | Kiểm tra chất lượng</span>
+          <span class="path-pill">Logistics | Vận chuyển</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 学习痛点 -->
+<section class="section" style="background:var(--ivory);">
+  <div class="section-inner">
+    <div class="section-eye">
+      Common Learning Problems
+      <span class="lang-sub">Vấn đề thường gặp khi học | ปัญหาที่พบบ่อย | Masalah umum</span>
+    </div>
+    <h2>
+      Why old courses do not work —<br>
+      and it's <em>not your fault.</em>
+    </h2>
+
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-ch">音</div>
+        <div class="pain-num">01 · Pronunciation</div>
+        <h4>Wrong tones cause misunderstandings</h4>
+        <p>
+          Different tones mean different words, easily cause mistakes at work.
+          <span class="lang-sub">Giọng điệu sai dễ gây hiểu lầm trong công việc.</span>
+        </p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-ch">速</div>
+        <div class="pain-num">02 · Fast Speaking</div>
+        <h4>Cannot catch native speakers</h4>
+        <p>
+          Real work conversations are much faster than classroom learning.
+          <span class="lang-sub">Người bản ngữ nói nhanh hơn nhiều so với trong lớp học.</span>
+        </p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-ch">礼</div>
+        <div class="pain-num">03 · Etiquette</div>
+        <h4>Ignorance of business culture</h4>
+        <p>
+          Chinese workplace etiquette cannot be learned from ordinary textbooks.
+          <span class="lang-sub">Văn hóa giao tiếp công việc không có trong sách giáo khoa.</span>
+        </p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-ch">词</div>
+        <div class="pain-num">04 · Useless Words</div>
+        <h4>Words do not match your job</h4>
+        <p>
+          Most courses teach daily words, not professional industry vocabulary.
+          <span class="lang-sub">Học nhiều từ thông dụng, thiếu từ chuyên ngành công việc.</span>
+        </p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-ch">字</div>
+        <div class="pain-num">05 · Reading</div>
+        <h4>Cannot read orders & files</h4>
+        <p>
+          Can speak simple Chinese, but fail to read work documents.
+          <span class="lang-sub">Nói được nhưng không đọc được đơn hàng, tài liệu.</span>
+        </p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-ch">时</div>
+        <div class="pain-num">06 · Limited Time</div>
+        <h4>No time for long study</h4>
+        <p>
+          We focus on high-frequency sentences, learn efficiently for busy workers.
+          <span class="lang-sub">Tập trung câu thường dùng, học nhanh cho người bận rộn.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 课程区域（完整价格+按钮 双切换） -->
+<section class="section" id="courses">
+  <div class="section-inner">
+    <div class="section-eye" id="course-title-tag">
+      Business & Trading Courses
+      <span class="lang-sub">Khóa học Kinh doanh & Giao thương</span>
+    </div>
+    <h2 id="course-main-title">
+      Professional <em>Natural Chinese</em> for Trade & Business
+    </h2>
+    <p class="section-sub">
+      1-on-1 online lessons, industry customized content, full study materials and career support.
+      <span class="lang-sub">Học online 1 kèm 1, nội dung theo ngành, tài liệu đầy đủ & hỗ trợ phát triển sự nghiệp.</span>
+    </p>
+
+    <div class="courses-grid">
+      <!-- 商务基础课 -->
+      <div class="course-card content-business">
+        <span class="course-tag-pill">Standard | Cơ bản</span>
+        <h3>Beginner Workplace Chinese</h3>
+        <p>
+          For total beginners. Learn pronunciation, daily greetings and simple work communication.
+          <span class="lang-sub">Dành cho người mới bắt đầu. Học phát âm, chào hỏi & giao tiếp cơ bản.</span>
+        </p>
+        <div class="course-features">
+          <span>40 Lessons / 45 mins</span>
+          <span>1-on-1 Native Tutor</span>
+          <span>Full Study Materials</span>
+          <span>Beginner Friendly</span>
+        </div>
+        <div class="course-footer">
+          <div class="course-price">$149</div>
+          <a href="https://wa.me/8613567747987?text=I%20inquire%20Beginner%20Course" class="btn-course btn-course-dark">
+            Get Learning Plan
+          </a>
+        </div>
+      </div>
+
+      <!-- 商务高阶课 -->
+      <div class="course-card featured content-business">
+        <span class="course-tag-pill">Popular | NỔI BẬT</span>
+        <h3>Advanced Business Chinese</h3>
+        <p>
+          For learners with basic skills. Focus on negotiation, meetings and contract reading. With job referral support.
+          <span class="lang-sub">Dành cho người có nền tảng. Học đàm phán, họp, đọc hợp đồng & hỗ trợ tìm việc.</span>
+        </p>
+        <div class="course-features">
+          <span>60 Lessons / 45 mins</span>
+          <span>1-on-1 Native Tutor</span>
+          <span>Business Vocabulary</span>
+          <span>Job Support</span>
+        </div>
+        <div class="course-footer">
+          <div class="course-price">$229</div>
+          <a href="https://wa.me/8613567747987?text=I%20inquire%20Advanced%20Course" class="btn-course btn-course-light">
+            Get Learning Plan 
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 答疑版块 FAQ Section -->
+<section class="section faq-section" id="faq">
+  <div class="section-inner" style="max-width:800px; margin: 0 auto;">
+    <div class="section-eye">FAQ</div>
+    <h2>
+      Frequently Asked <em>Questions</em>
+      <span class="lang-sub">Câu hỏi thường gặp | คำถามที่พบบ่อย | FAQ</span>
+    </h2>
+    <p class="section-sub">
+      Got questions? Here's everything you need to know about starting your natural Chinese journey.
+    </p>
+
+    <div style="margin-top: 2.5rem;">
+      <!-- Q1 -->
+      <details open>
+        <summary>
+          I have absolutely zero foundation. Can I really learn this? (完全零基础可以学吗？)
+        </summary>
+        <p>
+          <strong>Absolutely!</strong> In fact, starting from zero with us is an advantage. You won't have to unlearn bad habits or stiff textbook phrases. Our "Beginner Workplace Chinese" course teaches you step-by-step from Pinyin and basic pronunciation, diving straight into the practical phrases you will use on your very first day at work. No complex grammar, just useful communication.<br>
+          <span class="lang-sub">Hoàn toàn được! Bắt đầu từ số 0 với chúng tôi là một lợi thế vì bạn không phải sửa những thói quen xấu từ sách giáo khoa. Chúng tôi dạy từng bước từ Phát âm (Pinyin) và đi thẳng vào các mẫu câu giao tiếp công việc thực tế nhất.</span>
+        </p>
+      </details>
+
+      <!-- Q2 -->
+      <details>
+        <summary>
+          What exactly do I get when I purchase a course? (买了这个课我具体能得到什么？)
+        </summary>
+        <p>
+          You aren't just buying video lessons; you're getting a complete career-boosting package. You will receive: <br>
+          1. <strong>1-on-1 Private Live Lessons</strong> with an experienced native Chinese tutor. <br>
+          2. <strong>Industry-Specific Materials:</strong> Vocabulary and scenarios tailored strictly to your job (Trade, E-commerce, Factory). <br>
+          3. <strong>Instant Feedback:</strong> Real-time correction of your tones and pronunciation. <br>
+          4. <strong>Career Opportunities:</strong> We provide job referral support and interview coaching for our advanced students! <br>
+          <span class="lang-sub">Bạn sẽ nhận được: Các buổi học 1 kèm 1 trực tiếp với giáo viên bản ngữ, tài liệu thiết kế riêng cho ngành nghề của bạn, sửa lỗi phát âm tức thì, và đặc biệt là cơ hội giới thiệu việc làm cho học viên học lên cao!</span>
+        </p>
+      </details>
+
+      <!-- Q3 -->
+      <details>
+        <summary>
+          I work full-time and I'm very busy. Do I have time for this? (我平时工作很忙，时间上能安排吗？)
+        </summary>
+        <p>
+          <strong>Yes!</strong> We built this specifically for busy professionals in Southeast Asia. Each lesson is highly focused and lasts only 45 minutes. Scheduling is 100% flexible to fit your working hours. Our philosophy is <em>"Learn a sentence today, use it at work tomorrow."</em> We respect your time by cutting out all the useless conversational filler found in traditional schools.<br>
+          <span class="lang-sub">Có! Chúng tôi thiết kế khóa học này cho những người đi làm bận rộn. Mỗi buổi học chỉ 45 phút cực kỳ tập trung và lịch học hoàn toàn linh hoạt theo thời gian rảnh của bạn. "Học câu nào, dùng ngay câu đó".</span>
+        </p>
+      </details>
+
+      <!-- Q4 -->
+      <details>
+        <summary>
+          How long does it take before I can actually communicate at work? (学多久能在工作里正常交流？)
+        </summary>
+        <p>
+          Because we eliminate outdated textbook vocabulary and focus entirely on high-frequency workplace scenarios (like negotiating prices, discussing delivery, and QC checks), most of our students can confidently handle basic daily work conversations within <strong>3 months</strong>. Your colleagues and clients will instantly notice the difference in your fluency.<br>
+          <span class="lang-sub">Vì chúng tôi loại bỏ các từ vựng lỗi thời và tập trung toàn bộ vào các tình huống công sở thực tế (báo giá, giao hàng, kiểm định chất lượng), hầu hết học viên có thể tự tin giao tiếp công việc cơ bản chỉ sau <strong>3 tháng</strong>.</span>
+        </p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- Footer Placeholder to nicely close the page -->
+<footer style="text-align: center; padding: 3rem 5%; font-size: 0.8rem; color: var(--dust); border-top: 1px solid var(--line); margin-top: 4rem;">
+  <p>© 2026 Chic Chinese. All rights reserved. | <a href="https://wa.me/8613567747987" style="color:var(--rouge); text-decoration:none;">Contact us on WhatsApp</a></p>
+</footer>
+
+<script>
+  // Simplified path switcher for the buttons 
+  function switchPath(type, btn) {
+    // Basic toggle logic (UI only for demonstration if needed)
+    if(btn) {
+      document.querySelectorAll('.ps-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    // Update course section titles based on selection
+    const courseTitleTag = document.getElementById('course-title-tag');
+    const courseMainTitle = document.getElementById('course-main-title');
+    
+    if (type === 'factory') {
+      courseTitleTag.innerHTML = 'Factory & E-Commerce Courses <span class="lang-sub">Khóa học Xưởng & Thương mại điện tử</span>';
+      courseMainTitle.innerHTML = 'Professional <em>Natural Chinese</em> for Factories';
+    } else {
+      courseTitleTag.innerHTML = 'Business & Trading Courses <span class="lang-sub">Khóa học Kinh doanh & Giao thương</span>';
+      courseMainTitle.innerHTML = 'Professional <em>Natural Chinese</em> for Trade & Business';
+    }
+  }
+</script>
+
+</body>
+</html>
