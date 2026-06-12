@@ -1,0 +1,2102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natural Chinese — Stop Sounding Like a Textbook</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #faf8f4;
+            --ivory: #f2ebe0;
+            --ink: #18140f;
+            --dust: #8a7968;
+            --rouge: #bf4f43;
+            --rouge-light: rgba(191,79,67,0.08);
+            --gold: #b5916a;
+            --jade: #3d7362;
+            --blush: #e6d0c4;
+            --warm-white: #fffcf7;
+            --error: #c0392b;
+            --success: #27ae60;
+        }
+
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--ink);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ─── GRAIN ─── */
+        body::after {
+            content:'';
+            position:fixed; inset:0;
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+            pointer-events:none; z-index:9999; opacity:.5;
+        }
+
+        /* ─── NAV ─── */
+        nav {
+            position:sticky; top:0; z-index:200;
+            display:flex; align-items:center; justify-content:space-between;
+            padding:1.2rem 5%;
+            background:rgba(250,248,244,0.88);
+            backdrop-filter:blur(14px);
+            border-bottom:1px solid rgba(181,145,106,0.12);
+        }
+        .logo {
+            font-family:'Cormorant Garamond',serif;
+            font-size:1.35rem; font-weight:700;
+            letter-spacing:.08em; line-height:1;
+        }
+        .logo b { color:var(--rouge); font-weight:700; }
+        .logo small {
+            display:block;
+            font-family:'Noto Serif SC',serif;
+            font-size:.65rem; color:var(--gold);
+            letter-spacing:.35em; margin-top:3px;
+            font-weight:400;
+        }
+        nav ul { list-style:none; display:flex; gap:2rem; }
+        nav ul a {
+            font-size:.75rem; letter-spacing:.14em; text-transform:uppercase;
+            color:var(--dust); text-decoration:none; transition:color .2s;
+        }
+        nav ul a:hover { color:var(--rouge); }
+        .nav-btn {
+            background:var(--ink); color:var(--cream);
+            padding:.55rem 1.4rem; border-radius:2rem;
+            font-size:.75rem; letter-spacing:.1em;
+            text-decoration:none; transition:background .2s;
+        }
+        .nav-btn:hover { background:var(--rouge); }
+
+        /* ─── HERO ─── */
+        .hero {
+            min-height:92vh;
+            display:grid; grid-template-columns:1fr 1fr;
+            align-items:center; gap:3rem;
+            padding:5rem 5% 4rem;
+            position:relative; overflow:hidden;
+        }
+        .hero-bg-char {
+            font-family:'Noto Serif SC',serif;
+            font-size:32rem; line-height:1;
+            color:rgba(181,145,106,.055);
+            position:absolute; right:-3rem; top:50%;
+            transform:translateY(-50%);
+            pointer-events:none; user-select:none;
+        }
+
+        .hero-label {
+            display:inline-flex; align-items:center; gap:.6rem;
+            font-size:.7rem; letter-spacing:.22em; text-transform:uppercase;
+            color:var(--jade); margin-bottom:1.4rem;
+        }
+        .hero-label::before { content:''; width:1.8rem; height:1px; background:var(--jade); }
+
+        .hero h1 {
+            font-family:'Cormorant Garamond',serif;
+            font-size:clamp(2.6rem,4.5vw,4.4rem);
+            line-height:1.06; font-weight:700;
+            margin-bottom:1.6rem;
+        }
+        .hero h1 em { font-style:italic; color:var(--rouge); }
+
+        .hero-sub {
+            font-size:1rem; color:var(--dust);
+            line-height:1.8; max-width:42ch;
+            margin-bottom:2rem;
+        }
+
+        /* VS PILL */
+        .vs-pill {
+            display:inline-flex; align-items:center; gap:.5rem;
+            background:var(--ink); border-radius:3rem;
+            padding:.5rem 1.1rem; margin-bottom:1.8rem;
+            font-size:.78rem;
+        }
+        .vs-pill .bad { color:#ff6b6b; text-decoration:line-through; opacity:.7; }
+        .vs-pill .arrow { color:var(--gold); }
+        .vs-pill .good { color:#7fff9a; font-weight:500; }
+
+        .hero-cta {
+            display:flex; align-items:center; gap:1.2rem; flex-wrap:wrap;
+        }
+        .btn-main {
+            background:var(--rouge); color:white;
+            padding:.95rem 2.4rem; border-radius:3rem;
+            font-size:.88rem; letter-spacing:.06em;
+            text-decoration:none; border:none; cursor:pointer;
+            font-family:'DM Sans',sans-serif;
+            box-shadow:0 8px 28px rgba(191,79,67,.28);
+            transition:transform .2s, box-shadow .2s;
+            display:inline-block;
+        }
+        .btn-main:hover { transform:translateY(-2px); box-shadow:0 14px 36px rgba(191,79,67,.38); }
+        .btn-text {
+            font-size:.82rem; color:var(--dust);
+            text-decoration:none; border:none; border-bottom:1px solid var(--blush);
+            background:transparent; cursor:pointer;
+            font-family:'DM Sans',sans-serif;
+            padding-bottom:2px; transition:color .2s, border-color .2s;
+        }
+        .btn-text:hover { color:var(--ink); border-color:var(--ink); }
+
+        /* hero visual */
+        .hero-visual { position:relative; }
+        .hero-blob {
+            aspect-ratio:5/6;
+            border-radius:62% 38% 56% 44% / 48% 52% 48% 52%;
+            overflow:hidden; background:var(--blush);
+        }
+        .hero-blob img { width:100%; height:100%; object-fit:cover; }
+
+        .float-card {
+            position:absolute;
+            background:white; border-radius:1rem;
+            padding:.9rem 1.2rem;
+            box-shadow:0 8px 32px rgba(0,0,0,.09);
+            font-size:.78rem;
+        }
+        .fc-1 { bottom:2.5rem; left:-2rem; }
+        .fc-1 strong { font-family:'Cormorant Garamond',serif; font-size:1.8rem; color:var(--rouge); display:block; line-height:1; }
+        .fc-1 span { color:var(--dust); }
+        .fc-2 { top:2rem; right:-1rem; background:var(--ink); color:white; line-height:1.6; }
+        .fc-2 .ch { font-family:'Noto Serif SC',serif; color:var(--gold); font-size:1rem; display:block; }
+
+        /* ─── VOICE WALL ─── */
+        .voices {
+            background:var(--ink); color:var(--cream);
+            padding:5rem 5%;
+            overflow:hidden;
+        }
+        .voices-header { text-align:center; margin-bottom:3rem; }
+        .voices-header p {
+            font-size:.72rem; letter-spacing:.22em; text-transform:uppercase;
+            color:var(--gold); margin-bottom:.8rem;
+        }
+        .voices-header h2 {
+            font-family:'Cormorant Garamond',serif;
+            font-size:clamp(1.8rem,3vw,2.6rem); font-style:italic;
+            max-width:38ch; margin:0 auto;
+            line-height:1.3;
+        }
+
+        .ticker-wrap { overflow:hidden; margin-bottom:0; }
+        .ticker {
+            display:flex; gap:1.2rem;
+            animation:ticker-scroll 35s linear infinite;
+            width:max-content;
+        }
+        .ticker:hover { animation-play-state:paused; }
+        .ticker-row2 .ticker { animation-direction:reverse; animation-duration:42s; }
+
+        @keyframes ticker-scroll {
+            from { transform:translateX(0); }
+            to   { transform:translateX(-50%); }
+        }
+
+        .voice-chip {
+            background:rgba(255,255,255,.06);
+            border:1px solid rgba(255,255,255,.1);
+            border-radius:.8rem;
+            padding:.85rem 1.3rem;
+            white-space:nowrap;
+            font-size:.82rem;
+            color:rgba(250,248,244,.8);
+            flex-shrink:0;
+        }
+        .voice-chip .flag { margin-right:.4rem; }
+        .voice-chip em { font-style:normal; color:var(--gold); }
+        .ticker-row2 { margin-top:.8rem; }
+
+        /* ─── TEXTBOOK vs NATURAL (THE BIG COMPARISON) ─── */
+        .compare {
+            padding:7rem 5%;
+            max-width:1100px; margin:0 auto;
+        }
+        .compare-header { margin-bottom:3.5rem; }
+        .section-eye {
+            font-size:.7rem; letter-spacing:.22em; text-transform:uppercase;
+            color:var(--gold); margin-bottom:.8rem;
+        }
+        .section-h {
+            font-family:'Cormorant Garamond',serif;
+            font-size:clamp(2rem,3.5vw,3rem); font-weight:700;
+            line-height:1.12; max-width:26ch;
+        }
+
+        .compare-grid {
+            display:grid; grid-template-columns:1fr 1fr;
+            gap:1.5rem;
+        }
+        .compare-col {
+            border-radius:1.2rem; overflow:hidden;
+        }
+        .compare-col-head {
+            padding:1.2rem 1.8rem;
+            display:flex; align-items:center; gap:.7rem;
+            font-size:.78rem; font-weight:500; letter-spacing:.06em;
+        }
+        .compare-col.bad .compare-col-head { background:#f5e8e7; color:var(--error); }
+        .compare-col.good .compare-col-head { background:#e8f5ec; color:var(--success); }
+        .compare-col-head .status-dot {
+            width:.6rem; height:.6rem; border-radius:50%; flex-shrink:0;
+        }
+        .bad .status-dot { background:var(--error); }
+        .good .status-dot { background:var(--success); }
+
+        .compare-items {
+            display:flex; flex-direction:column; gap:0;
+            background:white; border:1.5px solid var(--blush);
+            border-top:none; border-radius:0 0 1.2rem 1.2rem;
+        }
+        .compare-item {
+            padding:1rem 1.8rem;
+            font-size:.84rem; line-height:1.6;
+            border-bottom:1px solid var(--ivory);
+            display:flex; align-items:flex-start; gap:.7rem;
+        }
+        .compare-item:last-child { border-bottom:none; }
+        .compare-item .icon { font-size:.9rem; margin-top:.1rem; flex-shrink:0; }
+        .bad .compare-item { color:#7a4040; }
+        .good .compare-item { color:#2d6040; }
+        .compare-item strong { display:block; font-size:.76rem; opacity:.6; margin-bottom:.15rem; font-weight:500; }
+        .compare-item .phrase { font-family:'Noto Serif SC',serif; font-size:.95rem; color:var(--ink); }
+
+        /* ─── WHY SO HARD ─── */
+        .hard {
+            padding:7rem 5%;
+            max-width:1200px; margin:0 auto;
+        }
+        .hard-header { margin-bottom:4rem; }
+
+        .hard-grid {
+            display:grid; grid-template-columns:repeat(3,1fr); gap:1.5px;
+            background:var(--blush); border-radius:1.2rem; overflow:hidden;
+        }
+        .hard-card {
+            background:var(--cream); padding:2.2rem 1.8rem;
+            position:relative; overflow:hidden;
+            transition:background .25s;
+        }
+        .hard-card:hover { background:var(--warm-white); }
+        .hard-card::before {
+            content:attr(data-ch);
+            font-family:'Noto Serif SC',serif;
+            font-size:7rem; line-height:1;
+            color:rgba(181,145,106,.07);
+            position:absolute; bottom:-.5rem; right:.5rem;
+            pointer-events:none;
+        }
+        .hard-num {
+            font-size:.65rem; letter-spacing:.2em; color:var(--gold);
+            margin-bottom:.9rem; text-transform:uppercase;
+        }
+        .hard-card h3 {
+            font-family:'Cormorant Garamond',serif;
+            font-size:1.3rem; font-weight:600; margin-bottom:.6rem;
+            line-height:1.25;
+        }
+        .hard-card p { font-size:.82rem; color:var(--dust); line-height:1.72; }
+        .hard-card blockquote {
+            margin-top:.9rem;
+            font-style:italic; font-size:.76rem;
+            color:var(--dust); opacity:.75;
+            border-left:2px solid var(--blush); padding-left:.75rem;
+            line-height:1.6;
+        }
+
+        /* ─── GOAL PATHS ─── */
+        .paths {
+            background:var(--ink); color:var(--cream);
+            padding:7rem 5%;
+        }
+        .paths-inner { max-width:1200px; margin:0 auto; }
+        .paths-header { text-align:center; margin-bottom:4rem; }
+        .paths-header h2 {
+            font-family:'Cormorant Garamond',serif;
+            font-size:clamp(2rem,3.5vw,3rem);
+            margin-bottom:.6rem;
+        }
+        .paths-header p { color:rgba(250,248,244,.5); font-size:.88rem; }
+
+        .paths-grid {
+            display:grid; grid-template-columns:repeat(4,1fr); gap:1rem;
+        }
+        .path-card {
+            background:rgba(255,255,255,.04);
+            border:1px solid rgba(255,255,255,.08);
+            border-radius:1.2rem; padding:1.8rem 1.4rem;
+            cursor:pointer; transition:all .25s;
+            text-align:center;
+        }
+        .path-card:hover {
+            background:rgba(191,79,67,.15);
+            border-color:var(--rouge);
+            transform:translateY(-4px);
+        }
+        .path-icon { font-size:2rem; margin-bottom:1rem; display:block; }
+        .path-card h4 {
+            font-family:'Cormorant Garamond',serif;
+            font-size:1.1rem; margin-bottom:.5rem;
+        }
+        .path-card p { font-size:.75rem; color:rgba(250,248,244,.45); line-height:1.6; }
+        .path-tag {
+            display:inline-block; margin-top:.8rem;
+            font-size:.65rem; letter-spacing:.12em; text-transform:uppercase;
+            color:var(--gold); border:1px solid rgba(181,145,106,.3);
+            padding:.2rem .6rem; border-radius:1rem;
+        }
+
+        /* ─── HOW ─── */
+        .how {
+            padding:7rem 5%;
+            max-width:1200px; margin:0 auto;
+        }
+        .how-grid {
+            display:grid; grid-template-columns:1fr 1fr; gap:5rem;
+            align-items:center; margin-top:3.5rem;
+        }
+        .how-steps { display:flex; flex-direction:column; gap:0; }
+        .how-step {
+            display:flex; gap:1.5rem;
+            padding:1.8rem 0;
+            border-bottom:1px solid var(--blush);
+            cursor:pointer;
+            transition:all .2s;
+        }
+        .how-step:last-child { border-bottom:none; }
+        .how-step:hover .step-num { background:var(--rouge); color:white; border-color:var(--rouge); }
+        .step-num {
+            width:2.8rem; height:2.8rem; border-radius:50%;
+            border:1.5px solid var(--gold); color:var(--gold);
+            display:flex; align-items:center; justify-content:center;
+            font-family:'Noto Serif SC',serif; font-size:1rem;
+            flex-shrink:0; transition:all .2s;
+        }
+        .step-body h4 {
+            font-family:'Cormorant Garamond',serif;
+            font-size:1.2rem; font-weight:600; margin-bottom:.4rem;
+        }
+        .step-body p { font-size:.82rem; color:var(--dust); line-height:1.7; }
+
+        .how-visual {
+            background:var(--ivory); border-radius:1.5rem;
+            padding:2.5rem; position:relative; overflow:hidden;
+        }
+        .how-visual::before {
+            content:'学'; font-family:'Noto Serif SC',serif;
+            font-size:12rem; color:rgba(181,145,106,.08);
+            position:absolute; bottom:-1rem; right:-1rem;
+            line-height:1;
+        }
+        .mock-tone {
+            background:white; border-radius:1rem; padding:1.5rem;
+            box-shadow:0 4px 20px rgba(0,0,0,.06); margin-bottom:1rem;
+        }
+        .mock-tone-label {
+            font-size:.68rem; letter-spacing:.15em; text-transform:uppercase;
+            color:var(--dust); margin-bottom:.8rem;
+        }
+        .mini-compare { display:flex; flex-direction:column; gap:.6rem; }
+        .mini-row {
+            display:flex; align-items:center; gap:.7rem;
+            font-size:.8rem; padding:.6rem .8rem; border-radius:.5rem;
+        }
+        .mini-row.bad { background:#fdf0ef; }
+        .mini-row.good { background:#edf7f1; }
+        .mini-row .mini-label { font-size:.65rem; font-weight:600; letter-spacing:.1em; width:2.2rem; flex-shrink:0; }
+        .mini-row.bad .mini-label { color:var(--error); }
+        .mini-row.good .mini-label { color:var(--success); }
+        .mini-row .mini-ch { font-family:'Noto Serif SC',serif; font-size:.92rem; color:var(--ink); }
+        .mini-row .mini-eng { font-size:.72rem; color:var(--dust); margin-left:auto; }
+
+        .mock-feedback {
+            background:white; border-radius:1rem; padding:1.2rem;
+            box-shadow:0 4px 20px rgba(0,0,0,.06);
+            font-size:.8rem;
+        }
+        .feedback-row { display:flex; align-items:center; gap:.7rem; margin-bottom:.5rem; }
+        .feedback-row:last-child { margin-bottom:0; }
+        .fb-icon { font-size:1rem; }
+        .fb-text { color:var(--dust); }
+        .fb-text strong { color:var(--ink); }
+
+        /* ─── PRODUCTS ─── */
+        .products {
+            background:var(--ivory); padding:7rem 5%;
+        }
+        .products-inner { max-width:1100px; margin:0 auto; }
+        .products-top {
+            display:flex; justify-content:space-between; align-items:flex-end;
+            margin-bottom:3.5rem; flex-wrap:wrap; gap:1rem;
+        }
+
+        /* Three product cards in a row */
+        .products-grid {
+            display:grid;
+            grid-template-columns:1fr 1.15fr 1fr;
+            gap:1.2rem;
+            align-items:start;
+        }
+
+        .product-card {
+            background:white; border-radius:1.4rem;
+            overflow:hidden; cursor:pointer;
+            transition:transform .3s, box-shadow .3s;
+            position:relative;
+            border:2px solid transparent;
+        }
+        .product-card:hover { transform:translateY(-6px); box-shadow:0 20px 55px rgba(0,0,0,.1); }
+        .product-card.featured {
+            border-color:var(--rouge);
+            box-shadow:0 12px 40px rgba(191,79,67,.18);
+        }
+
+        .product-badge {
+            position:absolute; top:1rem; right:1rem;
+            background:var(--rouge); color:white;
+            font-size:.62rem; letter-spacing:.12em; text-transform:uppercase;
+            padding:.28rem .75rem; border-radius:2rem; font-weight:500;
+            z-index:2;
+        }
+        .product-card.featured .product-badge { background:var(--gold); color:var(--ink); }
+
+        .product-tier {
+            padding:1.6rem 1.6rem 0;
+        }
+        .product-tier-label {
+            font-size:.65rem; letter-spacing:.18em; text-transform:uppercase;
+            color:var(--dust); margin-bottom:.35rem;
+        }
+        .product-tier-name {
+            font-family:'Cormorant Garamond',serif;
+            font-size:1.35rem; font-weight:700; line-height:1.2;
+            margin-bottom:.3rem; color:var(--ink);
+        }
+        .product-tagline {
+            font-size:.78rem; color:var(--dust); line-height:1.5;
+            margin-bottom:1.2rem;
+        }
+
+        .product-price-row {
+            display:flex; align-items:baseline; gap:.35rem;
+            margin-bottom:1.2rem; padding:0 1.6rem;
+        }
+        .product-price {
+            font-family:'Cormorant Garamond',serif;
+            font-size:2.6rem; font-weight:700; color:var(--rouge); line-height:1;
+        }
+        .product-price sup { font-size:1rem; vertical-align:top; margin-top:.5rem; }
+        .product-original {
+            font-size:.8rem; color:var(--dust);
+            text-decoration:line-through; opacity:.6;
+        }
+        .product-billing {
+            font-size:.72rem; color:var(--dust); opacity:.6;
+        }
+
+        .product-pain {
+            margin:0 1.6rem 1.2rem;
+            background:var(--rouge-light);
+            border-left:3px solid var(--rouge);
+            border-radius:0 .5rem .5rem 0;
+            padding:.8rem 1rem;
+            font-size:.78rem; font-style:italic;
+            color:var(--ink); line-height:1.6;
+        }
+
+        .product-features {
+            list-style:none; padding:0 1.6rem 1.4rem;
+            display:flex; flex-direction:column; gap:.45rem;
+        }
+        .product-features li {
+            font-size:.8rem; line-height:1.55;
+            display:flex; gap:.55rem; align-items:flex-start;
+        }
+        .product-features li::before {
+            content:'✦'; font-size:.5rem; color:var(--gold);
+            margin-top:.35rem; flex-shrink:0;
+        }
+
+        .product-cta-wrap {
+            padding:0 1.6rem 1.8rem;
+        }
+        .btn-product {
+            display:block; width:100%; text-align:center;
+            padding:.88rem; border-radius:3rem;
+            font-size:.83rem; letter-spacing:.06em;
+            cursor:pointer; border:none;
+            font-family:'DM Sans',sans-serif;
+            text-decoration:none;
+            transition:opacity .2s, transform .2s;
+        }
+        .btn-product:hover { opacity:.85; transform:translateY(-1px); }
+        .btn-product-outline {
+            background:transparent; color:var(--ink);
+            border:1.5px solid var(--blush);
+        }
+        .btn-product-fill {
+            background:var(--rouge); color:white;
+            box-shadow:0 6px 20px rgba(191,79,67,.3);
+        }
+        .btn-product-dark {
+            background:var(--ink); color:white;
+        }
+
+        .product-limit {
+            text-align:center; font-size:.7rem; color:var(--dust);
+            margin-top:.5rem; opacity:.7;
+        }
+
+        /* transformation promise box */
+        .product-promise {
+            margin: 0 1.6rem 1.2rem;
+            background: rgba(61,115,98,.08);
+            border-left: 3px solid var(--jade);
+            border-radius: 0 .5rem .5rem 0;
+            padding: .8rem 1rem;
+        }
+        .pp-label {
+            font-size: .62rem; text-transform: uppercase;
+            letter-spacing: .14em; color: var(--jade);
+            margin-bottom: .5rem; font-weight: 600;
+        }
+        .pp-items { display: flex; flex-direction: column; gap: .3rem; }
+        .pp-item { font-size: .78rem; color: var(--ink); line-height: 1.5; }
+
+        /* ─── TESTIMONIALS ─── */
+        .testis { padding:7rem 5%; max-width:1200px; margin:0 auto; }
+        .testis-grid {
+            display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem;
+            margin-top:3rem;
+        }
+        .testi {
+            background:var(--ivory); border-radius:1.2rem;
+            padding:1.8rem; position:relative;
+        }
+        .testi::before {
+            content:'"';
+            font-family:'Cormorant Garamond',serif;
+            font-size:5rem; color:var(--blush);
+            position:absolute; top:-.3rem; left:1.1rem;
+            line-height:1; pointer-events:none;
+        }
+        .testi-body {
+            font-size:.86rem; line-height:1.78;
+            margin-top:1.8rem; margin-bottom:1.4rem;
+            color:var(--ink);
+        }
+        .testi-footer { display:flex; align-items:center; gap:.8rem; }
+        .testi-av {
+            width:2.4rem; height:2.4rem; border-radius:50%;
+            background:var(--blush); display:flex; align-items:center;
+            justify-content:center; font-size:1.1rem; flex-shrink:0;
+        }
+        .testi-name { font-weight:500; font-size:.83rem; }
+        .testi-from { font-size:.72rem; color:var(--dust); }
+        .testi-ch { font-family:'Noto Serif SC',serif; font-size:.68rem; color:var(--gold); }
+
+        .real-quote {
+            background:var(--rouge-light);
+            border-left:3px solid var(--rouge);
+            border-radius:0 .8rem .8rem 0;
+            padding:1.2rem 1.5rem;
+            margin:3rem 0;
+            font-size:.9rem; font-style:italic;
+            color:var(--ink); line-height:1.7;
+            max-width:680px;
+        }
+        .real-quote cite {
+            display:block; margin-top:.5rem;
+            font-style:normal; font-size:.72rem;
+            color:var(--dust); letter-spacing:.08em;
+        }
+
+        /* ─── SOCIAL PROOF STRIP ─── */
+        .proof-strip {
+            background:var(--gold);
+            padding:1.2rem 5%;
+            display:flex; align-items:center; justify-content:center;
+            gap:3rem; flex-wrap:wrap;
+        }
+        .proof-item { text-align:center; color:var(--ink); }
+        .proof-item strong {
+            font-family:'Cormorant Garamond',serif;
+            font-size:2rem; display:block; line-height:1;
+        }
+        .proof-item span { font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; opacity:.7; }
+
+        /* ─── FAQ ─── */
+        .faq { max-width:740px; margin:0 auto; padding:6rem 5%; background:var(--cream); }
+        .faq h2 {
+            font-family:'Cormorant Garamond',serif;
+            font-size:2.2rem; margin-bottom:2.5rem;
+            color:var(--ink);
+        }
+        details { border-bottom:1px solid var(--blush); padding:1.2rem 0; }
+        summary {
+            font-weight:500; font-size:.92rem; cursor:pointer;
+            display:flex; justify-content:space-between;
+            list-style:none; gap:1rem;
+            color:var(--ink);
+        }
+        summary::after { content:'+'; font-size:1.2rem; color:var(--gold); flex-shrink:0; }
+        details[open] summary::after { content:'−'; }
+        details > p { font-size:.83rem; color:#5a4f47; line-height:1.78; margin-top:.75rem; }
+
+        /* ─── FOOTER ─── */
+        footer {
+            background:var(--ink); color:rgba(250,248,244,.35);
+            padding:2.5rem 5%;
+            display:flex; justify-content:space-between; align-items:center;
+            flex-wrap:wrap; gap:1rem; font-size:.75rem;
+            border-top:1px solid rgba(255,255,255,.05);
+        }
+        .footer-logo {
+            font-family:'Cormorant Garamond',serif;
+            font-size:1.1rem; color:rgba(250,248,244,.7);
+        }
+        footer a { color:inherit; text-decoration:none; }
+        footer a:hover { color:var(--gold); }
+
+        /* ─── RESPONSIVE ─── */
+        @media(max-width:960px){
+            .hero { grid-template-columns:1fr; min-height:auto; padding:3rem 5%; }
+            .hero-bg-char { display:none; }
+            .hard-grid, .testis-grid { grid-template-columns:1fr 1fr; }
+            .compare-grid, .products-grid { grid-template-columns:1fr; }
+            .paths-grid { grid-template-columns:1fr 1fr; }
+            .how-grid { grid-template-columns:1fr; }
+            nav ul { display:none; }
+            .proof-strip { gap:1.5rem; }
+        }
+        @media(max-width:600px){
+            .hard-grid, .testis-grid, .paths-grid { grid-template-columns:1fr; }
+            .hero h1 { font-size:2.4rem; }
+        }
+
+        /* ─── FREE CTA — SCENARIO COLUMNS ─── */
+        .free-cta {
+            background: var(--ink);
+            padding: 6rem 5%;
+        }
+        .free-cta-inner { max-width: 1100px; margin: 0 auto; }
+
+        .free-header { text-align: center; margin-bottom: 3rem; }
+        .free-main-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            color: white; line-height: 1.12;
+            margin: .5rem 0 1rem;
+        }
+        .free-main-title em { font-style: italic; color: var(--rouge); }
+        .free-main-sub {
+            font-size: .88rem; color: rgba(250,248,244,.5);
+            line-height: 1.7; max-width: 52ch; margin: 0 auto 1.2rem;
+        }
+
+        /* 3 columns */
+        .scenario-cols {
+            display: grid; grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem; margin-bottom: 2.5rem;
+        }
+        .scenario-col {
+            background: rgba(255,255,255,.04);
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 1.2rem; overflow: hidden;
+            display: flex; flex-direction: column;
+            position: relative;
+        }
+        .col-featured {
+            border-color: var(--rouge);
+            background: rgba(191,79,67,.07);
+        }
+        .scol-featured-tag {
+            background: var(--rouge); color: white;
+            font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
+            padding: .3rem; text-align: center; font-weight: 500;
+        }
+        .scol-head {
+            display: flex; align-items: center; gap: .8rem;
+            padding: 1.2rem 1.2rem .8rem;
+            border-bottom: 1px solid rgba(255,255,255,.06);
+        }
+        .scol-icon { font-size: 1.5rem; flex-shrink: 0; }
+        .scol-cat {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.05rem; font-weight: 700; color: white;
+        }
+        .scol-desc { font-size: .7rem; color: rgba(250,248,244,.4); margin-top: .1rem; }
+
+        /* Visible phrase pair */
+        .visible-pair {
+            padding: 1rem 1.2rem;
+            border-bottom: 1px solid rgba(255,255,255,.06);
+        }
+        .scol-pair { }
+        .spair-scene {
+            font-size: .65rem; text-transform: uppercase;
+            letter-spacing: .1em; color: rgba(250,248,244,.35);
+            margin-bottom: .6rem;
+        }
+        .spair-row {
+            display: flex; align-items: center; gap: .6rem;
+            padding: .45rem .7rem; border-radius: .4rem;
+            margin-bottom: .3rem;
+        }
+        .spair-row.bad { background: rgba(192,57,43,.15); }
+        .spair-row.good { background: rgba(39,174,96,.1); }
+        .spair-tag {
+            font-size: .58rem; font-weight: 700; letter-spacing: .06em;
+            padding: .12rem .45rem; border-radius: .25rem; flex-shrink: 0;
+            white-space: nowrap;
+        }
+        .bad-tag { background: rgba(192,57,43,.3); color: #ff8a80; }
+        .good-tag { background: rgba(39,174,96,.25); color: #80e8a2; }
+        .spair-zh {
+            font-family: 'Noto Serif SC', serif;
+            font-size: .88rem; color: white; flex: 1;
+        }
+        .spair-note {
+            font-size: .68rem; color: rgba(250,248,244,.4);
+            margin-top: .4rem; line-height: 1.5; font-style: italic;
+        }
+
+        /* Locked section */
+        .scol-locked {
+            position: relative; flex: 1;
+        }
+        .locked-pair {
+            padding: .8rem 1.2rem;
+            border-bottom: 1px solid rgba(255,255,255,.04);
+        }
+        .lock-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to bottom, rgba(24,20,15,0) 0%, rgba(24,20,15,.92) 45%, rgba(24,20,15,.98) 100%);
+            display: flex; align-items: flex-end; justify-content: center;
+            padding-bottom: 1.4rem;
+            backdrop-filter: blur(2px);
+        }
+        .lock-content {
+            display: flex; align-items: center; gap: .5rem;
+            background: rgba(255,255,255,.08);
+            border: 1px solid rgba(255,255,255,.15);
+            border-radius: 2rem; padding: .5rem 1.1rem;
+            cursor: pointer; transition: all .2s;
+        }
+        .lock-content:hover {
+            background: var(--rouge);
+            border-color: var(--rouge);
+        }
+        .lock-icon { font-size: .9rem; }
+        .lock-text {
+            font-size: .75rem; color: white; font-weight: 500;
+            white-space: nowrap;
+        }
+
+        /* Bottom CTA */
+        .free-bottom-cta {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 2rem; flex-wrap: wrap;
+            background: rgba(255,255,255,.04);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 1.2rem; padding: 1.8rem 2rem;
+        }
+        .fbc-text {
+            font-size: .9rem; color: rgba(250,248,244,.65);
+            line-height: 1.6; max-width: 48ch;
+        }
+        .fbc-text strong { color: white; }
+
+        .free-social-proof {
+            display: inline-flex; align-items: center; gap: .7rem;
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 2rem; padding: .4rem .9rem;
+        }
+        .fsp-avatars { font-size: .82rem; letter-spacing: -.08em; }
+        .fsp-text { font-size: .7rem; color: rgba(250,248,244,.55); }
+        .fsp-text strong { color: var(--gold); }
+
+        @media(max-width:960px){
+            .scenario-cols { grid-template-columns: 1fr; }
+            .free-bottom-cta { flex-direction: column; align-items: flex-start; }
+            .free-cta-inner { grid-template-columns: 1fr; }
+        }
+        .free-cta-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 4rem; align-items: center;
+        }
+        .free-cta-h {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            color: white; line-height: 1.12;
+            margin: .6rem 0 1.2rem;
+        }
+        .free-cta-h em { font-style: italic; color: var(--rouge); }
+        .free-cta-sub {
+            font-size: .88rem; color: rgba(250,248,244,.5);
+            line-height: 1.75; margin-bottom: 1.8rem;
+        }
+        .free-cta-checks {
+            display: flex; flex-direction: column; gap: .55rem;
+            margin-bottom: 2rem;
+        }
+        .free-check {
+            font-size: .82rem; color: rgba(250,248,244,.75);
+            display: flex; align-items: flex-start; gap: .5rem;
+            line-height: 1.5;
+        }
+
+        .btn-free-cta {
+            display: inline-flex; flex-direction: column;
+            background: var(--rouge); color: white;
+            padding: 1.1rem 2.4rem; border-radius: 3rem;
+            text-decoration: none; cursor: pointer;
+            box-shadow: 0 8px 32px rgba(191,79,67,.4);
+            transition: transform .25s, box-shadow .25s;
+            position: relative; overflow: hidden;
+        }
+        .btn-free-cta::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,.15) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .btn-free-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 44px rgba(191,79,67,.5);
+        }
+        .btn-free-text {
+            font-size: .92rem; font-weight: 500; letter-spacing: .04em;
+        }
+        .btn-free-sub {
+            font-size: .68rem; opacity: .65; margin-top: .2rem;
+            letter-spacing: .06em;
+        }
+
+        /* Phrase preview cards */
+        .free-preview {
+            background: rgba(255,255,255,.04);
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 1.4rem; padding: 1.8rem;
+        }
+        .free-preview-label {
+            font-size: .65rem; letter-spacing: .2em; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 1.2rem;
+        }
+        .free-phrase-card {
+            background: rgba(255,255,255,.05);
+            border-radius: .8rem; padding: 1rem 1.2rem;
+            margin-bottom: .8rem;
+        }
+        .free-phrase-card:last-of-type { margin-bottom: 0; }
+        .fpc-scene {
+            font-size: .68rem; color: rgba(250,248,244,.35);
+            letter-spacing: .06em; margin-bottom: .7rem;
+            text-transform: uppercase;
+        }
+        .fpc-row {
+            display: flex; align-items: center; gap: .7rem;
+            padding: .5rem .7rem; border-radius: .4rem; margin-bottom: .35rem;
+            font-size: .82rem;
+        }
+        .fpc-row:last-child { margin-bottom: 0; }
+        .fpc-row.bad { background: rgba(192,57,43,.12); }
+        .fpc-row.good { background: rgba(39,174,96,.1); }
+        .fpc-tag {
+            font-size: .6rem; font-weight: 600; letter-spacing: .08em;
+            padding: .15rem .5rem; border-radius: .3rem; flex-shrink: 0;
+            white-space: nowrap;
+        }
+        .bad-tag { background: rgba(192,57,43,.25); color: #ff8a80; }
+        .good-tag { background: rgba(39,174,96,.2); color: #80e8a2; }
+        .fpc-zh {
+            font-family: 'Noto Serif SC', serif;
+            font-size: .9rem; color: white; flex: 1;
+        }
+        .fpc-note {
+            font-size: .68rem; color: rgba(250,248,244,.35);
+            white-space: nowrap;
+        }
+        .free-preview-more {
+            text-align: center; margin-top: 1rem;
+            font-size: .72rem; color: rgba(250,248,244,.25);
+            letter-spacing: .06em;
+        }
+
+        @media(max-width:960px){
+            .free-cta-inner { grid-template-columns: 1fr; }
+        }
+
+        /* ─── SCROLL REVEAL SYSTEM ─── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(36px);
+            transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity .75s cubic-bezier(.22,1,.36,1), transform .75s cubic-bezier(.22,1,.36,1);
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity .75s .1s cubic-bezier(.22,1,.36,1), transform .75s .1s cubic-bezier(.22,1,.36,1);
+        }
+        .reveal-left.visible, .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+        /* stagger children */
+        .stagger > * {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1);
+        }
+        .stagger.visible > *:nth-child(1) { transition-delay: 0s; }
+        .stagger.visible > *:nth-child(2) { transition-delay: .1s; }
+        .stagger.visible > *:nth-child(3) { transition-delay: .2s; }
+        .stagger.visible > *:nth-child(4) { transition-delay: .3s; }
+        .stagger.visible > *:nth-child(5) { transition-delay: .4s; }
+        .stagger.visible > *:nth-child(6) { transition-delay: .5s; }
+        .stagger.visible > * { opacity: 1; transform: translateY(0); }
+
+        /* btn pulse */
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 8px 28px rgba(191,79,67,.28); }
+            50% { box-shadow: 0 8px 40px rgba(191,79,67,.55), 0 0 0 6px rgba(191,79,67,.08); }
+        }
+        .btn-main { animation: pulse-glow 2.8s ease-in-out infinite; }
+        .btn-main:hover { animation: none; }
+
+        @keyframes pulse-free {
+            0%, 100% { box-shadow: 0 8px 32px rgba(191,79,67,.4); }
+            50% { box-shadow: 0 12px 48px rgba(191,79,67,.65), 0 0 0 8px rgba(191,79,67,.1); }
+        }
+        .btn-free-cta { animation: pulse-free 3s ease-in-out infinite; }
+        .btn-free-cta:hover { animation: none; }
+
+        /* hero bg char float */
+        @keyframes float-char {
+            0%, 100% { transform: translateY(-50%) rotate(0deg); }
+            50% { transform: translateY(-52%) rotate(1.5deg); }
+        }
+        .hero-bg-char { animation: float-char 8s ease-in-out infinite; }
+
+        /* proof strip count-up (done via JS) */
+        .proof-item strong { transition: none; }
+
+        /* ─── HERO ANIMATIONS ─── */
+        @keyframes fadeUp {
+            from { opacity:0; transform:translateY(20px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+        .hero-label  { animation:fadeUp .6s .1s both ease; }
+        .hero h1     { animation:fadeUp .6s .2s both ease; }
+        .hero-sub    { animation:fadeUp .6s .3s both ease; }
+        .vs-pill     { animation:fadeUp .6s .35s both ease; }
+        .hero-cta    { animation:fadeUp .6s .4s both ease; }
+        .hero-visual { animation:fadeUp .7s .25s both ease; }
+
+        /* float cards on hero */
+        @keyframes float-fc {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        .fc-1 { animation: float-fc 4s ease-in-out infinite; }
+        .fc-2 { animation: float-fc 5s ease-in-out .8s infinite; }
+        /* ─── MODAL ─── */
+        .modal-overlay {
+            position: fixed; inset: 0; z-index: 9000;
+            background: rgba(24,20,15,.75);
+            backdrop-filter: blur(8px);
+            display: flex; align-items: center; justify-content: center;
+            padding: 1.5rem;
+            opacity: 0; pointer-events: none;
+            transition: opacity .3s ease;
+        }
+        .modal-overlay.open {
+            opacity: 1; pointer-events: all;
+        }
+        .modal-card {
+            background: var(--cream);
+            border-radius: 1.6rem;
+            padding: 2.4rem;
+            width: 100%; max-width: 480px;
+            position: relative;
+            transform: translateY(24px) scale(.97);
+            transition: transform .35s cubic-bezier(.22,1,.36,1);
+            box-shadow: 0 32px 80px rgba(0,0,0,.35);
+        }
+        .modal-overlay.open .modal-card {
+            transform: translateY(0) scale(1);
+        }
+        .modal-close {
+            position: absolute; top: 1.2rem; right: 1.2rem;
+            background: var(--ivory); border: none; cursor: pointer;
+            width: 2rem; height: 2rem; border-radius: 50%;
+            font-size: .8rem; color: var(--dust);
+            display: flex; align-items: center; justify-content: center;
+            transition: background .2s, color .2s;
+        }
+        .modal-close:hover { background: var(--blush); color: var(--ink); }
+
+        .modal-eyebrow {
+            font-size: .65rem; letter-spacing: .2em; text-transform: uppercase;
+            color: var(--jade); margin-bottom: .5rem;
+        }
+        .modal-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem; font-weight: 700; line-height: 1.15;
+            color: var(--ink); margin-bottom: .7rem;
+        }
+        .modal-sub {
+            font-size: .82rem; color: var(--dust); line-height: 1.65;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Tabs */
+        .modal-tabs {
+            display: flex; gap: .5rem; margin-bottom: 1.2rem;
+        }
+        .modal-tab {
+            flex: 1; padding: .65rem 1rem;
+            border: 1.5px solid var(--blush); border-radius: 2rem;
+            background: white; cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .8rem; color: var(--dust);
+            display: flex; align-items: center; justify-content: center; gap: .4rem;
+            transition: all .2s;
+        }
+        .modal-tab.active {
+            border-color: var(--rouge); background: var(--rouge);
+            color: white;
+        }
+        .tab-icon { font-size: 1rem; }
+
+        /* Input */
+        .modal-input-wrap { }
+        .input-row {
+            display: flex; align-items: center;
+            border: 1.5px solid var(--blush); border-radius: .8rem;
+            overflow: hidden; background: white;
+            transition: border-color .2s;
+            margin-bottom: .5rem;
+        }
+        .input-row:focus-within { border-color: var(--rouge); }
+        .input-prefix {
+            padding: .85rem 0 .85rem 1rem;
+            font-size: .9rem; color: var(--dust);
+        }
+        .modal-input {
+            flex: 1; padding: .85rem 1rem;
+            border: none; outline: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .9rem; color: var(--ink);
+            background: transparent;
+        }
+        .modal-input::placeholder { color: var(--dust); opacity: .5; }
+        .input-hint {
+            font-size: .72rem; color: var(--dust); opacity: .65;
+            margin-bottom: 1.2rem; line-height: 1.5;
+        }
+
+        .modal-submit {
+            display: block; width: 100%;
+            padding: 1rem; border-radius: 3rem;
+            background: var(--rouge); color: white;
+            border: none; cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .88rem; font-weight: 500;
+            letter-spacing: .04em;
+            box-shadow: 0 6px 24px rgba(191,79,67,.35);
+            transition: opacity .2s, transform .2s;
+        }
+        .modal-submit:hover { opacity: .88; transform: translateY(-1px); }
+        .modal-submit:disabled { opacity: .5; cursor: not-allowed; }
+
+        /* Success */
+        .modal-success { text-align: center; padding: .5rem 0; }
+        .success-icon {
+            width: 3.5rem; height: 3.5rem; border-radius: 50%;
+            background: rgba(39,174,96,.1); color: #27ae60;
+            font-size: 1.5rem; margin: 0 auto 1rem;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .success-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem; color: var(--ink); margin-bottom: .6rem;
+        }
+        .success-sub {
+            font-size: .83rem; color: var(--dust); line-height: 1.7;
+        }
+
+        .modal-privacy {
+            font-size: .68rem; color: var(--dust); opacity: .5;
+            text-align: center; margin-top: 1rem; line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo">
+        NATURAL <b>CHINESE</b>
+        <small>地道中文</small>
+    </div>
+    <ul>
+        <li><a href="#compare">Real vs Textbook</a></li>
+        <li><a href="#products">Courses</a></li>
+        <li><a href="#products">Pricing</a></li>
+    </ul>
+    <a href="#products" class="nav-btn">Start Learning →</a>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+    <div class="hero-bg-char">说</div>
+
+    <div>
+        <div class="hero-label">Natural Chinese · 地道中文</div>
+        <h1>You learned Chinese.<br>But you sound like<br>a <em>textbook.</em></h1>
+        <p class="hero-sub">Real Chinese people don't talk the way your app taught you. Every sentence you say marks you as an outsider — until now. We teach the Chinese natives actually use.</p>
+
+        <div class="vs-pill">
+            <span class="bad">Textbook Chinese</span>
+            <span class="arrow">→</span>
+            <span class="good">Natural Chinese ✓</span>
+        </div>
+
+        <div class="hero-cta">
+            <button class="btn-main" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth',block:'start'})">See the Courses →</button>
+            <button class="btn-text" onclick="document.getElementById('compare').scrollIntoView({behavior:'smooth',block:'start'})">See the difference ↓</button>
+        </div>
+    </div>
+
+    <div class="hero-visual">
+        <div class="hero-blob">
+            <img src="https://raw.githubusercontent.com/kobe824666888999-arch/1/main/IMG_9835.jpeg" alt="Natural Chinese">
+        </div>
+        <div class="float-card fc-1">
+            <strong>300+</strong>
+            <span>learners from 60+ countries</span>
+        </div>
+        <div class="float-card fc-2">
+            <span class="ch">地道！</span>
+            <span style="font-size:.7rem;opacity:.6;">How natives will describe you</span>
+        </div>
+    </div>
+</section>
+
+<!-- ─── VOICE WALL ─── -->
+<div class="voices">
+    <div class="voices-header">
+        <p>What they said before they found us</p>
+        <h2>"I studied for 2 years. Native speakers still smile politely and switch to English."</h2>
+    </div>
+
+    <div class="ticker-wrap">
+        <div class="ticker">
+            <div class="voice-chip">🇻🇳 <em>"I can pass HSK4 but can't chat with my coworkers naturally"</em></div>
+            <div class="voice-chip">🇮🇩 <em>"My Chinese boyfriend's family thinks I'm fluent — I understand nothing they actually say"</em></div>
+            <div class="voice-chip">🇩🇪 <em>"I say 我不知道 and they laugh. Apparently that's not how you say it"</em></div>
+            <div class="voice-chip">🇵🇭 <em>"My Mandarin sounds too formal — like a government announcement"</em></div>
+            <div class="voice-chip">🇺🇸 <em>"Duolingo gave me 600 day streak and I still can't order food without pointing"</em></div>
+            <div class="voice-chip">🇹🇭 <em>"I work with Chinese colleagues every day and still feel like an outsider"</em></div>
+            <div class="voice-chip">🇳🇬 <em>"Textbook Chinese is robotic. Real Chinese sounds like music I can't follow"</em></div>
+            <div class="voice-chip">🇦🇺 <em>"I say 请问 for everything. Even in casual situations. My friends cringe"</em></div>
+            <div class="voice-chip">🇻🇳 <em>"I can pass HSK4 but can't chat with my coworkers naturally"</em></div>
+            <div class="voice-chip">🇮🇩 <em>"My Chinese boyfriend's family thinks I'm fluent — I understand nothing they actually say"</em></div>
+            <div class="voice-chip">🇩🇪 <em>"I say 我不知道 and they laugh. Apparently that's not how you say it"</em></div>
+            <div class="voice-chip">🇵🇭 <em>"My Mandarin sounds too formal — like a government announcement"</em></div>
+            <div class="voice-chip">🇺🇸 <em>"Duolingo gave me 600 day streak and I still can't order food without pointing"</em></div>
+            <div class="voice-chip">🇹🇭 <em>"I work with Chinese colleagues every day and still feel like an outsider"</em></div>
+            <div class="voice-chip">🇳🇬 <em>"Textbook Chinese is robotic. Real Chinese sounds like music I can't follow"</em></div>
+            <div class="voice-chip">🇦🇺 <em>"I say 请问 for everything. Even in casual situations. My friends cringe"</em></div>
+        </div>
+    </div>
+
+    <div class="ticker-wrap ticker-row2" style="margin-top:.8rem">
+        <div class="ticker">
+            <div class="voice-chip">🇲🇾 <em>"My Chinese is 'correct' but zero Chinese people talk to me naturally"</em></div>
+            <div class="voice-chip">🌍 <em>"I studied HSK textbooks — got B2 equivalent — still freeze in real conversations"</em></div>
+            <div class="voice-chip">🇰🇷 <em>"The slang in Chinese dramas is totally different from anything I learned"</em></div>
+            <div class="voice-chip">🇬🇧 <em>"I can write formal Chinese emails but I sound weird in every WeChat message"</em></div>
+            <div class="voice-chip">🇸🇬 <em>"My tones are fine. It's the sentence patterns that make me sound foreign"</em></div>
+            <div class="voice-chip">🇧🇷 <em>"Teachers taught me 您好. Everyone in real life says 哎 or nothing at all"</em></div>
+            <div class="voice-chip">🇲🇽 <em>"I spent $3000 on tutors. Still can't follow a group WeChat"</em></div>
+            <div class="voice-chip">🇧🇩 <em>"I know the vocab but my sentences feel like I translated from English"</em></div>
+            <div class="voice-chip">🇲🇾 <em>"My Chinese is 'correct' but zero Chinese people talk to me naturally"</em></div>
+            <div class="voice-chip">🌍 <em>"I studied HSK textbooks — got B2 equivalent — still freeze in real conversations"</em></div>
+            <div class="voice-chip">🇰🇷 <em>"The slang in Chinese dramas is totally different from anything I learned"</em></div>
+            <div class="voice-chip">🇬🇧 <em>"I can write formal Chinese emails but I sound weird in every WeChat message"</em></div>
+            <div class="voice-chip">🇸🇬 <em>"My tones are fine. It's the sentence patterns that make me sound foreign"</em></div>
+            <div class="voice-chip">🇧🇷 <em>"Teachers taught me 您好. Everyone in real life says 哎 or nothing at all"</em></div>
+            <div class="voice-chip">🇲🇽 <em>"I spent $3000 on tutors. Still can't understand a group WeChat"</em></div>
+            <div class="voice-chip">🇧🇩 <em>"I know the vocab but my sentences feel like I translated from English"</em></div>
+        </div>
+    </div>
+</div>
+
+<!-- ─── PROOF STRIP ─── -->
+<div class="proof-strip stagger">
+    <div class="proof-item"><strong data-count="800" data-suffix="+">0</strong><span>Active Learners</span></div>
+    <div class="proof-item"><strong data-count="60" data-suffix="+">0</strong><span>Countries</span></div>
+    <div class="proof-item"><strong data-count="30" data-suffix=" days">0</strong><span>To Native Flow</span></div>
+    <div class="proof-item"><strong data-count="100" data-suffix="+">0</strong><span>Real-Life Scenarios</span></div>
+</div>
+
+<!-- ─── TEXTBOOK vs NATURAL COMPARE ─── -->
+<section id="compare" class="compare">
+    <div class="compare-header">
+        <div class="section-eye">The Real Problem</div>
+        <h2 class="section-h">Textbook Chinese ❌ vs Natural Chinese ✅</h2>
+        <p style="margin-top:1rem;font-size:.9rem;color:var(--dust);max-width:50ch;line-height:1.7;">Every course taught you the "correct" Chinese. But correct ≠ natural. Here's what that gap looks like in real life.</p>
+    </div>
+
+    <div class="compare-grid">
+        <div class="compare-col bad">
+            <div class="compare-col-head">
+                <span class="status-dot"></span>
+                Textbook Chinese ❌ — What you learned
+            </div>
+            <div class="compare-items">
+                <div class="compare-item">
+                    <span class="icon">❌</span>
+                    <div>
+                        <strong>Asking someone to hurry</strong>
+                        <span class="phrase">请你快一点</span>
+                        <div style="font-size:.76rem;margin-top:.2rem;color:#7a4040;">"Please be a little faster" — stiff, almost rude in context</div>
+                    </div>
+                </div>
+                <div class="compare-item">
+                    <span class="icon">❌</span>
+                    <div>
+                        <strong>Saying you don't know</strong>
+                        <span class="phrase">我不知道</span>
+                        <div style="font-size:.76rem;margin-top:.2rem;color:#7a4040;">Technically correct but sounds flat and abrupt</div>
+                    </div>
+                </div>
+                <div class="compare-item">
+                    <span class="icon">❌</span>
+                    <div>
+                        <strong>Office small talk greeting</strong>
+                        <span class="phrase">您好，请问…</span>
+                        <div style="font-size:.76rem;margin-top:.2rem;color:#7a4040;">Too formal — colleagues will think you're weird</div>
+                    </div>
+                </div>
+                <div class="compare-item">
+                    <span class="icon">❌</span>
+                    <div>
+                        <strong>Agreeing with enthusiasm</strong>
+                        <span class="phrase">好的，我同意</span>
+                        <div style="font-size:.76rem;margin-top:.2rem;color:#7a4040;">Nobody says this. It sounds like a robot.</div>
+                    </div>
+                </div>
+                <div class="compare-item">
+                    <span class="icon">❌</span>
+                    <div>
+                        <strong>Pushing back gently</strong>
+                        <span class="phrase">我觉得不太好</span>
+                        <div style="font-size:.76rem;margin-top:.2rem;color:#7a4040;">Misses the indirect style — comes off as blunt</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="compare-col good">
+            <div class="compare-col-head">
+                <span class="status-dot"></span>
+                Natural Chinese ✅ — What natives say
+            </div>
+            <div class="compare-items">
+                <div class="compare-item">
+                    <span class="icon">✅</span>
+                    <div>
+                        <strong>Asking someone to hurry</strong>
+                        <span class="phrase">这事儿加急一下 / 帮我插个队</span>
+                        <div style="font-size:.76rem;margin-top:.2rem;color:#2d6040;">Sounds natural, collaborative, gets results</div>
+                    </div>
+                </div>
+                <div class="compare-item">
+                    <span class="icon">✅</span>
+                    <div>
+                        <strong>Saying you don't know</strong>
+                        <span class="phrase">不清楚哎 / 我哪儿知道</span>
+                        <div style="font-size:.76rem;margin-top:.2rem;color:#2d6040;">Casual, warm, sounds like a real person</div>
+                    </div>
+                </div>
+                <div class="compare-item">
+                    <span class="icon">✅</span>
+                    <div>
+                        <strong>Office small talk greeting</strong>
+                        <span class="phrase">哎，来啦 / 吃了吗</span>
+                        <div style="font-size:.76rem;margin-top:.2rem;color:#2d6040;">How colleagues actually acknowledge each other</div>
+                    </div>
+                </div>
+                <div class="compare-item">
+                    <span class="icon">✅</span>
+                    <div>
+                        <strong>Agreeing with enthusiasm</strong>
+                        <span class="phrase">对对对！/ 就是！/ 可不是嘛</span>
+                        <div style="font-size:.76rem;margin-top:.2rem;color:#2d6040;">This is how Chinese people actually express agreement</div>
+                    </div>
+                </div>
+                <div class="compare-item">
+                    <span class="icon">✅</span>
+                    <div>
+                        <strong>Pushing back gently</strong>
+                        <span class="phrase">这个嘛…我觉得可以再想想</span>
+                        <div style="font-size:.76rem;margin-top:.2rem;color:#2d6040;">Polite indirect pushback — reads as thoughtful, not rude</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="real-quote">
+        "I work with Chinese people every day and get laughed at a lot because of my Chinese. I know the words. The sentences just come out wrong."
+        <cite>— DM from a follower in Nigeria</cite>
+    </div>
+</section>
+
+<!-- ─── PRODUCTS ─── -->
+<section id="products" class="products">
+    <div class="products-inner">
+        <div class="products-top">
+            <div>
+                <div class="section-eye">Choose Your Level</div>
+                <h2 class="section-h" style="font-size:2.2rem;max-width:none;">Three ways to go from <em style="font-style:italic;color:var(--rouge)">textbook to natural.</em></h2>
+            </div>
+        </div>
+
+        <div class="products-grid stagger">
+
+            <!-- Plan A -->
+            <div class="product-card">
+                <div class="product-tier">
+                    <div class="product-tier-label">Plan A · Entry Tool</div>
+                    <div class="product-tier-name">The "Unspoken Rules"<br>Slang Pack</div>
+                    <div class="product-tagline">100+ flashcards of the phrases textbooks never teach — with real audio and the cultural meaning behind each one.</div>
+                </div>
+                <div class="product-price-row">
+                    <div class="product-price"><sup>$</sup>9.9</div>
+                    <div class="product-billing">one-time</div>
+                </div>
+                <div class="product-pain">"Traditional HSK textbooks teach you robot Chinese. Real Chinese people don't talk like that."</div>
+                <ul class="product-features">
+                    <li>100+ high-frequency native phrases — not in any textbook</li>
+                    <li>Native audio in 3 registers: daily, work, emotional</li>
+                    <li>Interactive flashcard widget — phrase + context + hidden meaning</li>
+                    <li>English cultural notes explaining WHY each phrase works</li>
+                    <li>Immediate access, download forever</li>
+                </ul>
+                <div class="product-cta-wrap">
+                    <a href="https://whop.com/chic-chinese/" class="btn-product btn-product-outline">Get the Slang Pack →</a>
+                </div>
+            </div>
+
+            <!-- Plan B — FEATURED -->
+            <div class="product-card featured">
+                <div class="product-badge">⭐ Most Popular</div>
+                <div class="product-tier">
+                    <div class="product-tier-label">Plan B · Complete Pack</div>
+                    <div class="product-tier-name">Natural Chinese<br>Complete Pack</div>
+                    <div class="product-tagline">30天后，你可以在微信群里自然地跟中国人聊天，不再被当外国人对待。</div>
+                </div>
+                <div class="product-price-row">
+                    <div class="product-price"><sup>$</sup>19.9</div>
+                    <div class="product-original">$49</div>
+                    <div class="product-billing">one-time · lifetime access</div>
+                </div>
+                <div class="product-pain">"Learning phrases isn't enough. The moment real conversation starts, you freeze — and slip back into the robotic Textbook Chinese you've been trying to escape."</div>
+                <div class="product-promise">
+                    <div class="pp-label">After 30 days you will</div>
+                    <div class="pp-items">
+                        <div class="pp-item">✓ Hold a natural WeChat conversation without freezing</div>
+                        <div class="pp-item">✓ Push back, agree, and joke the way natives do</div>
+                        <div class="pp-item">✓ Sound like someone who lives in China — not someone who studied it</div>
+                    </div>
+                </div>
+                <ul class="product-features">
+                    <li>🔥 <strong>100 Real-Life Scenarios</strong> — Natural Chinese ✅ vs Textbook Chinese ❌ + Video Explanation</li>
+                    <li>🎧 <strong>Natural Chinese Audio + Video Pack</strong> — Pronunciation · Listening · Speaking</li>
+                    <li>🌏 <strong>Private Community + Founder Support</strong> — Questions, Feedback &amp; Corrections</li>
+                    <li>∞ <strong>Lifetime Access + Future Updates</strong></li>
+                </ul>
+                <div class="product-cta-wrap">
+                    <a href="https://whop.com/chic-chinese/" class="btn-product btn-product-fill">Get Complete Pack — $19.9 →</a>
+                    <div class="product-limit">🔥 Launch price · will return to $49</div>
+                </div>
+            </div>
+
+            <!-- Plan C -->
+            <div class="product-card">
+                <div class="product-badge" style="background:var(--ink);color:white;">💎 VIP</div>
+                <div class="product-tier">
+                    <div class="product-tier-label">Plan C · Immersion Club</div>
+                    <div class="product-tier-name">Natural Chinese<br>Accelerator</div>
+                    <div class="product-tagline">Everything in Plan B — plus weekly accountability, voice corrections, and monthly live sessions to keep you moving fast.</div>
+                </div>
+                <div class="product-price-row">
+                    <div class="product-price"><sup>$</sup>59.9</div>
+                    <div class="product-billing">/ month · cancel anytime</div>
+                </div>
+                <div class="product-pain">"I have the material. I need someone to push me every week, correct my actual mistakes, and make sure I actually use what I learn."</div>
+                <ul class="product-features">
+                    <li>Everything in Plan B included</li>
+                    <li>🌏 <strong>Active community</strong> — daily 教材 ❌ vs 地道 ✅ discussions with learners worldwide</li>
+                    <li>📋 <strong>Weekly real chat mission</strong> — one real-life scenario to use in actual Chinese conversations that week</li>
+                    <li>🎙️ <strong>Voice homework + corrections</strong> — submit a voice note, get specific pronunciation and naturalness feedback</li>
+                    <li>📡 <strong>Monthly live session</strong> — new scenarios, real-time Q&amp;A and corrections with the founder</li>
+                    <li>⚠️ Strictly <strong>limited to 3 new members / month</strong></li>
+                </ul>
+                <div class="product-cta-wrap">
+                    <a href="https://wa.me/8613567747987" target="_blank" class="btn-product btn-product-dark">Apply via WhatsApp →</a>
+                    <div class="product-limit">3 spots / month · message first to check availability</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ─── FREE RESOURCE CTA ─── -->
+<section class="free-cta">
+    <div class="free-cta-inner">
+
+        <div class="free-header reveal">
+            <div class="section-eye" style="color:var(--gold)">免费领取 · Free Pack</div>
+            <h2 class="free-main-title">这就是中国人<em>真正</em>说话的方式。</h2>
+            <p class="free-main-sub">3 real scenarios per category. 30 total. The gap between what you learned and what natives actually say — with audio and cultural notes.</p>
+            <div class="free-social-proof">
+                <span class="fsp-avatars">🇻🇳🇮🇩🇵🇭🇹🇭🇲🇾🇩🇪🇺🇸🇳🇬</span>
+                <span class="fsp-text"><strong>800+ learners</strong> already claimed this · 60+ countries</span>
+            </div>
+        </div>
+
+        <div class="scenario-cols stagger">
+
+            <!-- SOCIAL -->
+            <div class="scenario-col">
+                <div class="scol-head">
+                    <span class="scol-icon">📱</span>
+                    <div>
+                        <div class="scol-cat">社交 · Social</div>
+                        <div class="scol-desc">Texts, moments, group chats</div>
+                    </div>
+                </div>
+                <div class="scol-pair visible-pair">
+                    <div class="spair-scene">Complimenting a friend's photo</div>
+                    <div class="spair-row bad"><span class="spair-tag bad-tag">教材 ❌</span><span class="spair-zh">这张照片很好看！</span></div>
+                    <div class="spair-row good"><span class="spair-tag good-tag">地道 ✅</span><span class="spair-zh">绝了！这也太好看了吧！</span></div>
+                    <div class="spair-note">教材版：机器人在夸你。地道版：闺蜜在夸你。</div>
+                </div>
+                <div class="scol-locked">
+                    <div class="scol-pair locked-pair">
+                        <div class="spair-scene">Turning down a plan</div>
+                        <div class="spair-row bad"><span class="spair-tag bad-tag">教材 ❌</span><span class="spair-zh">我今天不方便。</span></div>
+                        <div class="spair-row good"><span class="spair-tag good-tag">地道 ✅</span><span class="spair-zh">今儿不行哎，改天？</span></div>
+                    </div>
+                    <div class="scol-pair locked-pair">
+                        <div class="spair-scene">Reacting with shock</div>
+                        <div class="spair-row bad"><span class="spair-tag bad-tag">教材 ❌</span><span class="spair-zh">真的吗？这很令人吃惊。</span></div>
+                        <div class="spair-row good"><span class="spair-tag good-tag">地道 ✅</span><span class="spair-zh">不会吧！？卧槽！</span></div>
+                    </div>
+                    <div class="lock-overlay" onclick="openFreeModal()">
+                        <div class="lock-content">
+                            <span class="lock-icon">🔓</span>
+                            <span class="lock-text">+ 7 more · claim free</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WORKPLACE -->
+            <div class="scenario-col col-featured">
+                <div class="scol-featured-tag">Most Requested</div>
+                <div class="scol-head">
+                    <span class="scol-icon">🏢</span>
+                    <div>
+                        <div class="scol-cat">职场 · Workplace</div>
+                        <div class="scol-desc">Meetings, WeChat, managers</div>
+                    </div>
+                </div>
+                <div class="scol-pair visible-pair">
+                    <div class="spair-scene">Pushing a deadline with a colleague</div>
+                    <div class="spair-row bad"><span class="spair-tag bad-tag">教材 ❌</span><span class="spair-zh">请你快一点把报告发给我。</span></div>
+                    <div class="spair-row good"><span class="spair-tag good-tag">地道 ✅</span><span class="spair-zh">哥们儿，那个报告催一下呗～</span></div>
+                    <div class="spair-note">请 + formal = cold outsider. 催一下呗 = still on the same team.</div>
+                </div>
+                <div class="scol-locked">
+                    <div class="scol-pair locked-pair">
+                        <div class="spair-scene">Pushing back on your manager</div>
+                        <div class="spair-row bad"><span class="spair-tag bad-tag">教材 ❌</span><span class="spair-zh">我觉得这个想法不太好。</span></div>
+                        <div class="spair-row good"><span class="spair-tag good-tag">地道 ✅</span><span class="spair-zh">这个嘛…我觉得可以再想想？</span></div>
+                    </div>
+                    <div class="scol-pair locked-pair">
+                        <div class="spair-scene">Agreeing in a meeting</div>
+                        <div class="spair-row bad"><span class="spair-tag bad-tag">教材 ❌</span><span class="spair-zh">好的，我同意你的观点。</span></div>
+                        <div class="spair-row good"><span class="spair-tag good-tag">地道 ✅</span><span class="spair-zh">对对对，就是这个意思！</span></div>
+                    </div>
+                    <div class="lock-overlay" onclick="openFreeModal()">
+                        <div class="lock-content">
+                            <span class="lock-icon">🔓</span>
+                            <span class="lock-text">+ 7 more · claim free</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAILY LIFE -->
+            <div class="scenario-col">
+                <div class="scol-head">
+                    <span class="scol-icon">🛒</span>
+                    <div>
+                        <div class="scol-cat">生活 · Daily Life</div>
+                        <div class="scol-desc">Markets, taxis, restaurants</div>
+                    </div>
+                </div>
+                <div class="scol-pair visible-pair">
+                    <div class="spair-scene">Bargaining at the market</div>
+                    <div class="spair-row bad"><span class="spair-tag bad-tag">教材 ❌</span><span class="spair-zh">可以便宜一点吗？</span></div>
+                    <div class="spair-row good"><span class="spair-tag good-tag">地道 ✅</span><span class="spair-zh">老板，再让点嘛，我下次还来！</span></div>
+                    <div class="spair-note">Can you cheaper = transaction. 我下次还来 = relationship. That's what gets the discount.</div>
+                </div>
+                <div class="scol-locked">
+                    <div class="scol-pair locked-pair">
+                        <div class="spair-scene">Complaining about slow service</div>
+                        <div class="spair-row bad"><span class="spair-tag bad-tag">教材 ❌</span><span class="spair-zh">请问，我的菜为什么还没来？</span></div>
+                        <div class="spair-row good"><span class="spair-tag good-tag">地道 ✅</span><span class="spair-zh">老板，我那个菜好久了哦～</span></div>
+                    </div>
+                    <div class="scol-pair locked-pair">
+                        <div class="spair-scene">Asking driver for ETA</div>
+                        <div class="spair-row bad"><span class="spair-tag bad-tag">教材 ❌</span><span class="spair-zh">你什么时候到达？</span></div>
+                        <div class="spair-row good"><span class="spair-tag good-tag">地道 ✅</span><span class="spair-zh">师傅，快到了吗？在哪儿了？</span></div>
+                    </div>
+                    <div class="lock-overlay" onclick="openFreeModal()">
+                        <div class="lock-content">
+                            <span class="lock-icon">🔓</span>
+                            <span class="lock-text">+ 7 more · claim free</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="free-bottom-cta reveal">
+            <div class="fbc-text">
+                <strong>Get all 30 scenarios free.</strong> Social · Workplace · Daily Life — native audio + cultural notes for every one.
+            </div>
+            <button class="btn-free-cta" onclick="openFreeModal()">
+                <span class="btn-free-text">Claim the Free Pack →</span>
+                <span class="btn-free-sub">Instant · No sign-up · 800+ already claimed</span>
+            </button>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ─── WHY TEXTBOOK FAILS ─── -->
+<section id="hard" class="hard">
+    <div class="hard-header">
+        <div class="section-eye">The Real Problems</div>
+        <h2 class="section-h">6 reasons your Chinese sounds foreign — even when it's "correct."</h2>
+    </div>
+
+    <div class="hard-grid stagger">
+        <div class="hard-card" data-ch="声">
+            <div class="hard-num">01 · Tones</div>
+            <h3>Textbooks teach tones. Nobody teaches tone <em>feel</em>.</h3>
+            <p>You know 1st, 2nd, 3rd, 4th tones. But real speech is fast, blended, and full of neutral tones and tone sandhi your course never mentioned. You sound robotic even when you're technically right.</p>
+            <blockquote>"My tones are correct but native speakers still sound like a different language."</blockquote>
+        </div>
+        <div class="hard-card" data-ch="词">
+            <div class="hard-num">02 · Vocabulary</div>
+            <h3>You learned words. Nobody uses them.</h3>
+            <p>HSK vocabulary is chosen for tests, not conversation. Real Chinese uses slang, particles, filler words, and scene-specific phrases that no textbook includes. Your vocabulary is technically correct and socially invisible.</p>
+            <blockquote>"I said 非常感谢 and they looked at me like I was reading from a script."</blockquote>
+        </div>
+        <div class="hard-card" data-ch="节">
+            <div class="hard-num">03 · Rhythm</div>
+            <h3>Chinese has a spoken rhythm. Textbooks don't teach it.</h3>
+            <p>Native Chinese speech has sentence-level melody, hesitation sounds (那个, 就是说), filler particles (嘛, 啊, 吧), and pacing patterns. Without these, every sentence you say sounds like a translation.</p>
+            <blockquote>"I understand everything when I prepare — but real conversations overwhelm me in seconds."</blockquote>
+        </div>
+        <div class="hard-card" data-ch="礼">
+            <div class="hard-num">04 · Culture</div>
+            <h3>Technically correct but socially wrong</h3>
+            <p>Chinese communication is as much about what's NOT said. Face (面子), indirect refusals, compliment etiquette, office hierarchy rules — these social codes aren't in any textbook, but violating them marks you immediately.</p>
+            <blockquote>"I was grammatically perfect and accidentally rude at a business dinner."</blockquote>
+        </div>
+        <div class="hard-card" data-ch="场">
+            <div class="hard-num">05 · Scenarios</div>
+            <h3>You practiced 1 scenario. Life has 100.</h3>
+            <p>Apps teach airport, restaurant, hotel. Real life is: WeChat group chats, supplier negotiation, meeting a partner's parents, bartering at a market, complaining to a manager. Your Chinese fails the moment you leave the textbook scene.</p>
+            <blockquote>"I can order food fine. Everything else — I freeze immediately."</blockquote>
+        </div>
+        <div class="hard-card" data-ch="勇">
+            <div class="hard-num">06 · Confidence</div>
+            <h3>The shame loop kills more learners than grammar</h3>
+            <p>You say something "correct." Natives react confused or smile politely and switch to English. That embarrassment sticks. You hesitate more. Your brain starts translating again. The loop gets worse. This isn't your fault — it's a teaching failure.</p>
+            <blockquote>"I knew the words. I just couldn't make them come out natural."</blockquote>
+        </div>
+    </div>
+</section>
+
+<!-- ─── PATHS ─── -->
+<section class="paths">
+    <div class="paths-inner">
+        <div class="paths-header">
+            <div class="section-eye" style="color:var(--gold)">Who This Is For</div>
+            <h2>Natural Chinese works for every reason you're learning</h2>
+            <p>The core method is the same: replace robotic Textbook Chinese with how people actually talk.</p>
+        </div>
+        <div class="paths-grid stagger">
+            <div class="path-card">
+                <span class="path-icon">🏢</span>
+                <h4>Workplace & Office</h4>
+                <p>WeChat group chats, meetings, manager talk, office culture. Stop sounding like an intern reading from a manual.</p>
+                <span class="path-tag">Most Requested</span>
+            </div>
+            <div class="path-card">
+                <span class="path-icon">📱</span>
+                <h4>Social & Online</h4>
+                <p>Reply to Chinese friends' moments, comment on 小红书, join group chats without going silent.</p>
+                <span class="path-tag">For Social Learners</span>
+            </div>
+            <div class="path-card">
+                <span class="path-icon">🛒</span>
+                <h4>Daily Life</h4>
+                <p>Markets, restaurants, taxis, apartments. Bargain, complain, bond — like someone who actually lives here.</p>
+                <span class="path-tag">For Movers</span>
+            </div>
+            <div class="path-card">
+                <span class="path-icon">🤝</span>
+                <h4>People & Relationships</h4>
+                <p>Real conversations with Chinese colleagues, partners, in-laws. Move past polite and into genuinely connected.</p>
+                <span class="path-tag">Most Heartfelt</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── METHOD ─── -->
+<section id="method" class="how">
+    <div class="section-eye">The Method</div>
+    <h2 class="section-h">How we kill Textbook Chinese — and make Natural Chinese stick</h2>
+
+    <div class="how-grid">
+        <div class="how-steps">
+            <div class="how-step">
+                <div class="step-num">一</div>
+                <div class="step-body">
+                    <h4>Expose the gap first</h4>
+                    <p>Every lesson starts with side-by-side: here's what you were taught, here's what natives actually say, here's why the difference matters. The moment the gap becomes visible, it becomes fixable.</p>
+                </div>
+            </div>
+            <div class="how-step">
+                <div class="step-num">二</div>
+                <div class="step-body">
+                    <h4>Learn by real scenario</h4>
+                    <p>No abstract grammar drills. Each unit covers one real-life scene — a WeChat argument, a factory visit, a first meeting with his parents. You learn in context you'll actually need.</p>
+                </div>
+            </div>
+            <div class="how-step">
+                <div class="step-num">三</div>
+                <div class="step-body">
+                    <h4>Hear it, feel it, own it</h4>
+                    <p>Native audio in 3 registers: daily life, workplace, emotional. Not one voice reading slowly. Real pacing, real rhythm, real tone blending — the way it actually sounds when you're in the room.</p>
+                </div>
+            </div>
+            <div class="how-step">
+                <div class="step-num">四</div>
+                <div class="step-body">
+                    <h4>Cultural layer included</h4>
+                    <p>Every phrase comes with its hidden meaning: what it really signals, what it implies, when not to use it. No more accidentally rude, accidentally cold, accidentally funny for the wrong reason.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="how-visual">
+            <div class="mock-tone">
+                <div class="mock-tone-label">Textbook ❌ vs Natural ✅</div>
+                <div class="mini-compare">
+                    <div class="mini-row bad">
+                        <span class="mini-label">教材</span>
+                        <span class="mini-ch">请你快一点</span>
+                        <span class="mini-eng">❌ stiff</span>
+                    </div>
+                    <div class="mini-row good">
+                        <span class="mini-label">地道</span>
+                        <span class="mini-ch">这事儿加急一下</span>
+                        <span class="mini-eng">✅ natural</span>
+                    </div>
+                    <div class="mini-row bad">
+                        <span class="mini-label">教材</span>
+                        <span class="mini-ch">我不知道</span>
+                        <span class="mini-eng">❌ robotic</span>
+                    </div>
+                    <div class="mini-row good">
+                        <span class="mini-label">地道</span>
+                        <span class="mini-ch">不清楚哎</span>
+                        <span class="mini-eng">✅ warm</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mock-feedback">
+                <div class="feedback-row">
+                    <span class="fb-icon">🎙️</span>
+                    <span class="fb-text"><strong>Native audio</strong> · 3 registers · real pacing</span>
+                </div>
+                <div class="feedback-row">
+                    <span class="fb-icon">🧠</span>
+                    <span class="fb-text"><strong>Cultural notes</strong> · hidden meanings included</span>
+                </div>
+                <div class="feedback-row">
+                    <span class="fb-icon">📍</span>
+                    <span class="fb-text"><strong>100+ scenarios</strong> · workplace, social, daily life</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── TESTIMONIALS ─── -->
+<section class="testis">
+    <div class="section-eye">Real Learners</div>
+    <h2 class="section-h">From "correct but foreign" to <span style="font-family:'Noto Serif SC',serif;color:var(--rouge)">地道</span></h2>
+
+    <div class="testis-grid stagger">
+        <div class="testi">
+            <p class="testi-body">I passed HSK4 two years ago. Still couldn't hold a natural conversation at work. The Textbook vs Natural format cracked it open for me — within two weeks I stopped freezing in WeChat voice chats.</p>
+            <div class="testi-footer">
+                <div class="testi-av">🇻🇳</div>
+                <div>
+                    <div class="testi-name">Linh N.</div>
+                    <div class="testi-from">Vietnam · Works at a Sino-Vietnamese joint venture</div>
+                    <div class="testi-ch">玲 · 现在能自然地跟同事聊天了</div>
+                </div>
+            </div>
+        </div>
+        <div class="testi">
+            <p class="testi-body">My boyfriend's family always switched to Cantonese around me. Three months into Natural Chinese, his mom started including me in conversations in Mandarin. She said my Chinese "doesn't feel foreign anymore."</p>
+            <div class="testi-footer">
+                <div class="testi-av">🇮🇩</div>
+                <div>
+                    <div class="testi-name">Sari W.</div>
+                    <div class="testi-from">Indonesia · In a relationship with a Chinese Malaysian</div>
+                    <div class="testi-ch">莎莉 · 婆婆说她的中文听起来很自然</div>
+                </div>
+            </div>
+        </div>
+        <div class="testi">
+            <p class="testi-body">I used to negotiate through a middleman because my Chinese sounded too stiff. After the VIP plan, I did my first factory audit solo. The supplier actually complimented my Chinese. That has never happened before.</p>
+            <div class="testi-footer">
+                <div class="testi-av">🇩🇪</div>
+                <div>
+                    <div class="testi-name">Markus F.</div>
+                    <div class="testi-from">Germany · Imports manufacturing goods from Guangdong</div>
+                    <div class="testi-ch">马克斯 · 供应商说他的中文很地道</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── FREE RESOURCE MODAL ─── -->
+<div id="freeModal" class="modal-overlay" onclick="if(event.target===this)closeFreeModal()">
+    <div class="modal-card">
+        <button class="modal-close" onclick="closeFreeModal()">✕</button>
+
+        <div class="modal-top">
+            <div class="modal-eyebrow">Free · Instant · No catch</div>
+            <h3 class="modal-title">Get your free phrase pack</h3>
+            <p class="modal-sub">10 Textbook ❌ vs Natural ✅ pairs with native audio and cultural notes. Leave your contact and I'll send it right now.</p>
+        </div>
+
+        <!-- Tab toggle -->
+        <div class="modal-tabs">
+            <button class="modal-tab active" onclick="switchTab('wa',this)">
+                <span class="tab-icon">💬</span> WhatsApp
+            </button>
+            <button class="modal-tab" onclick="switchTab('email',this)">
+                <span class="tab-icon">✉️</span> Email
+            </button>
+        </div>
+
+        <!-- WhatsApp input -->
+        <div id="tab-wa" class="modal-input-wrap">
+            <div class="input-row">
+                <div class="input-prefix">+</div>
+                <input id="waInput" type="tel" class="modal-input"
+                    placeholder="Your WhatsApp number (e.g. 639XXXXXXXXX)"
+                    inputmode="tel" autocomplete="tel">
+            </div>
+            <p class="input-hint">Include country code · I'll send the pack within 1 hour</p>
+            <button class="modal-submit" onclick="submitWA()">
+                <span id="waBtnText">Send me the pack via WhatsApp →</span>
+            </button>
+        </div>
+
+        <!-- Email input -->
+        <div id="tab-email" class="modal-input-wrap" style="display:none">
+            <div class="input-row">
+                <input id="emailInput" type="email" class="modal-input"
+                    placeholder="your@email.com"
+                    inputmode="email" autocomplete="email">
+            </div>
+            <p class="input-hint">I'll email the phrase pack within 1 hour · No spam</p>
+            <button class="modal-submit" onclick="submitEmail()">
+                <span id="emailBtnText">Send me the pack via Email →</span>
+            </button>
+        </div>
+
+        <!-- Success state (hidden by default) -->
+        <div id="modal-success" class="modal-success" style="display:none">
+            <div class="success-icon">✓</div>
+            <h4 class="success-title">Got it! Sending now.</h4>
+            <p class="success-sub">Check your <span id="success-channel">WhatsApp</span> — I'll send the free phrase pack within 1 hour. If you don't hear from me, message me at <strong>+86 135 6774 7987</strong>.</p>
+            <button class="modal-submit" onclick="closeFreeModal()" style="margin-top:1.5rem;background:var(--jade)">
+                Close
+            </button>
+        </div>
+
+        <p class="modal-privacy">🔒 Your contact is only used to send the pack. Never shared or sold.</p>
+    </div>
+</div>
+
+<!-- ─── FAQ ─── -->
+<section class="faq">
+    <h2>Questions We Actually Get</h2>
+
+    <details open>
+        <summary>I already have intermediate Chinese. Is this for me?</summary>
+        <p>This is specifically designed for people who already have some Chinese — and are frustrated that it doesn't sound natural. If you're a complete beginner, start with Plan A to hear the gap. If you already have a foundation, Plan B is where the real transformation happens.</p>
+    </details>
+    <details>
+        <summary>How is this different from HSK courses or tutors?</summary>
+        <p>HSK teaches you to pass a test. Tutors teach you to be grammatically correct. Neither is optimized for sounding natural in real life. Natural Chinese is the only program built around the Textbook vs Natural gap — every lesson makes that contrast explicit so you rewire the habit, not just add vocabulary.</p>
+    </details>
+    <details>
+        <summary>What's the "300-member global community" in Plan B?</summary>
+        <p>It's a private group of Natural Chinese learners from Vietnam, Thailand, Indonesia, EU, US, and more. Every day people share real "textbook expression vs natural expression" encounters from their actual lives. I'm in there too — hosting regular live voice Q&amp;A sessions. It's where a lot of the most useful learning happens.</p>
+    </details>
+    <details>
+        <summary>What does the VIP plan actually look like day-to-day?</summary>
+        <p>You get 4 scheduled 60-minute 1-on-1 sessions with me per month, focused on your specific accent problems and scenarios. Between sessions, you can send me any WeChat message, email, or situation via WeChat voice — I'll rewrite it in natural native Chinese within 24 hours. It's like having a Chinese native speaker available whenever work demands it.</p>
+    </details>
+    <details>
+        <summary>My Chinese is "correct" but people always switch to English with me. Why?</summary>
+        <p>Because "correct" signals effort, not fluency. When your sentence patterns, rhythm, and word choice match how a textbook reads rather than how a person speaks, native speakers unconsciously downgrade the conversation to be polite. Natural Chinese fixes the underlying patterns — not just the vocabulary.</p>
+    </details>
+    <details>
+        <summary>How long does it take to notice a difference?</summary>
+        <p>Most Plan B learners notice a shift in their spoken rhythm and word choice within the first 2 weeks. The reactions from native speakers — the ones that feel natural instead of politely accommodating — usually start coming in around weeks 3–5. The 30-day timeline is real.</p>
+    </details>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+    <div class="footer-logo">NATURAL CHINESE · 地道中文</div>
+    <p>© 2026 Natural Chinese. For learners who are done sounding like a textbook.</p>
+    <p><a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="https://wa.me/8613567747987">Contact</a></p>
+</footer>
+
+<script>
+// ─── MODAL ───
+function openFreeModal() {
+    const m = document.getElementById('freeModal');
+    m.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById('waInput').focus(), 350);
+}
+function closeFreeModal() {
+    document.getElementById('freeModal').classList.remove('open');
+    document.body.style.overflow = '';
+    // reset
+    setTimeout(() => {
+        document.getElementById('modal-success').style.display = 'none';
+        document.getElementById('tab-wa').style.display = 'block';
+        document.getElementById('tab-email').style.display = 'none';
+        document.getElementById('modal-privacy').style.display = 'block';
+        document.querySelectorAll('.modal-tab').forEach((t,i) => t.classList.toggle('active', i===0));
+        document.getElementById('waInput').value = '';
+        document.getElementById('emailInput').value = '';
+    }, 400);
+}
+function switchTab(type, btn) {
+    document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-wa').style.display = type === 'wa' ? 'block' : 'none';
+    document.getElementById('tab-email').style.display = type === 'email' ? 'block' : 'none';
+    setTimeout(() => {
+        type === 'wa' ? document.getElementById('waInput').focus() : document.getElementById('emailInput').focus();
+    }, 50);
+}
+function showSuccess(channel) {
+    document.getElementById('tab-wa').style.display = 'none';
+    document.getElementById('tab-email').style.display = 'none';
+    document.querySelector('.modal-tabs').style.display = 'none';
+    document.getElementById('modal-privacy').style.display = 'none';
+    document.getElementById('success-channel').textContent = channel;
+    document.getElementById('modal-success').style.display = 'block';
+}
+function submitWA() {
+    const num = document.getElementById('waInput').value.trim();
+    if (!num || num.length < 7) {
+        document.getElementById('waInput').style.borderColor = 'var(--error)';
+        document.getElementById('waInput').focus();
+        return;
+    }
+    // Send to your own WhatsApp with the user's number
+    const msg = encodeURIComponent(`Hi! I'd like the free Natural Chinese phrase pack 🎁\nMy WhatsApp: +${num.replace(/\D/g,'')}`);
+    window.open(`https://wa.me/8613567747987?text=${msg}`, '_blank');
+    showSuccess('WhatsApp');
+}
+function submitEmail() {
+    const email = document.getElementById('emailInput').value.trim();
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!re.test(email)) {
+        document.getElementById('emailInput').style.borderColor = 'var(--error)';
+        document.getElementById('emailInput').focus();
+        return;
+    }
+    const subject = encodeURIComponent('Free Natural Chinese Phrase Pack');
+    const body = encodeURIComponent(`Hi! Please send me the free Natural Chinese phrase pack.\n\nMy email: ${email}`);
+    window.open(`mailto:your@email.com?subject=${subject}&body=${body}`, '_blank');
+    showSuccess('email');
+}
+// close on Escape
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeFreeModal(); });
+
+// ─── SCROLL REVEAL ───
+const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .stagger');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.12 });
+revealEls.forEach(el => observer.observe(el));
+
+// ─── COUNT-UP ───
+function animateCount(el) {
+    const target = parseInt(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    const duration = 1400;
+    const start = performance.now();
+    function step(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const val = Math.floor(eased * target);
+        el.textContent = val + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+}
+
+const proofStrip = document.querySelector('.proof-strip');
+const countObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            document.querySelectorAll('[data-count]').forEach(el => animateCount(el));
+            countObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.5 });
+if (proofStrip) countObserver.observe(proofStrip);
+
+// ─── HERO PARALLAX ───
+const heroBg = document.querySelector('.hero-bg-char');
+if (heroBg) {
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        heroBg.style.transform = `translateY(calc(-50% + ${scrolled * 0.15}px))`;
+    }, { passive: true });
+}
+
+// ─── COMPARE SECTION SLIDE-IN ───
+const compareGrid = document.querySelector('.compare-grid');
+if (compareGrid) {
+    const cols = compareGrid.querySelectorAll('.compare-col');
+    cols[0] && (cols[0].style.transition = 'opacity .75s cubic-bezier(.22,1,.36,1), transform .75s cubic-bezier(.22,1,.36,1)');
+    cols[1] && (cols[1].style.transition = 'opacity .75s .12s cubic-bezier(.22,1,.36,1), transform .75s .12s cubic-bezier(.22,1,.36,1)');
+    cols.forEach((col, i) => {
+        col.style.opacity = '0';
+        col.style.transform = i === 0 ? 'translateX(-30px)' : 'translateX(30px)';
+    });
+    const compareObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                cols.forEach(col => {
+                    col.style.opacity = '1';
+                    col.style.transform = 'translateX(0)';
+                });
+                compareObs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    compareObs.observe(compareGrid);
+}
+
+// ─── HOW STEPS STAGGER ───
+const howSteps = document.querySelectorAll('.how-step');
+howSteps.forEach((step, i) => {
+    step.style.opacity = '0';
+    step.style.transform = 'translateX(-20px)';
+    step.style.transition = `opacity .5s ${i * .12}s ease, transform .5s ${i * .12}s ease`;
+});
+const howObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            howSteps.forEach(step => {
+                step.style.opacity = '1';
+                step.style.transform = 'translateX(0)';
+            });
+            howObs.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.15 });
+const howSection = document.querySelector('.how-steps');
+if (howSection) howObs.observe(howSection);
+
+// ─── FREE PREVIEW CARDS STAGGER ───
+const freeCards = document.querySelectorAll('.free-phrase-card');
+freeCards.forEach((card, i) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(16px)';
+    card.style.transition = `opacity .5s ${.3 + i * .12}s ease, transform .5s ${.3 + i * .12}s ease`;
+});
+const freeObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            freeCards.forEach(card => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            });
+            freeObs.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.1 });
+const freeSection = document.querySelector('.free-preview');
+if (freeSection) freeObs.observe(freeSection);
+</script>
+
+</body>
+</html>
